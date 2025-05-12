@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Wisuda Sarjana!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+            text-align: center;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .graduate-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #3498db;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+        
+        .graduate-img:hover {
+            transform: scale(1.05);
+        }
+        
+        .message {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+        
+        .signature {
+            font-style: italic;
+            margin-top: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+        }
+        
+        .cap {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10L10 50l40 40 40-40z" fill="%232c3e50"/></svg>');
+            background-size: contain;
+            opacity: 0;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+        
+        .btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(52, 152, 219, 0.4);
+        }
+        
+        .date {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Selamat Wisuda!</h1>
+        <h2>Maudy Ayunda S.T.</h2>
+        
+        <img src="gambar/maudy.jpg" alt="Foto Wisudawan" class="graduate-img" id="graduatePhoto">
+        
+        <div class="message">
+            <p>Dengan penuh kebanggaan dan sukacita, kami ucapkan selamat atas kelulusanmu!</p>
+            <p>Perjuangan panjang selama ini akhirnya berbuah manis. Gelar sarjana yang kau raih hari ini adalah bukti dari kerja keras, ketekunan, dan semangat pantang menyerahmu.</p>
+            <p>Semoga ilmu yang telah kau dapatkan menjadi bekal berharga untuk meraih kesuksesan di masa depan. Teruslah berkarya dan menjadi inspirasi bagi banyak orang!</p>
+        </div>
+        
+        <button class="btn" id="celebrateBtn">Luncurkan Perayaan!</button>
+        
+        <div class="signature">
+            <p>Dengan bangga,</p>
+            <p>Keluarga & Teman-teman</p>
+        </div>
+        
+        <div class="date" id="currentDate"></div>
+    </div>
+
+    <script>
+        // Animasi konfeti
+        function createConfetti() {
+            const colors = ['#e74c3c', '#3498db', '#2ecc71', '#f1c40f', '#9b59b6'];
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = -10 + 'px';
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = confetti.style.width;
+                
+                document.body.appendChild(confetti);
+                
+                const animationDuration = Math.random() * 3 + 2;
+                
+                confetti.animate([
+                    { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
+                    { transform: `translateY(${Math.random() * 100 + 100}vh) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: animationDuration * 1000,
+                    easing: 'cubic-bezier(0.1, 0.8, 0.9, 1)',
+                    delay: Math.random() * 2000
+                });
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, animationDuration * 1000);
+            }
+        }
+        
+        // Animasi topi wisuda
+        function createFallingCaps() {
+            for (let i = 0; i < 20; i++) {
+                const cap = document.createElement('div');
+                cap.className = 'cap';
+                cap.style.left = Math.random() * 100 + 'vw';
+                cap.style.top = -60 + 'px';
+                
+                document.body.appendChild(cap);
+                
+                const animationDuration = Math.random() * 5 + 5;
+                
+                cap.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(${window.innerHeight + 60}px) rotate(${Math.random() * 360}deg)`, opacity: 0.7 }
+                ], {
+                    duration: animationDuration * 1000,
+                    easing: 'linear',
+                    delay: Math.random() * 3000
+                });
+                
+                setTimeout(() => {
+                    cap.remove();
+                }, animationDuration * 1000);
+            }
+        }
+        
+        // Efek hover pada foto
+        document.getElementById('graduatePhoto').addEventListener('mouseover', function() {
+            this.style.boxShadow = '0 10px 25px rgba(52, 152, 219, 0.5)';
+        });
+        
+        document.getElementById('graduatePhoto').addEventListener('mouseout', function() {
+            this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)';
+        });
+        
+        // Tombol perayaan
+        document.getElementById('celebrateBtn').addEventListener('click', function() {
+            createConfetti();
+            createFallingCaps();
+            
+            // Animasi tombol
+            this.animate([
+                { transform: 'scale(1)' },
+                { transform: 'scale(1.1)' },
+                { transform: 'scale(1)' }
+            ], {
+                duration: 500,
+                easing: 'ease-out'
+            });
+            
+            // Ganti teks tombol
+            this.textContent = 'Selamat! 🎉';
+            setTimeout(() => {
+                this.textContent = 'Luncurkan Perayaan!';
+            }, 3000);
+        });
+        
+        // Tampilkan tanggal saat ini
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const today = new Date();
+        document.getElementById('currentDate').textContent = today.toLocaleDateString('id-ID', options);
+        
+        // Animasi masuk elemen
+        const container = document.querySelector('.container');
+        container.style.opacity = 0;
+        container.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+            container.style.transition = 'opacity 0.5s, transform 0.5s';
+            container.style.opacity = 1;
+            container.style.transform = 'translateY(0)';
+        }, 100);
+    </script>
+</body>
+</html>

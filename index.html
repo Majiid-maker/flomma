@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog Paket Penjualan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            overflow: auto;
+            background-color: #F5F1E8;
+            padding: 10px;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            max-width: 100%;
+        }
+        
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #6B5B4D;
+            color: #F5F1E8;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .package {
+            background-color: #E8D8C5;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            border: 1px solid #D4C9B8;
+        }
+        
+        .package:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .package-header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .package-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #6B5B4D;
+            margin-bottom: 3px;
+        }
+        
+        .package-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #9C6B4E;
+            margin: 5px 0;
+        }
+        
+        .package-features {
+            list-style: none;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        
+        .package-features li {
+            padding: 6px 0;
+            border-bottom: 1px dashed #D4C9B8;
+            color: #5A4A3C;
+        }
+        
+        .package-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .package-button {
+            background-color: #9C6B4E;
+            color: #F5F1E8;
+            border: none;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+            font-size: 14px;
+            width: 100%;
+        }
+        
+        .package-button:hover {
+            background-color: #8A5C42;
+        }
+
+        @media (min-width: 600px) {
+            .container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (min-width: 900px) {
+            .container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            header {
+                grid-column: 1 / 4;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 style="font-size: 20px;">Katalog Paket Website</h1>
+        </header>
+        
+        <!-- Paket A -->
+        <div class="package">
+            <div>
+                <div class="package-header">
+                    <div class="package-title">Ulang Tahun</div>
+                    <div class="package-price">Rp 15.000</div>
+                </div>
+                <ul class="package-features">
+                    <li>1 Foto</li>
+                    <li>Ucapan</li>
+                    <li>Nama Penerima</li>
+                    <li>Lagu (opsional)</li>
+                </ul>
+            </div>
+            <a href="ultah2.html"><button class="package-button">Preview</button></a>
+        </div>
+        
+        <!-- Paket B -->
+        <div class="package">
+            <div>
+                <div class="package-header">
+                    <div class="package-title">Wisuda</div>
+                    <div class="package-price">Rp 15.000</div>
+                </div>
+                <ul class="package-features">
+                    <li>1 Foto</li>
+                    <li>Ucapan</li>
+                    <li>Nama Penerima</li>
+                </ul>
+            </div>
+            <a href="wisuda.html"><button class="package-button">Preview</button></a>
+        </div>
+        
+        <!-- Paket C -->
+        <!-- <div class="package">
+            <div>
+                <div class="package-header">
+                    <div class="package-title">Paket C</div>
+                    <div class="package-price">Rp 1.200.000</div>
+                </div>
+                <ul class="package-features">
+                    <li>Semua fitur Paket B</li>
+                    <li>Fitur eksklusif 1</li>
+                    <li>Dukungan 24/7</li>
+                    <li>Update harian</li>
+                </ul>
+            </div>
+            <a href=""><button class="package-button">Preview</button></a>
+        </div> -->
+        
+        <!-- Paket D -->
+        <!-- <div class="package">
+            <div>
+                <div class="package-header">
+                    <div class="package-title">Paket D</div>
+                    <div class="package-price">Rp 1.800.000</div>
+                </div>
+                <ul class="package-features">
+                    <li>Semua fitur Paket C</li>
+                    <li>Fitur enterprise 1</li>
+                    <li>Dukungan khusus</li>
+                    <li>Update real-time</li>
+                    <li>Analytics dashboard</li>
+                </ul>
+            </div>
+            <a href=""><button class="package-button">Preview</button></a>
+        </div>
+         -->
+        <!-- Paket E -->
+        <!-- <div class="package">
+            <div>
+                <div class="package-header">
+                    <div class="package-title">Paket E</div>
+                    <div class="package-price">Rp 2.500.000</div>
+                </div>
+                <ul class="package-features">
+                    <li>Semua fitur Paket D</li>
+                    <li>Fitur custom 1</li>
+                    <li>Manajer akun khusus</li>
+                    <li>Integrasi API</li>
+                    <li>Pelatihan khusus</li>
+                </ul>
+            </div>
+            <a href=""><button class="package-button">Preview</button></a>
+        </div> -->
+        
+        <!-- Paket F -->
+        <!-- <div class="package">
+            <div>
+                <div class="package-header">
+                    <div class="package-title">Paket F</div>
+                    <div class="package-price">Rp 4.000.000</div>
+                </div>
+                <ul class="package-features">
+                    <li>Semua fitur Paket E</li>
+                    <li>Fitur platinum 1</li>
+                    <li>Dukungan VIP 24/7</li>
+                    <li>Solusi khusus</li>
+                    <li>Implementasi khusus</li>
+                    <li>Garansi 100%</li>
+                </ul>
+            </div>
+            <a href=""><button class="package-button">Preview</button></a>
+        </div> -->
+    </div>
+</body>
+</html>

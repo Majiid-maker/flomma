@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun!</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #d23669;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            z-index: 10;
+            transform: scale(0.95);
+            transition: transform 0.5s;
+        }
+        
+        .container:hover {
+            transform: scale(1);
+        }
+        
+        h1 {
+            color: #ff4757;
+            margin-bottom: 20px;
+            font-size: 2.8rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .birthday-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 8px solid #ff6b81;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 8px 20px rgba(255, 107, 129, 0.4);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .birthday-img:hover {
+            transform: rotate(10deg) scale(1.1);
+            border-color: #ff4757;
+        }
+        
+        .message {
+            font-size: 1.3rem;
+            line-height: 1.7;
+            margin: 20px 0;
+            color: #57606f;
+        }
+        
+        .highlight {
+            color: #ff4757;
+            font-weight: bold;
+        }
+        
+        .signature {
+            font-style: italic;
+            margin-top: 30px;
+            font-size: 1.2rem;
+            color: #ff6b81;
+        }
+        
+        .balloon {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            border-radius: 50%;
+            opacity: 0.8;
+            z-index: 1;
+        }
+        
+        .cake {
+            font-size: 3rem;
+            margin: 20px 0;
+            cursor: pointer;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+        
+        .cake:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #ff6b81, #ff4757);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 107, 129, 0.4);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 107, 129, 0.6);
+        }
+        
+        .age-display {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #ff4757;
+            margin: 10px 0;
+            text-shadow: 3px 3px 0 #fff, 5px 5px 0 rgba(0, 0, 0, 0.1);
+            transition: all 0.5s;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 100;
+        }
+        
+        .wish-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+        
+       
+        
+        .wish-container.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .wish-container.show .wish-box {
+            transform: scale(1);
+        }
+        
+        .close-wish {
+            margin-top: 20px;
+            padding: 8px 20px;
+            background: #ff6b81;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .wish-box {
+        text-align: center;
+        }
+
+        .wish-slider-wrapper {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        }
+
+        .wish-slider {
+        display: flex;
+        transition: transform 0.5s ease;
+        width: 100%;
+        }
+
+        .wish-slide {
+  min-width: 100%;
+  flex-shrink: 0;
+  font-size: 1.3rem;
+  color: #57606f; /* warna teks */
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #f1f2f6; /* WARNA LATAR seperti sebelumnya */
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="floating">Selamat Ulang Tahun! <span id="cake">🎂</span></h1>
+        
+        <div class="age-display" id="ageDisplay">25</div>
+        
+        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+             alt="Foto Ulang Tahun" 
+             class="birthday-img" 
+             id="birthdayPhoto"
+             onclick="changePhoto()">
+        
+        <div class="message">
+            <p>Selamat ulang tahun yang ke-<span class="highlight" id="ageText">25</span>!</p>
+            <p>Di hari spesialmu ini, semoga <span class="highlight">kebahagiaan</span>, <span class="highlight">kesehatan</span>, dan <span class="highlight">kesuksesan</span> selalu menyertaimu.</p>
+            <p>Teruslah menjadi pribadi yang menginspirasi dan penuh semangat!</p>
+        </div>
+        
+        <button class="btn" id="celebrateBtn">Luncurkan Pesta!</button>
+        <button class="btn hidden" id="wishBtn">Klik untuk Doa!</button>
+        
+        <div class="signature">
+            <p>Dengan penuh kasih sayang,</p>
+            <p>Keluarga & Teman-teman</p>
+        </div>
+    </div>
+
+    <div class="wish-container" id="wishContainer">
+        <div class="wish-box">
+            <div class="wish-slider-wrapper">
+              <div class="wish-slider" id="wishSlider">
+                <!-- Slides dimasukkan lewat JavaScript -->
+              </div>
+            </div>
+            <div style="margin-top: 20px;">
+              <button class="close-wish" id="prevWish">⬅️</button>
+              <button class="close-wish" id="nextWish">➡️</button>
+              <button class="close-wish" id="closeWish">Tutup</button>
+            </div>
+          </div> 
+    </div>
+
+    <div class="music-control" id="musicControl">🎵</div>
+
+    <audio id="birthdayMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Konfigurasi
+        const name = "Sayang";
+        const age = 25; // Ganti dengan usia yang sesuai
+        const photos = [
+            "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+            "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+            "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+        ];
+        
+        // Elemen DOM
+        const ageDisplay = document.getElementById('ageDisplay');
+        const ageText = document.getElementById('ageText');
+        const celebrateBtn = document.getElementById('celebrateBtn');
+        const wishBtn = document.getElementById('wishBtn');
+        const birthdayPhoto = document.getElementById('birthdayPhoto');
+        const cake = document.getElementById('cake');
+        const musicControl = document.getElementById('musicControl');
+        const birthdayMusic = document.getElementById('birthdayMusic');
+        const wishContainer = document.getElementById('wishContainer');
+        const wishMessage = document.getElementById('wishMessage');
+        const closeWish = document.getElementById('closeWish');
+        
+        // Set usia
+        ageDisplay.textContent = age;
+        ageText.textContent = age;
+        
+        // Animasi balon (diperbaiki)
+        function createBalloons() {
+            const colors = ['#ff6b81', '#ff4757', '#ff6348', '#ffa502', '#ff7f50', '#ff6b81'];
+            
+            for (let i = 0; i < 20; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                balloon.style.left = Math.random() * 100 + 'vw';
+                balloon.style.top = window.innerHeight + 50 + 'px'; // Mulai dari bawah layar
+                balloon.style.width = (Math.random() * 30 + 20) + 'px';
+                balloon.style.height = (Math.random() * 40 + 30) + 'px';
+                balloon.style.borderRadius = '50% 50% 50% 50% / 60% 60% 40% 40%';
+                
+                document.body.appendChild(balloon);
+                
+                const animationDuration = Math.random() * 10 + 10;
+                
+                // Animasi menggunakan Web Animation API
+                const animation = balloon.animate([
+                    { 
+                        transform: `translateY(0) translateX(${Math.random() * 20 - 10}px)`,
+                        opacity: 0.8 
+                    },
+                    { 
+                        transform: `translateY(-${window.innerHeight + 200}px) translateX(${Math.random() * 40 - 20}px)`,
+                        opacity: 0 
+                    }
+                ], {
+                    duration: animationDuration * 1000,
+                    easing: 'linear',
+                    delay: Math.random() * 2000
+                });
+                
+                animation.onfinish = () => {
+                    balloon.remove();
+                };
+            }
+        }
+        
+        // Animasi angka usia
+        function animateAge() {
+            let currentAge = 0;
+            const targetAge = age;
+            const increment = targetAge / 20;
+            
+            const interval = setInterval(() => {
+                currentAge += increment;
+                if (currentAge >= targetAge) {
+                    currentAge = targetAge;
+                    clearInterval(interval);
+                }
+                ageDisplay.textContent = Math.floor(currentAge);
+                ageText.textContent = Math.floor(currentAge);
+            }, 50);
+        }
+        
+        // Ganti foto
+        let currentPhotoIndex = 0;
+        function changePhoto() {
+            currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+            birthdayPhoto.src = photos[currentPhotoIndex];
+            
+            // Animasi saat ganti foto
+            birthdayPhoto.animate([
+                { transform: 'scale(1) rotate(0deg)' },
+                { transform: 'scale(0.8) rotate(10deg)' },
+                { transform: 'scale(1.1) rotate(-10deg)' },
+                { transform: 'scale(1) rotate(0deg)' }
+            ], {
+                duration: 500,
+                easing: 'ease-in-out'
+            });
+        }
+        
+        // Animasi kue
+        cake.addEventListener('click', function() {
+            this.textContent = '🍰';
+            setTimeout(() => {
+                this.textContent = '🎂';
+            }, 1000);
+            
+            // Buat efek confetti mini
+            createConfetti(cake.getBoundingClientRect().left + 15, cake.getBoundingClientRect().top + 15);
+        });
+        
+        // Fungsi confetti (diperbaiki)
+        function createConfetti(x, y) {
+            for (let i = 0; i < 30; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'absolute';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.borderRadius = '50%';
+                confetti.style.left = x + 'px';
+                confetti.style.top = y + 'px';
+                confetti.style.zIndex = '100';
+                
+                document.body.appendChild(confetti);
+                
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = 2 + Math.random() * 3;
+                const xVelocity = Math.cos(angle) * velocity;
+                const yVelocity = Math.sin(angle) * velocity;
+                
+                let posX = 0;
+                let posY = 0;
+                let opacity = 1;
+                
+                const animate = () => {
+                    posX += xVelocity;
+                    posY += yVelocity + 0.1; // Sedikit gravitasi
+                    opacity -= 0.02;
+                    
+                    confetti.style.transform = `translate(${posX}px, ${posY}px)`;
+                    confetti.style.opacity = opacity;
+                    
+                    if (opacity > 0) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        confetti.remove();
+                    }
+                };
+                
+                animate();
+            }
+        }
+        
+        // Tombol pesta (diperbaiki)
+        celebrateBtn.addEventListener('click', function() {
+            // Mulai buat balon setiap 500ms selama 5 detik
+            const balloonInterval = setInterval(createBalloons, 500);
+            setTimeout(() => clearInterval(balloonInterval), 5000);
+            
+            animateAge();
+            
+            // Animasi tombol
+            this.animate([
+                { transform: 'scale(1)' },
+                { transform: 'scale(1.2)' },
+                { transform: 'scale(1)' }
+            ], {
+                duration: 500,
+                easing: 'ease-out'
+            });
+            
+            // Ganti tombol
+            this.classList.add('hidden');
+            wishBtn.classList.remove('hidden');
+        });
+        
+        //  const wishes = [
+        //     "Semoga panjang umur dan sehat selalu!",
+        //     "Semoga sukses dalam segala hal!",
+        //     "Semoga bahagia dunia akhirat!",
+        //     "Semoga semua impianmu terkabul!",
+        //     "Semoga selalu dikelilingi orang-orang baik!",
+        //     "Semoga rezekimu lancar dan berkah!",
+        //     "Semoga selalu diberikan kebahagiaan!",
+        //     "Semoga tahun ini lebih baik dari tahun sebelumnya!"
+        // ];
+
+        // let currentWishIndex = 0;
+    
+        // // Event klik tombol
+        // // Tampilkan popup ucapan
+        // wishBtn.addEventListener('click', function () {
+        //     const randomWish = wishes[Math.floor(Math.random() * wishes.length)];
+        //     wishMessage.textContent = randomWish;
+        //     wishContainer.classList.add('show');
+        // });
+
+        // // Tombol tutup popup
+        // closeWish.addEventListener('click', function () {
+        //     wishContainer.classList.remove('show');
+        // });
+        
+        const wishes = [
+  "Semoga panjang umur dan sehat selalu!",
+  "Semoga sukses dalam segala hal!",
+  "Semoga bahagia dunia akhirat!",
+  "Semoga semua impianmu terkabul!",
+  "Semoga selalu dikelilingi orang-orang baik!",
+  "Semoga rezekimu lancar dan berkah!",
+  "Semoga selalu diberikan kebahagiaan!",
+  "Semoga tahun ini lebih baik dari tahun sebelumnya!"
+];
+
+const wishSlider = document.getElementById('wishSlider');
+let currentWishIndex = 0;
+
+// Hapus isi slider dan generate ulang
+wishSlider.innerHTML = '';
+wishes.forEach((wishText) => {
+  const slide = document.createElement('div');
+  slide.className = 'wish-slide';
+  slide.textContent = wishText;
+  wishSlider.appendChild(slide);
+});
+
+function updateSlider() {
+  wishSlider.style.transform = `translateX(-${currentWishIndex * 100}%)`;
+}
+
+document.getElementById('wishBtn').addEventListener('click', () => {
+  document.getElementById('wishContainer').classList.add('show');
+  updateSlider();
+});
+
+document.getElementById('closeWish').addEventListener('click', () => {
+  document.getElementById('wishContainer').classList.remove('show');
+});
+
+document.getElementById('prevWish').addEventListener('click', () => {
+  currentWishIndex = (currentWishIndex - 1 + wishes.length) % wishes.length;
+  updateSlider();
+});
+
+document.getElementById('nextWish').addEventListener('click', () => {
+  currentWishIndex = (currentWishIndex + 1) % wishes.length;
+  updateSlider();
+});
+
+
+        // Kontrol musik
+        let isMusicPlaying = false;
+        musicControl.addEventListener('click', function() {
+            if (isMusicPlaying) {
+                birthdayMusic.pause();
+                this.textContent = '🎵';
+            } else {
+                birthdayMusic.play();
+                this.textContent = '🔊';
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
+        
+        // Animasi masuk
+        document.querySelectorAll('.container > *').forEach((el, index) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s, transform 0.5s';
+            
+            setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }, 100 + (index * 100));
+        });
+        
+        // Buat beberapa balon awal
+        for (let i = 0; i < 5; i++) {
+            setTimeout(createBalloons, i * 1000);
+        }
+    </script>
+</body>
+</html>
