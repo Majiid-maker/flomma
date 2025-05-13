@@ -6,14 +6,11 @@
     <title>Selamat Ulang Tahun!</title>
     <style>
 
-        html, body {
+        html{
     max-width: 100%;
     overflow-x: hidden;
 }
 
-.balloon, .confetti {
-    pointer-events: none; /* supaya tidak mengganggu scroll */
-}
 
         body {
             font-family: 'Comic Sans MS', cursive, sans-serif;
@@ -24,10 +21,13 @@
             flex-flow: column;
             justify-content: center;
             align-items: center;
+            width: 100vh;
             min-height: 100vh;
             color: #d23669;
             text-align: center;
             overflow: hidden;
+    max-width: 100%;
+    overflow-x: hidden;
         }
         
         .container {
@@ -112,6 +112,8 @@
             height: 50px;
             border-radius: 50%;
             animation: float 6s ease-in-out infinite;
+            
+    pointer-events: none;
         }
         
         @keyframes float {
@@ -171,6 +173,8 @@
             background-color: #f00;
             opacity: 0;
             animation: confetti 5s ease-in-out infinite;
+            
+    pointer-events: none;
         }
         
         @keyframes confetti {
