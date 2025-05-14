@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Puzzle Game</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #444;
+    }
+    #container {
+      width: 100vw;
+      height: 80vh;
+    }
+  </style>
+</head>
+<body>
+    <h1>Puzzle</h1>
+  <div id="container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/konva@9.2.0/konva.min.js"></script>
+  <script>
+    const stageWidth = window.innerWidth;
+    const stageHeight = window.innerHeight;
+
+    const stage = new Konva.Stage({
+      container: 'container',
+      width: stageWidth,
+      height: stageHeight,
+    });
+
+    const layer = new Konva.Layer();
+    stage.add(layer);
+
+    const gridSize = 5;
+    const pieceSize = Math.min(stageWidth, stageHeight) / (gridSize + 1);
+
+    // Load and place puzzle pieces
+    const loadPuzzle = async () => {
+      const promises = [];
+      for (let row = 0; row < gridSize; row++) {
+        for (let col = 0; col < gridSize; col++) {
+          const url = `puzzle_pieces/piece_${row}_${col}.png`;
+          const xRandom = Math.random() * (stageWidth - pieceSize);
+          const yRandom = Math.random() * (stageHeight - pieceSize);
+
+          promises.push(
+            new Promise((resolve) => {
+              Konva.Image.fromURL(url, (img) => {
+                img.setAttrs({
+                  x: xRandom,
+                  y: yRandom,
+                  width: pieceSize,
+                  height: pieceSize,
+                  draggable: true,
+                });
+
+                // Snap into position if close enough
+                const targetX = col * pieceSize + (stageWidth - pieceSize * gridSize) / 2;
+                const targetY = row * pieceSize + (stageHeight - pieceSize * gridSize) / 2;
+
+                img.on('dragend', () => {
+                  const dist = Math.hypot(img.x() - targetX, img.y() - targetY);
+                  if (dist < pieceSize / 3) {
+                    img.position({ x: targetX, y: targetY });
+                    img.draggable(false);
+                  }
+                });
+
+                layer.add(img);
+                resolve();
+              });
+            })
+          );
+        }
+      }
+      await Promise.all(promises);
+      layer.draw();
+    };
+
+    loadPuzzle();
+  </script>
+</body>
+</html>
