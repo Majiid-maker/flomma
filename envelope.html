@@ -55,7 +55,7 @@
             animation: paperAppear 1s forwards; */
 
             
-            background-image: url('gambar/bg1.jpg');
+            background-image: url('gambar/bg5.jpg');
             background-size: 100%;
             display: none;
             background-color: #fff9e6;
@@ -135,7 +135,7 @@
 </head>
 <body>
     <div class="container">
-        <img src="gambar/suratcinta.jpg" alt="Amplop Tertutup" class="envelope" id="closedEnvelope">
+        <img src="gambar/close.png" alt="Amplop Tertutup" class="envelope" id="closedEnvelope">
         
         <div class="letter-paper" id="letterPaper">
             <div class="letter-content">
@@ -166,7 +166,7 @@
     </div>
     
     <audio id="bgMusic" loop>
-        <source src="gambar/hbd1.mp3" type="audio/mpeg">
+        <source src="gambar/eua.mp3" type="audio/mpeg">
         Browser Anda tidak mendukung elemen audio.
     </audio>
     
@@ -181,7 +181,7 @@
         closedEnvelope.addEventListener('click', function() {
             // Ganti gambar amplop tertutup dengan yang terbuka
             const openedEnvelope = new Image();
-            openedEnvelope.src = "gambar/suratcinta2.jpg";
+            openedEnvelope.src = "gambar/open.png";
             openedEnvelope.className = "envelope";
             openedEnvelope.style.animation = "envelopeOpen 1s forwards";
             

@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ucapan Ulang Tahun</title>
     <style>
+         :root {
+            --pastel-pink: #ffd6e0;
+            --pastel-mint: #c1f0d2;
+            --pastel-lavender: #d4c4fb;
+            --pastel-peach: #ffdac1;
+            --pastel-blue: #b5ead7;
+            --soft-gray: #f8f9fa;
+            --text-dark: #333333;
+            --text-light: #5a5a5a;
+        }
+        
         body {
             font-family: 'Comic Sans MS', cursive, sans-serif;
             background-color: #ffebee;
@@ -51,8 +62,7 @@
             position: relative;
             transform: scale(0);
             opacity: 0;
-            background-image: url('gambar/bg1.jpg');
-            background-size: 100%;
+            background: linear-gradient(135deg, var(--pastel-pink), var(--pastel-peach));
             border: 5px solid #f8bbd0;
         }
         
@@ -63,7 +73,8 @@
         
         h1 {
             color: #e91e63;
-            margin-bottom: 20px;
+            margin-top: 15px;
+            margin-bottom: 0px;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
             font-size: 2.5em;
         }
@@ -72,7 +83,7 @@
             color: #555;
             font-size: 1.1em;
             line-height: 1.6;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
         }
         
         .signature {
@@ -168,7 +179,7 @@
 </head>
 <body>
     <div id="cake-container">
-        <img id="cake" src="gambar/surat4.png" alt="Kue Ulang Tahun">
+        <img id="cake" src="gambar/kado1.png" alt="Kue Ulang Tahun">
         <div class="click-hint">Klik aku!</div>
     </div>
     
@@ -181,7 +192,7 @@
         <p class="signature">Dengan penuh kasih sayang,<br>Dari seseorang yang menyayangimu 💖</p>
     </div>
     
-    <audio id="birthdaySound" src="https://www.soundjay.com/holiday/sounds/happy-birthday-01.mp3" preload="auto"></audio>
+    <audio id="birthdaySound" src="gambar/hbd1.mp3" preload="auto"></audio>
     
     <script>
         const cake = document.getElementById('cake');
