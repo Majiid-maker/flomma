@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Gallery</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #222;
+            color: white;
+        }
+        .gallery-container {
+            max-width: 1200px;
+            margin: 70px auto 50px;
+            padding: 0 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+        .interactive-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .interactive-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            height: 250px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .interactive-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+        .interactive-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .interactive-item:hover img {
+            transform: scale(1.1);
+        }
+        .interactive-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            padding: 20px;
+            text-align: center;
+        }
+        .interactive-item:hover .interactive-overlay {
+            opacity: 1;
+        }
+        .interactive-overlay h3 {
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+        .interactive-overlay p {
+            margin-bottom: 15px;
+        }
+        .interactive-overlay button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .interactive-overlay button:hover {
+            background: #45a049;
+        }
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            display: block;
+            margin: 0 auto;
+        }
+        .lightbox-caption {
+            color: white;
+            text-align: center;
+            margin-top: 15px;
+        }
+        .close-lightbox {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        .navigation-menu {
+            background-color: #333;
+            padding: 15px 0;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+        .navigation-menu a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .navigation-menu a:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="gallery-container">
+        <h1>Interactive Gallery</h1>
+        <div class="interactive-gallery">
+            <div class="interactive-item" data-caption="Sunset over the mountains" data-description="A breathtaking view of the sun setting behind snow-capped peaks.">
+                <img src="https://source.unsplash.com/random/600x400?landscape,1" alt="Landscape 1">
+                <div class="interactive-overlay">
+                    <h3>Mountain Sunset</h3>
+                    <p>Click to view full image</p>
+                    <button class="view-btn">View</button>
+                </div>
+            </div>
+            <div class="interactive-item" data-caption="Ocean waves at dawn" data-description="The first light of day illuminates the powerful ocean waves.">
+                <img src="https://source.unsplash.com/random/600x400?landscape,2" alt="Landscape 2">
+                <div class="interactive-overlay">
+                    <h3>Ocean Dawn</h3>
+                    <p>Click to view full image</p>
+                    <button class="view-btn">View</button>
+                </div>
+            </div>
+            <div class="interactive-item" data-caption="Forest path in autumn" data-description="A peaceful walk through the colorful autumn forest.">
+                <img src="https://source.unsplash.com/random/600x400?landscape,3" alt="Landscape 3">
+                <div class="interactive-overlay">
+                    <h3>Autumn Forest</h3>
+                    <p>Click to view full image</p>
+                    <button class="view-btn">View</button>
+                </div>
+            </div>
+            <div class="interactive-item" data-caption="Desert dunes at noon" data-description="The endless sea of sand under the bright desert sun.">
+                <img src="https://source.unsplash.com/random/600x400?landscape,4" alt="Landscape 4">
+                <div class="interactive-overlay">
+                    <h3>Desert Dunes</h3>
+                    <p>Click to view full image</p>
+                    <button class="view-btn">View</button>
+                </div>
+            </div>
+            <div class="interactive-item" data-caption="Waterfall in the jungle" data-description="Lush greenery surrounds this majestic waterfall.">
+                <img src="https://source.unsplash.com/random/600x400?landscape,5" alt="Landscape 5">
+                <div class="interactive-overlay">
+                    <h3>Jungle Waterfall</h3>
+                    <p>Click to view full image</p>
+                    <button class="view-btn">View</button>
+                </div>
+            </div>
+            <div class="interactive-item" data-caption="Northern lights display" data-description="The magical dance of aurora borealis in the night sky.">
+                <img src="https://source.unsplash.com/random/600x400?landscape,6" alt="Landscape 6">
+                <div class="interactive-overlay">
+                    <h3>Northern Lights</h3>
+                    <p>Click to view full image</p>
+                    <button class="view-btn">View</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <div class="lightbox-content">
+            <img src="" alt="">
+            <div class="lightbox-caption">
+                <h2></h2>
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Lightbox functionality
+        const lightbox = document.querySelector('.lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        const lightboxCaption = lightbox.querySelector('.lightbox-caption h2');
+        const lightboxDesc = lightbox.querySelector('.lightbox-caption p');
+        const closeBtn = document.querySelector('.close-lightbox');
+        const viewBtns = document.querySelectorAll('.view-btn');
+        const items = document.querySelectorAll('.interactive-item');
+
+        items.forEach(item => {
+            item.addEventListener('click', function() {
+                const imgSrc = this.querySelector('img').src;
+                const caption = this.getAttribute('data-caption');
+                const description = this.getAttribute('data-description');
+                
+                lightboxImg.src = imgSrc;
+                lightboxCaption.textContent = caption;
+                lightboxDesc.textContent = description;
+                
+                lightbox.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        closeBtn.addEventListener('click', function() {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) {
+                lightbox.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+</html>

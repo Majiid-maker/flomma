@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Wisuda</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-image: linear-gradient(to bottom, #f5f5f5, #e8e8e8);
+        }
+
+        .container {
+            max-width: 800px;
+            text-align: center;
+            padding: 30px;
+            background-color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            margin: 30px 0;
+        }
+
+        .toga-container {
+            cursor: pointer;
+            margin-bottom: 30px;
+            transition: all 0.5s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .toga-container.clicked {
+            transform: translateY(100px);
+        }
+
+        .toga-container.final-position {
+            transform: translateY(0);
+            width: 120px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .toga-container.final-position .toga-img {
+            width: 100px;
+            border: 3px solid #f8f8f8;
+        }
+
+        .toga-img {
+            width: 200px;
+            height: auto;
+            border-radius: 50%;
+            border: 5px solid #f8f8f8;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s ease;
+        }
+
+        .message {
+            display: none;
+            animation: fadeIn 1.5s ease-out;
+            margin-top: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: normal;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .signature {
+            font-style: italic;
+            margin-top: 40px;
+            font-size: 1.3rem;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .university-style {
+            font-variant: small-caps;
+            letter-spacing: 1px;
+            color: #8e44ad;
+        }
+
+        .decoration {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23eaeaea" d="M50 0 L100 50 L50 100 L0 50 Z"/></svg>');
+            background-size: contain;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .decoration.top-left {
+            top: 20px;
+            left: 20px;
+        }
+
+        .decoration.bottom-right {
+            bottom: 20px;
+            right: 20px;
+        }
+
+        /* Gallery Styles */
+        .gallery-section {
+            width: 100%;
+            max-width: 800px;
+            margin: 30px 0;
+            background: white;
+            padding: 0px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .gallery-section h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        .gallery-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin: 40px 0 20px;
+            text-align: center;
+            font-weight: normal;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        /* Option 1: Grid Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            height: 150px;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Option 2: Slider Gallery */
+        .gallery-slider {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .slider-container {
+            display: flex;
+            transition: transform 0.5s ease;
+            height: 300px;
+        }
+
+        .slider-slide {
+            min-width: 100%;
+            height: 100%;
+        }
+
+        .slider-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+
+        .slider-btn {
+            background: rgba(255,255,255,0.7);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .slider-btn:hover {
+            background: rgba(255,255,255,0.9);
+        }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slider-dot.active {
+            background: #2c3e50;
+        }
+
+        /* Option 3: Masonry Gallery */
+        .gallery-masonry {
+            column-count: 3;
+            column-gap: 15px;
+        }
+
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .masonry-item:hover {
+            transform: scale(1.02);
+        }
+
+        .masonry-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .click-instruction {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* Image Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="decoration top-left"></div>
+        <div class="decoration bottom-right"></div>
+        
+        <div class="toga-container" id="toga">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='40' r='20' fill='%232c3e50'/><path fill='%232c3e50' d='M30 40 L70 40 L80 100 L20 100 Z'/><path fill='%23f1c40f' d='M40 40 L60 40 L55 60 L45 60 Z'/></svg>" alt="Topi Toga" class="toga-img">
+            <p>Klik topi toga untuk membuka pesan</p>
+        </div>
+        
+        <div class="message" id="message">
+            <h1>Selamat <span class="university-style">Wisuda</span></h1>
+            <p>Dengan penuh kebahagiaan dan kebanggaan, kami ucapkan selamat atas kelulusan Anda.</p>
+            <p>Perjuangan panjang selama ini akhirnya berbuah manis. Capaian ini adalah bukti dari kerja keras, ketekunan, dan dedikasi Anda.</p>
+            <p>Semoga ilmu yang telah diperoleh menjadi bekal berharga untuk meraih kesuksesan di masa depan.</p>
+            <p>Teruslah menjadi pembelajar sepanjang hayat dan jadilah inspirasi bagi banyak orang.</p>
+            <div class="signature">Dengan bangga,<br>Keluarga Besar Almamater</div>
+        </div>
+    </div>
+
+    <!-- Main Gallery (Slider) -->
+    <div class="gallery-section" id="main-gallery" style="display: none;">
+        <h2>Kenang-Kenangan Wisuda</h2>
+        
+        <div class="gallery-slider">
+            <div class="slider-container" id="slider-container">
+                <div class="slider-slide">
+                    <img src="gambar/zacky.jpeg" alt="Momen Wisuda 1">
+                </div>
+                <div class="slider-slide">
+                    <img src="gambar/zacky.jpeg" alt="Momen Wisuda 2">
+                </div>
+                <div class="slider-slide">
+                    <img src="gambar/zacky.jpeg" alt="Momen Wisuda 3">
+                </div>
+                <div class="slider-slide">
+                    <img src="gambar/zacky.jpeg" alt="Momen Wisuda 4">
+                </div>
+                <div class="slider-slide">
+                    <img src="gambar/zacky.jpeg" alt="Momen Wisuda 5">
+                </div>
+            </div>
+            
+            <div class="slider-nav">
+                <button class="slider-btn" id="prev-btn">❮</button>
+                <button class="slider-btn" id="next-btn">❯</button>
+            </div>
+            
+            <div class="slider-dots" id="slider-dots">
+                <!-- Dots will be added by JavaScript -->
+            </div>
+        </div>
+        
+        <p class="click-instruction">Gunakan tombol atau titik navigasi untuk melihat foto lainnya</p>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="modal" id="image-modal">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modal-image">
+    </div>
+
+    <audio id="celebrationSound" src="https://assets.mixkit.co/sfx/preview/mixkit-happy-crowd-cheering-948.mp3" preload="auto"></audio>
+
+    <!-- Gallery Options Templates -->
+    <h2 class="gallery-title">Pilihan Lain Tampilan Galeri</h2>
+
+    <!-- Option 1: Grid Gallery -->
+    <div class="gallery-section">
+        <h2>Galeri Grid</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://source.unsplash.com/random/300x300/?graduation,1" alt="Kenangan 1">
+            </div>
+            <div class="gallery-item">
+                <img src="https://source.unsplash.com/random/300x300/?graduation,2" alt="Kenangan 2">
+            </div>
+            <div class="gallery-item">
+                <img src="https://source.unsplash.com/random/300x300/?graduation,3" alt="Kenangan 3">
+            </div>
+            <div class="gallery-item">
+                <img src="https://source.unsplash.com/random/300x300/?graduation,4" alt="Kenangan 4">
+            </div>
+            <div class="gallery-item">
+                <img src="https://source.unsplash.com/random/300x300/?graduation,5" alt="Kenangan 5">
+            </div>
+            <div class="gallery-item">
+                <img src="https://source.unsplash.com/random/300x300/?graduation,6" alt="Kenangan 6">
+            </div>
+        </div>
+        <p class="click-instruction">Klik pada gambar untuk melihat lebih besar</p>
+    </div>
+
+    <!-- Option 2: Masonry Gallery -->
+    <div class="gallery-section">
+        <h2>Galeri Masonry</h2>
+        <div class="gallery-masonry">
+            <div class="masonry-item">
+                <img src="gambar/zacky.jpeg" alt="Kenangan 7">
+            </div>
+            <div class="masonry-item">
+                <img src="gambar/starry.jpg" alt="Kenangan 8">
+            </div>
+            <div class="masonry-item">
+                <img src="gambar/starry.jpg" alt="Kenangan 9">
+            </div>
+            <div class="masonry-item">
+                <img src="gambar/contoh1.png" alt="Kenangan 10">
+            </div>
+            <div class="masonry-item">
+                <img src="gambar/logo.png" alt="Kenangan 11">
+            </div>
+            <div class="masonry-item">
+                <img src="gambar/contoh1.png" alt="Kenangan 12">
+            </div>
+            <div class="masonry-item">
+                <img src="gambar/zacky.jpeg" alt="Kenangan 7">
+            </div>
+            <div class="masonry-item">
+                <img src="gambar/starry.jpg" alt="Kenangan 8">
+            </div>
+            <div class="masonry-item">
+                <img src="gambar/starry.jpg" alt="Kenangan 9">
+            </div>
+            <div class="masonry-item">
+                <img src="gambar/contoh1.png" alt="Kenangan 10">
+            </div>
+            <div class="masonry-item">
+                <img src="gambar/logo.png" alt="Kenangan 11">
+            </div>
+            <div class="masonry-item">
+                <img src="gambar/contoh1.png" alt="Kenangan 12">
+            </div>
+        </div>
+        <p class="click-instruction">Klik pada gambar untuk melihat lebih besar</p>
+    </div>
+
+    <script>
+        // Toga Animation and Message Display
+        const toga = document.getElementById('toga');
+        const message = document.getElementById('message');
+        const mainGallery = document.getElementById('main-gallery');
+        const sound = document.getElementById('celebrationSound');
+
+        toga.addEventListener('click', function() {
+            // Animasi toga turun
+            this.classList.add('clicked');
+            
+            // Memainkan suara perayaan setelah delay kecil
+            setTimeout(() => {
+                sound.play();
+            }, 300);
+            
+            // Animasi toga naik ke posisi baru
+            setTimeout(() => {
+                this.classList.remove('clicked');
+                this.classList.add('final-position');
+                this.querySelector('p').style.display = 'none';
+                
+                // Menampilkan pesan setelah delay
+                setTimeout(() => {
+                    message.style.display = 'block';
+                    
+                    // Membuat efek confetti
+                    createConfetti();
+                    
+                    // Menampilkan galeri setelah delay lagi
+                    setTimeout(() => {
+                        mainGallery.style.display = 'block';
+                        initSlider(); // Initialize the slider
+                    }, 1000);
+                }, 500);
+            }, 1000);
+        });
+
+        function createConfetti() {
+            const colors = ['#f1c40f', '#e74c3c', '#3498db', '#2ecc71', '#9b59b6'];
+            const container = document.querySelector('.container');
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = -10 + 'px';
+                confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+                
+                container.appendChild(confetti);
+                
+                animateConfetti(confetti);
+            }
+        }
+
+        function animateConfetti(element) {
+            const duration = Math.random() * 3 + 2;
+            const angle = Math.random() * 360;
+            const distance = Math.random() * 200 + 100;
+            
+            const x = distance * Math.cos(angle * Math.PI / 180);
+            const y = distance * Math.sin(angle * Math.PI / 180);
+            
+            element.style.transition = `all ${duration}s ease-out`;
+            element.style.opacity = '1';
+            
+            setTimeout(() => {
+                element.style.transform = `translate(${x}px, ${y}px) rotate(${angle}deg)`;
+                element.style.opacity = '0';
+                
+                // Hapus elemen setelah animasi selesai
+                setTimeout(() => {
+                    element.remove();
+                }, duration * 1000);
+            }, 10);
+        }
+
+        // Slider Functionality
+        function initSlider() {
+            const slider = document.querySelector('.slider-container');
+            const slides = document.querySelectorAll('.slider-slide');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const dotsContainer = document.getElementById('slider-dots');
+            
+            let currentIndex = 0;
+            const slideCount = slides.length;
+            
+            // Create dots
+            slides.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('slider-dot');
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(index));
+                dotsContainer.appendChild(dot);
+            });
+            
+            // Update slider position
+            function updateSlider() {
+                slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+                
+                // Update dots
+                document.querySelectorAll('.slider-dot').forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+            }
+            
+            // Go to specific slide
+            function goToSlide(index) {
+                currentIndex = index;
+                updateSlider();
+            }
+            
+            // Next slide
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % slideCount;
+                updateSlider();
+            }
+            
+            // Previous slide
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+                updateSlider();
+            }
+            
+            // Event listeners
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+            
+            // Auto-advance (optional)
+            // setInterval(nextSlide, 5000);
+        }
+
+        // Image Modal for all galleries
+        const modal = document.getElementById('image-modal');
+        const modalImg = document.getElementById('modal-image');
+        const closeModal = document.querySelector('.modal-close');
+        
+        // Add click event to all gallery images
+        document.querySelectorAll('.gallery-item img, .masonry-item img, .slider-slide img').forEach(img => {
+            img.addEventListener('click', function() {
+                modal.style.display = 'flex';
+                modalImg.src = this.src;
+            });
+        });
+        
+        // Close modal
+        closeModal.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        
+        // Close when clicking outside image
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
