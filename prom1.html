@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Prom Night</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Playfair Display', serif;
+        }
+
+        body {
+            background-color: #000;
+            color: #D4AF37;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Form Input Nama */
+        .name-form {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: all 0.5s ease;
+        }
+
+        .name-form.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .name-form h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        .name-input {
+            width: 80%;
+            max-width: 400px;
+            padding: 15px;
+            font-size: 1.2rem;
+            background-color: transparent;
+            border: 2px solid #D4AF37;
+            color: #D4AF37;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .submit-btn {
+            padding: 12px 30px;
+            background-color: #D4AF37;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .submit-btn:hover {
+            background-color: #c9a227;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Undangan Container */
+        .invitation-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .invitation-container.show {
+            display: flex;
+        }
+
+        .invitation-card {
+            background-color: #000;
+            border: 3px solid #D4AF37;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 800px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .gold-border {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, #D4AF37, #F5D98B, #D4AF37);
+            border-image-slice: 1;
+            border-radius: 12px;
+            pointer-events: none;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: #D4AF37;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            margin: 25px 0 10px;
+            color: #F5D98B;
+        }
+
+        .guest-name {
+            font-size: 2rem;
+            margin: 20px 0;
+            color: #F5D98B;
+            text-decoration: underline;
+            text-underline-offset: 8px;
+        }
+
+        .details {
+            margin: 15px 0;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .date, .time, .location {
+            margin: 10px 0;
+            font-size: 1.3rem;
+        }
+
+        .ornament {
+            position: absolute;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .ornament-1 {
+            top: -50px;
+            left: -50px;
+            width: 150px;
+            transform: rotate(-15deg);
+        }
+
+        .ornament-2 {
+            bottom: -50px;
+            right: -50px;
+            width: 150px;
+            transform: rotate(15deg);
+        }
+
+        .download-btn {
+            margin-top: 30px;
+            padding: 12px 25px;
+            background-color: transparent;
+            color: #D4AF37;
+            border: 2px solid #D4AF37;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background-color: rgba(212, 175, 55, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Untuk ukuran Instagram Stories */
+        @media (max-width: 1080px) and (min-height: 1920px) {
+            .invitation-card {
+                width: 100%;
+                height: 100%;
+                max-width: none;
+                max-height: none;
+                border-radius: 0;
+                border: none;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            
+            .gold-border {
+                border-radius: 0;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Form Input Nama -->
+    <div class="name-form" id="nameForm">
+        <h1>Masukkan Nama Anda</h1>
+        <input type="text" class="name-input" id="nameInput" placeholder="Nama Anda">
+        <button class="submit-btn" id="submitBtn">Lihat Undangan</button>
+    </div>
+
+    <!-- Undangan Container -->
+    <div class="invitation-container" id="invitationContainer">
+        <div class="invitation-card">
+            <div class="gold-border"></div>
+            <img src="https://i.ibb.co/0jX7q0G/floral-ornament.png" alt="Ornament" class="ornament ornament-1">
+            <img src="https://i.ibb.co/0jX7q0G/floral-ornament.png" alt="Ornament" class="ornament ornament-2">
+            
+            <h2>Undangan Prom Night</h2>
+            <div class="guest-name" id="displayName">[Nama Tamu]</div>
+            
+            <h3>Kepada Yth.</h3>
+            <div class="details">
+                Dengan penuh kebahagiaan, kami mengundang Anda untuk hadir dalam acara spesial kami:
+            </div>
+            
+            <h3>PRO NIGHT 2024</h3>
+            <div class="details">
+                Malam penuh keanggunan, tawa, dan kenangan yang tak terlupakan
+            </div>
+            
+            <div class="date">📅 Sabtu, 15 Juni 2024</div>
+            <div class="time">⏰ 19.00 - 23.00 WIB</div>
+            <div class="location">🏨 Grand Ballroom, The Majestic Hotel</div>
+            
+            <div class="details" style="margin-top: 30px;">
+                Dress Code: Black Tie Elegant<br>
+                RSVP sebelum 10 Juni 2024
+            </div>
+            
+            <button class="download-btn" id="downloadBtn">Download Undangan</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameForm = document.getElementById('nameForm');
+            const nameInput = document.getElementById('nameInput');
+            const submitBtn = document.getElementById('submitBtn');
+            const invitationContainer = document.getElementById('invitationContainer');
+            const displayName = document.getElementById('displayName');
+            const downloadBtn = document.getElementById('downloadBtn');
+
+            // Handle form submission
+            submitBtn.addEventListener('click', function() {
+                const name = nameInput.value.trim();
+                if (name) {
+                    displayName.textContent = name;
+                    nameForm.classList.add('hidden');
+                    setTimeout(() => {
+                        invitationContainer.classList.add('show');
+                    }, 500);
+                } else {
+                    alert('Silakan masukkan nama Anda terlebih dahulu');
+                }
+            });
+
+            // Allow Enter key to submit form
+            nameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    submitBtn.click();
+                }
+            });
+
+            // Handle download button
+            downloadBtn.addEventListener('click', function() {
+                // Create a canvas element for Instagram Stories size (1080x1920)
+                const canvas = document.createElement('canvas');
+                canvas.width = 1080;
+                canvas.height = 1920;
+                const ctx = canvas.getContext('2d');
+
+                // Create a temporary div with Instagram Stories dimensions
+                const tempDiv = document.createElement('div');
+                tempDiv.style.width = '1080px';
+                tempDiv.style.height = '1920px';
+                tempDiv.style.backgroundColor = '#000';
+                tempDiv.style.color = '#D4AF37';
+                tempDiv.style.padding = '100px';
+                tempDiv.style.boxSizing = 'border-box';
+                tempDiv.style.position = 'fixed';
+                tempDiv.style.top = '-10000px';
+                tempDiv.style.left = '-10000px';
+                tempDiv.style.border = '10px solid #D4AF37';
+                tempDiv.style.fontFamily = "'Playfair Display', serif";
+                tempDiv.style.textAlign = 'center';
+                tempDiv.style.display = 'flex';
+                tempDiv.style.flexDirection = 'column';
+                tempDiv.style.justifyContent = 'center';
+                tempDiv.style.alignItems = 'center';
+
+                // Clone the invitation content
+                const invitationContent = document.querySelector('.invitation-card').cloneNode(true);
+                invitationContent.style.width = '100%';
+                invitationContent.style.border = 'none';
+                invitationContent.querySelector('.gold-border').style.display = 'none';
+                invitationContent.querySelector('.download-btn').style.display = 'none';
+                
+                // Adjust font sizes for Instagram Stories
+                invitationContent.querySelector('h2').style.fontSize = '4rem';
+                invitationContent.querySelector('.guest-name').style.fontSize = '3rem';
+                invitationContent.querySelector('h3').style.fontSize = '2.5rem';
+                invitationContent.querySelectorAll('.details').forEach(el => {
+                    el.style.fontSize = '1.8rem';
+                    el.style.margin = '25px 0';
+                });
+                invitationContent.querySelectorAll('.date, .time, .location').forEach(el => {
+                    el.style.fontSize = '2rem';
+                    el.style.margin = '15px 0';
+                });
+
+                tempDiv.appendChild(invitationContent);
+                document.body.appendChild(tempDiv);
+
+                // Use html2canvas to capture the content
+                html2canvas(tempDiv, {
+                    scale: 1,
+                    logging: false,
+                    useCORS: true,
+                    allowTaint: true
+                }).then(canvas => {
+                    // Convert canvas to image and download
+                    const link = document.createElement('a');
+                    link.download = `Undangan Prom Night - ${nameInput.value.trim()}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+
+                    // Clean up
+                    document.body.removeChild(tempDiv);
+                });
+
+                // If html2canvas fails, fallback to regular screenshot
+                setTimeout(() => {
+                    if (!document.body.contains(tempDiv)) return;
+                    document.body.removeChild(tempDiv);
+                    alert('Gagal membuat undangan dalam ukuran Instagram Stories. Silakan screenshot manual.');
+                }, 5000);
+            });
+
+            // Load html2canvas library dynamically
+            const script = document.createElement('script');
+            script.src = 'https://html2canvas.hertzen.com/dist/html2canvas.min.js';
+            document.head.appendChild(script);
+        });
+    </script>
+</body>
+</html>
