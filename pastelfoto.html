@@ -35,6 +35,8 @@
         }
         
         .card-container {
+            overflow: hidden;
+            max-height: 90vh;
             position: relative;
             width: 90%;
             max-width: 800px; /* Diperbesar untuk menampung konten */
@@ -44,8 +46,9 @@
         
         .card {
             position: relative;
+            overflow-y: auto;
             width: 100%;
-            min-height: 400px; /* Diubah ke min-height untuk konten yang lebih panjang */
+            height: 400px; /* Diubah ke min-height untuk konten yang lebih panjang */
             transform-style: preserve-3d;
             transition: transform 1s;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
@@ -59,7 +62,7 @@
             backface-visibility: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             padding: 2rem;
             box-sizing: border-box;
