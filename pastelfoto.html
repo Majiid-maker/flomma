@@ -28,7 +28,7 @@
             color: var(--text-dark);
             overflow-x: hidden;
             overflow-y: auto;
-            height: 75vh;
+            height: auto;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -38,15 +38,17 @@
         .card-container {
             position: relative;
             height: auto;
+            min-height: 100vh;
             width: 90%;
             max-width: 800px; /* Diperbesar untuk menampung konten */
             perspective: 1000px;
             margin: 2rem auto;
+            overflow: visible;
         }
         
         .card {
             position: relative;
-            width: 100%;
+            width: 100vh;
             min-height: 400px; /* Diubah ke min-height untuk konten yang lebih panjang */
             transform-style: preserve-3d;
             transition: transform 1s;
@@ -75,7 +77,9 @@
         }
         
         .card-back {
-            height: 70vh;
+            height: auto;
+            min-height: 100%;
+            display: block;
             background: linear-gradient(135deg, var(--pastel-mint), var(--pastel-lavender));
             transform: rotateY(180deg);
             overflow-y: auto;
@@ -148,7 +152,8 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            overflow-y: auto;
+            overflow: visible;
+            height: auto;
             scrollbar-width: thin;
         }
         
