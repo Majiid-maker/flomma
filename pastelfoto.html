@@ -30,14 +30,15 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Diubah dari center ke flex-start */
             transition: background-color 1s ease;
+            padding: 2rem 0; /* Tambahkan padding atas bawah */
         }
         
         .card-container {
             position: relative;
             width: 90%;
-            max-width: 800px; /* Diperbesar untuk menampung konten */
+            max-width: 800px;
             perspective: 1000px;
             margin: 2rem auto;
         }
@@ -45,11 +46,12 @@
         .card {
             position: relative;
             width: 100%;
-            min-height: 400px; /* Diubah ke min-height untuk konten yang lebih panjang */
+            min-height: 400px;
             transform-style: preserve-3d;
             transition: transform 1s;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             border-radius: 15px;
+            overflow: hidden; /* Tambahkan ini */
         }
         
         .card-face {
@@ -75,8 +77,8 @@
         .card-back {
             background: linear-gradient(135deg, var(--pastel-mint), var(--pastel-lavender));
             transform: rotateY(180deg);
-            justify-content: flex-start; /* Konten dimulai dari atas */
-            padding-top: 3rem; /* Ruang tambahan di atas */
+            justify-content: flex-start;
+            padding-top: 3rem;
         }
         
         .card.is-flipped {
