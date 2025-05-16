@@ -81,6 +81,19 @@
             scrollbar-width: thin;
             scrollbar-color: #d4af37 #000;
         }
+
+        .card-back::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .card-back::-webkit-scrollbar-track {
+            background: #000;
+        }
+
+        .card-back::-webkit-scrollbar-thumb {
+            background-color: #d4af37;
+            border-radius: 5px;
+        }
         
         .card.is-flipped {
             transform: rotateY(180deg);
