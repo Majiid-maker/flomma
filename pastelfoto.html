@@ -26,17 +26,15 @@
             font-family: 'Montserrat', sans-serif;
             background-color: var(--pastel-blue);
             color: var(--text-dark);
-            /* overflow: hidden; */
+            overflow-x: hidden;
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             transition: background-color 1s ease;
         }
         
         .card-container {
-            /* overflow: hidden;
-            max-height: 90vh; */
             position: relative;
             width: 90%;
             max-width: 800px; /* Diperbesar untuk menampung konten */
@@ -47,38 +45,26 @@
         .card {
             position: relative;
             width: 100%;
-            min-height: 400px; /* Kembalikan ke min-height */
-            max-height: 80vh; /* Tambahkan max-height */
+            min-height: 400px; /* Diubah ke min-height untuk konten yang lebih panjang */
             transform-style: preserve-3d;
             transition: transform 1s;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             border-radius: 15px;
-            overflow-y: auto; /* Pastikan ini ada */
-            -webkit-overflow-scrolling: touch;
         }
         
         .card-face {
             position: absolute;
             width: 100%;
-            height: auto; /* Diubah dari 100% ke auto */
-            min-height: 100%; /* Tambahkan ini */
+            height: 100%;
             backface-visibility: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
             padding: 2rem;
             box-sizing: border-box;
             border-radius: 15px;
-            /* Pastikan tidak ada overflow di sini */
-        }
-        
-        .card-content {
-            width: 100%;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
+            overflow-y: auto; /* Untuk konten yang panjang */
         }
         
         .card-front {
@@ -93,7 +79,7 @@
             padding-top: 3rem; /* Ruang tambahan di atas */
              overflow-y: auto;
             scrollbar-width: thin;
-            scrollbar-color: #c1f0d2 #c1f0d2;
+            scrollbar-color: #d4af37 #000;
         }
         
         .card.is-flipped {
