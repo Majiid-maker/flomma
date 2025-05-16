@@ -27,8 +27,8 @@
             background-color: var(--pastel-blue);
             color: var(--text-dark);
             overflow-x: hidden;
-            overflow-y: none;
-            height: 80vh;
+            overflow-y: hidden;
+            height: 75vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -76,10 +76,25 @@
         .card-back {
             background: linear-gradient(135deg, var(--pastel-mint), var(--pastel-lavender));
             transform: rotateY(180deg);
+            overflow-y: auto;
+            scrollbar-width: thin;
             justify-content: flex-start; /* Konten dimulai dari atas */
             padding-top: 3rem; /* Ruang tambahan di atas */
         }
         
+        .card-back::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .card-back::-webkit-scrollbar-track {
+            background: #000;
+        }
+
+        .card-back::-webkit-scrollbar-thumb {
+            background-color: #d4af37;
+            border-radius: 5px;
+        }
+
         .card.is-flipped {
             transform: rotateY(180deg);
         }
