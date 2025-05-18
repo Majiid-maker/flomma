@@ -469,7 +469,16 @@
         <div class="container animate__animated animate__fadeIn rsvp">
             <h2>Konfirmasi Kehadiran</h2>
             <p>Mohon konfirmasi kehadiran Anda sebelum [tanggal konfirmasi]</p>
-            <button class="btn animate__animated animate__pulse animate__infinite">RSVP Sekarang</button>
+            <button id="waButton" class="btn animate__animated animate__pulse animate__infinite">
+            RSVP Sekarang
+            </button>
+
+            <script>
+            document.getElementById('waButton').addEventListener('click', function () {
+                window.open('https://wa.me/6281392304284?text=Halo%2C%20saya%20ingin%20melakukan%20RSVP.', '_blank');
+            });
+            </script>
+
         </div>
     </section>
     
