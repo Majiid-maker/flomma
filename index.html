@@ -269,6 +269,189 @@
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
         }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            max-height: 600px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7));
+        }
+
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .hero-content {
+            margin-top: 40px;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            color: #E75480;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #E75480;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(231, 84, 128, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(231, 84, 128, 0.4);
+        }
+
+        /* Tutorial Steps */
+        .tutorial-section {
+            padding: 40px 20px;
+            background-color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #E75480;
+            margin-bottom: 30px;
+        }
+
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .step-number {
+            background-color: #E75480;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+
+        .step-content h3 {
+            font-size: 1.1rem;
+            color: #E75480;
+            margin-bottom: 5px;
+        }
+
+        .step-content p {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* Responsive for larger screens */
+        @media (min-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .steps-container {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                max-width: 100%;
+            }
+
+            .step {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                max-width: 250px;
+            }
+        }
+
+        /* Greetzza Credit Section - Minimal */
+        .credit-section {
+            padding: 30px 20px;
+            text-align: center;
+            background-color: #fafafa;
+            border-top: 1px solid #eee;
+        }
+        
+        .credit-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        
+        .credit-text {
+            font-size: 0.9rem;
+            color: #888;
+            font-style: italic;
+        }
+        
+        .greetzza-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+        
+        .ig-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: #E1306C;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .ig-link:hover {
+            transform: scale(1.05);
+        }
+        
+        .ig-link i {
+            font-size: 1.2rem;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -278,6 +461,57 @@
         <div class="logo">Flomma Flower</div>
         <div class="tagline">Ungkapkan Perasaan dengan Kartu Spesial</div>
     </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <img src="gambar/qr.jpeg" alt="Kartu Ucapan Flomma Flower" class="hero-image">
+        <div class="hero-content">
+            <h1>Kartu Ucapan Digital Spesial</h1>
+            <p>Buat momen spesial semakin berkesan dengan kartu ucapan digital personal dari Flomma Flower. Pilih desain favoritmu dan sampaikan perasaan dengan cara yang unik!</p>
+            <a href="#tutorial" class="cta-button">Lihat Cara Pesan</a>
+        </div>
+    </section>
+
+    <!-- Tutorial Section -->
+    <section class="tutorial-section" id="tutorial">
+        <h2 class="section-title">Cara Memesan Mudah</h2>
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Pilih Desain</h3>
+                    <p>Telusuri katalog kami dan pilih desain kartu ucapan yang paling sesuai dengan kebutuhan Anda.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Personalisasi</h3>
+                    <p>Tambahkan foto, nama, dan pesan khusus Anda untuk membuat kartu menjadi lebih personal.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Kirim & Bagikan</h3>
+                    <p>Setelah selesai, Anda akan menerima link yang bisa dibagikan langsung ke penerima.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- After your tutorial section -->
+    <section class="credit-section">
+        <div class="credit-container">
+            <p class="credit-text">for further information</p>
+            <img src="gambar/greetzza.png" alt="Greetzza Logo" class="greetzza-logo">
+            <a href="https://www.instagram.com/greetzza/profilecard/?igsh=MXdxYzR4NDV6dXdzZg==" class="ig-link" target="_blank">
+                <i class="fab fa-instagram"></i>
+                <span>@greetzza</span>
+            </a>
+        </div>
+    </section>
 
     <!-- <nav>
         <ul>
@@ -348,7 +582,7 @@
                         <button class="btn btn-pink">Beli Sekarang</button>
                     </div>
                     <div class="product-actions">
-                        <a href="mambafoto.html" class="btn btn-beige">Dengan Foto</a>
+                        <a href="mambafoto2.html" class="btn btn-beige">Dengan Foto</a>
                     </div>
                 </div>
             </div>
@@ -427,7 +661,7 @@
             <!-- Product 3 -->
             <div class="product-card">
                 <div class="product-image">
-                    <img src="gambar/contoh4.png" alt="Greeting Card 3">
+                    <img src="gambar/contoh8.png" alt="Greeting Card 3">
                     <span class="product-badge">Baru</span>
                 </div>
                 <div class="product-info">
@@ -435,16 +669,11 @@
                     <p class="product-description">Undangan ulang tahun lucu dan unik</p>
                     <div class="product-price">Rp 10.000</div>
                     <div class="product-actions">
-                        <a href="birthdayinvit.html" class="btn btn-beige">Preview</a>
+                        <a href="birthdayinvit.html" class="btn btn-beige">Scroll Preview</a>
                         <button class="btn btn-pink">Beli Sekarang</button>
                     </div>
                     <div class="product-actions">
-                        <a href="birthdayinvit1.html" class="btn btn-beige">Preview</a>
-                        <button class="btn btn-pink">Beli Sekarang</button>
-                    </div>
-                    <div class="product-actions">
-                        <a href="birthdayinvit2.html" class="btn btn-beige">Preview</a>
-                        <button class="btn btn-pink">Beli Sekarang</button>
+                        <a href="birthdayinvit2.html" class="btn btn-beige">Interactive Preview</a>
                     </div>
                 </div>
             </div>
