@@ -326,7 +326,7 @@
         /* Navigation - Horizontal */
         .nav-buttons {
             position: fixed;
-            bottom: 20px;
+            bottom: 60px; /* Dinaikkan lebih tinggi */
             left: 0;
             right: 0;
             display: flex;
@@ -336,7 +336,7 @@
         }
         
         .nav-btn {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             border: none;
             width: 60px;
             height: 60px;
@@ -358,30 +358,6 @@
         .nav-btn i {
             font-size: 2rem;
             color: #ff6b9d;
-        }
-        
-        /* Indicator for current section */
-        .nav-indicator {
-            position: absolute;
-            bottom: 5px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-        }
-        
-        .indicator-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(138, 43, 226, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .indicator-dot.active {
-            background: #8a2be2;
-            width: 20px;
-            border-radius: 4px;
         }
         
         /* Welcome Screen */
@@ -464,13 +440,18 @@
             .nav-btn i {
                 font-size: 2.2rem;
             }
+            
+            /* Position nav buttons higher on desktop */
+            .nav-buttons {
+                bottom: 80px;
+            }
         }
         
         /* iPhone XR/12 specific fixes */
         @media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2),
                only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
             .nav-buttons {
-                bottom: 30px;
+                bottom: 80px; /* Dinaikkan lebih tinggi untuk iPhone */
             }
             
             .nav-btn {
@@ -514,16 +495,6 @@
                 <button class="nav-btn" onclick="prevSection()"><i class="fas fa-arrow-left"></i></button>
                 <button class="nav-btn" onclick="nextSection()"><i class="fas fa-arrow-right"></i></button>
             </div>
-            
-            <!-- Section Indicator -->
-            <div class="nav-indicator">
-                <div class="indicator-dot active"></div>
-                <div class="indicator-dot"></div>
-                <div class="indicator-dot"></div>
-                <div class="indicator-dot"></div>
-                <div class="indicator-dot"></div>
-                <div class="indicator-dot"></div>
-            </div>
         </section>
     </div>
     
@@ -543,15 +514,6 @@
                     <button class="nav-btn" onclick="prevSection()"><i class="fas fa-arrow-left"></i></button>
                     <button class="nav-btn" onclick="nextSection()"><i class="fas fa-arrow-right"></i></button>
                 </div>
-                
-                <div class="nav-indicator">
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot active"></div>
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot"></div>
-                </div>
             </div>
         </section>
     </div>
@@ -563,37 +525,28 @@
                 <p style="text-align: center;">Beberapa momen berharga sepanjang tahun ini yang membuat hidup lebih berarti:</p>
                 <div class="gallery">
                     <div class="gallery-item">
-                        <img src="https://source.unsplash.com/random/600x600/?happy" alt="Kenangan 1">
+                        <img src="gambar/bg2.jpg" alt="Kenangan 1">
                     </div>
                     <div class="gallery-item">
-                        <img src="https://source.unsplash.com/random/600x600/?friends" alt="Kenangan 2">
+                        <img src="gambar/mbah.jpg" alt="Kenangan 2">
                     </div>
                     <div class="gallery-item">
-                        <img src="https://source.unsplash.com/random/600x600/?travel" alt="Kenangan 3">
+                        <img src="gambar/starry.jpg" alt="Kenangan 3">
                     </div>
                     <div class="gallery-item">
-                        <img src="https://source.unsplash.com/random/600x600/?family" alt="Kenangan 4">
+                        <img src="gambar/zacky.jpeg" alt="Kenangan 4">
                     </div>
                     <div class="gallery-item">
-                        <img src="https://source.unsplash.com/random/600x600/?celebration" alt="Kenangan 5">
+                        <img src="gambar/wis1.jpg" alt="Kenangan 5">
                     </div>
                     <div class="gallery-item">
-                        <img src="https://source.unsplash.com/random/600x600/?smile" alt="Kenangan 6">
+                        <img src="gambar/kue.jpg" alt="Kenangan 6">
                     </div>
                 </div>
                 
                 <div class="nav-buttons">
                     <button class="nav-btn" onclick="prevSection()"><i class="fas fa-arrow-left"></i></button>
                     <button class="nav-btn" onclick="nextSection()"><i class="fas fa-arrow-right"></i></button>
-                </div>
-                
-                <div class="nav-indicator">
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot active"></div>
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot"></div>
                 </div>
             </div>
         </section>
@@ -616,15 +569,6 @@
                 <div class="nav-buttons">
                     <button class="nav-btn" onclick="prevSection()"><i class="fas fa-arrow-left"></i></button>
                     <button class="nav-btn" onclick="nextSection()"><i class="fas fa-arrow-right"></i></button>
-                </div>
-                
-                <div class="nav-indicator">
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot active"></div>
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot"></div>
                 </div>
             </div>
         </section>
@@ -652,26 +596,17 @@
                     <div class="card">
                         <div class="card-icon">🎉</div>
                         <h3>Susunan Acara</h3>
-                        <p>• [Waktu] - Sambutan</p>
-                        <p>• [Waktu] - Makan bersama</p>
-                        <p>• [Waktu] - Potong kue</p>
-                        <p>• [Waktu] - Hiburan</p>
-                        <p>• [Waktu] - Penutup</p>
+                        <p>• 08.00 - Sambutan</p>
+                        <p>• 09.00 - Makan bersama</p>
+                        <p>• 10.00 - Potong kue</p>
+                        <p>• 11.00 - Hiburan</p>
+                        <p>• 12.00 - Penutup</p>
                     </div>
                 </div>
                 
                 <div class="nav-buttons">
                     <button class="nav-btn" onclick="prevSection()"><i class="fas fa-arrow-left"></i></button>
                     <button class="nav-btn" onclick="nextSection()"><i class="fas fa-arrow-right"></i></button>
-                </div>
-                
-                <div class="nav-indicator">
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot active"></div>
-                    <div class="indicator-dot"></div>
                 </div>
             </div>
         </section>
@@ -692,15 +627,6 @@
                 <div class="nav-buttons">
                     <button class="nav-btn" onclick="prevSection()"><i class="fas fa-arrow-left"></i></button>
                 </div>
-                
-                <div class="nav-indicator">
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot"></div>
-                    <div class="indicator-dot active"></div>
-                </div>
             </div>
         </section>
     </div>
@@ -718,9 +644,6 @@
             
             // Create confetti
             createConfetti();
-            
-            // Update indicator on load
-            updateIndicator();
         });
         
         // Welcome screen
@@ -738,7 +661,6 @@
                 currentSection++;
                 document.getElementById(`section${currentSection}`).classList.add('active');
                 window.scrollTo(0, 0);
-                updateIndicator();
             }
         }
         
@@ -748,20 +670,7 @@
                 currentSection--;
                 document.getElementById(`section${currentSection}`).classList.add('active');
                 window.scrollTo(0, 0);
-                updateIndicator();
             }
-        }
-        
-        // Update navigation indicator
-        function updateIndicator() {
-            const indicators = document.querySelectorAll('.indicator-dot');
-            indicators.forEach((dot, index) => {
-                if (index === currentSection - 1) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
         }
         
         // Membuat confetti
