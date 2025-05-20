@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Polaroid Camera Printer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px 10px;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        h1 {
+            font-size: clamp(18px, 5vw, 24px);
+            text-align: center;
+            margin: 0 0 10px 0;
+        }
+        
+        p {
+            font-size: clamp(14px, 4vw, 16px);
+            text-align: center;
+            margin: 0 0 20px 0;
+        }
+
+        .camera-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            margin-bottom: 20px;
+        }
+
+        .camera-body {
+            width: 100%;
+            height: 0;
+            padding-bottom: 80%; /* Maintain aspect ratio */
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.2),
+                inset 0 0 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: visible;
+            border: 10px solid #d0d0d0;
+        }
+
+        .camera-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 12%;
+            background-color: #333;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .camera-lens {
+            position: absolute;
+            width: 28%;
+            height: 0;
+            padding-bottom: 28%;
+            background: radial-gradient(circle at center, #4a4a4a 0%, #000 100%);
+            border-radius: 50%;
+            top: 25%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid #ccc;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .lens-reflection {
+            position: absolute;
+            width: 30%;
+            height: 30%;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            top: 15%;
+            right: 15%;
+        }
+
+        .camera-flash {
+            position: absolute;
+            width: 12%;
+            height: 8%;
+            background-color: #f5f5f5;
+            border-radius: 3px;
+            top: 20%;
+            right: 12%;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .camera-viewfinder {
+            position: absolute;
+            width: 9%;
+            height: 7%;
+            background-color: #222;
+            border-radius: 2px;
+            top: 21%;
+            left: 12%;
+            border: 2px solid #444;
+        }
+
+        .camera-button {
+            position: absolute;
+            width: 18%;
+            height: 0;
+            padding-bottom: 18%;
+            background: radial-gradient(circle at center, #ff4757 0%, #cc0000 100%);
+            border-radius: 50%;
+            bottom: 8%;
+            right: 10%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            user-select: none;
+            box-shadow: 
+                0 3px 6px rgba(0, 0, 0, 0.3),
+                inset 0 0 8px rgba(255, 255, 255, 0.2);
+            transition: transform 0.2s;
+            border: 2px solid #aa0000;
+            font-size: clamp(12px, 3vw, 14px);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .camera-button span {
+            position: absolute;
+            top: 40%;
+        }
+
+        .camera-button:active {
+            transform: scale(0.95);
+            box-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.3),
+                inset 0 0 8px rgba(255, 255, 255, 0.2);
+        }
+
+        .photo-slot {
+            position: absolute;
+            width: 90%;
+            height: 5%;
+            background-color: #aaa;
+            bottom: -5%;
+            left: 5%;
+            border-radius: 0 0 5px 5px;
+            overflow: visible;
+            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+        }
+
+        .photo-output-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto;
+            min-height: 50px;
+        }
+
+        .photo-output {
+            width: 100%;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 2s ease-out;
+            background-color: #f9f9f9;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .photo-strip {
+            width: 100%;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .polaroid-photo {
+            width: 100%;
+            background-color: white;
+            border: 1px solid #eee;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 10px 25px 10px;
+            position: relative;
+        }
+
+        .polaroid-photo img {
+            width: 100%;
+            height: auto;
+            max-height: 60vh;
+            object-fit: contain;
+            filter: grayscale(100%) brightness(0.7);
+            transition: filter 3s ease-in-out;
+        }
+
+        .polaroid-photo:after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            width: 90%;
+            height: 25px;
+            background-color: white;
+        }
+
+        .brand-label {
+            position: absolute;
+            bottom: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #333;
+            font-size: clamp(14px, 4vw, 18px);
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+            z-index: 3;
+            white-space: nowrap;
+        }
+
+        @keyframes flash {
+            0% { opacity: 0; background-color: rgba(255, 255, 255, 0); }
+            10% { opacity: 1; background-color: rgba(255, 255, 255, 0.9); }
+            100% { opacity: 0; background-color: rgba(255, 255, 255, 0); }
+        }
+
+        .flash-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            animation: flash 0.8s linear;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* iPhone 5/SE specific adjustments */
+        @media (max-width: 320px) {
+            .camera-body {
+                border-width: 8px;
+            }
+            .polaroid-photo {
+                padding: 8px 8px 20px 8px;
+            }
+            .photo-strip {
+                gap: 12px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Polaroid Camera Printer</h1>
+    <p>Click the red button to print photos</p>
+    
+    <div class="camera-container">
+        <div class="camera-body">
+            <div class="camera-top"></div>
+            <div class="camera-viewfinder"></div>
+            <div class="camera-lens">
+                <div class="lens-reflection"></div>
+            </div>
+            <div class="camera-flash"></div>
+            <div class="brand-label">INSTANT FILM</div>
+            <div class="photo-slot"></div>
+        </div>
+        <div class="camera-button" id="printButton"><span>SHOOT</span></div>
+    </div>
+
+    <div class="photo-output-container">
+        <div class="photo-output" id="photoOutput">
+            <div class="photo-strip" id="photoStrip">
+                <div class="polaroid-photo"><img src="https://picsum.photos/600/400?random=1" alt="Photo 1"></div>
+                <div class="polaroid-photo"><img src="https://picsum.photos/600/400?random=2" alt="Photo 2"></div>
+                <div class="polaroid-photo"><img src="https://picsum.photos/600/400?random=3" alt="Photo 3"></div>
+                <div class="polaroid-photo"><img src="https://picsum.photos/600/400?random=4" alt="Photo 4"></div>
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 20px;"></div> <!-- Small spacer -->
+
+    <script>
+        const printButton = document.getElementById('printButton');
+        const photoOutput = document.getElementById('photoOutput');
+        const polaroidPhotos = document.querySelectorAll('.polaroid-photo img');
+        const cameraBody = document.querySelector('.camera-body');
+
+        function resetCamera() {
+            photoOutput.style.maxHeight = '0';
+            polaroidPhotos.forEach(photo => {
+                photo.style.filter = 'grayscale(100%) brightness(0.7)';
+            });
+            void photoOutput.offsetHeight;
+        }
+
+        function printPhotos() {
+            resetCamera();
+            
+            printButton.disabled = true;
+            printButton.style.opacity = '0.7';
+            printButton.style.cursor = 'not-allowed';
+            
+            const flash = document.createElement('div');
+            flash.className = 'flash-effect';
+            cameraBody.appendChild(flash);
+            
+            setTimeout(() => {
+                flash.remove();
+                photoOutput.style.maxHeight = '2000px';
+                
+                polaroidPhotos.forEach((photo, index) => {
+                    setTimeout(() => {
+                        photo.style.filter = 'grayscale(0%) brightness(1)';
+                        
+                        if (index === polaroidPhotos.length - 1) {
+                            setTimeout(() => {
+                                printButton.disabled = false;
+                                printButton.style.opacity = '1';
+                                printButton.style.cursor = 'pointer';
+                            }, 3000);
+                        }
+                    }, index * 2000);
+                });
+            }, 800);
+        }
+
+        resetCamera();
+        printButton.addEventListener('click', printPhotos);
+    </script>
+</body>
+</html>

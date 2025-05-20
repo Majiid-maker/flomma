@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polaroid Camera with Print Effect</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            overflow-x: hidden;
+        }
+        
+        h1 {
+            margin-bottom: 10px;
+        }
+        
+        .camera-container {
+            position: relative;
+            width: 400px;
+            height: 500px;
+            margin-bottom: 50px;
+        }
+        
+        .polaroid-camera {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, #e6e6e6, #c2c2c2);
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 15px solid #d9d9d9;
+        }
+        
+        .lens {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle at 30% 30%, #888, #000);
+            border-radius: 50%;
+            top: 50px;
+            left: 150px;
+            border: 10px solid #777;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+        
+        .flash {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            top: 60px;
+            right: 50px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+        
+        .viewfinder {
+            position: absolute;
+            width: 60px;
+            height: 40px;
+            border: 3px solid #555;
+            top: 30px;
+            left: 50px;
+            background-color: rgba(0,0,0,0.2);
+        }
+        
+        .shutter-button {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #ff3333, #cc0000);
+            border-radius: 50%;
+            bottom: 50px;
+            right: 50px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: transform 0.1s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        .shutter-button:active {
+            transform: scale(0.95);
+        }
+        
+        .photo-slot {
+            position: absolute;
+            width: 300px;
+            height: 20px;
+            background-color: #333;
+            bottom: 0;
+            left: 50px;
+            border-radius: 0 0 5px 5px;
+            overflow: hidden;
+        }
+        
+        .photos-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            margin-top: 40px;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .photo {
+            width: 280px;
+            height: 280px;
+            background-color: white;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        
+        .photo.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .photo-image {
+            width: 250px;
+            height: 210px;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .photo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) brightness(0.7);
+            transition: filter 2s ease-in-out;
+        }
+        
+        .photo-image img.developed {
+            filter: grayscale(0%) brightness(1);
+        }
+        
+        .photo-caption {
+            width: 100%;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            color: #333;
+        }
+        
+        .printed-photo {
+            position: absolute;
+            width: 280px;
+            height: 300px;
+            background-color: white;
+            bottom: -320px;
+            left: 60px;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        .printing {
+            animation: printAnimation 2s forwards;
+        }
+        
+        @keyframes printAnimation {
+            0% {
+                bottom: -320px;
+            }
+            100% {
+                bottom: -350px;
+            }
+        }
+        
+        .flash-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        .flash-animation {
+            animation: flash 0.3s;
+        }
+        
+        @keyframes flash {
+            0% { opacity: 0; }
+            10% { opacity: 0.9; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Polaroid Camera</h1>
+    <p>Click the shutter button to print a photo!</p>
+    
+    <div class="camera-container">
+        <div class="polaroid-camera">
+            <div class="viewfinder"></div>
+            <div class="lens"></div>
+            <div class="flash"></div>
+            <button class="shutter-button" id="shutterButton"></button>
+            <div class="photo-slot"></div>
+        </div>
+        <div class="printed-photo" id="printedPhoto">
+            <div class="photo-image">
+                <img id="printingPhoto" src="" alt="Printing photo" style="filter: grayscale(100%) brightness(0.7);">
+            </div>
+            <div class="photo-caption">Printing...</div>
+        </div>
+    </div>
+    
+    <div class="photos-container" id="photosContainer">
+        <!-- Photos will be added here -->
+    </div>
+    
+    <!-- Hidden preloaded photos -->
+    <div style="display: none;">
+        <img id="photo1" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Mountain Landscape">
+        <img id="photo2" src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308" alt="Forest">
+        <img id="photo3" src="https://images.unsplash.com/photo-1501785888041-af3ef285b470" alt="Lake">
+        <img id="photo4" src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e" alt="Beach">
+        <img id="photo5" src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07" alt="Flowers">
+    </div>
+    
+    <div class="flash-effect" id="flashEffect"></div>
+    
+    <script>
+        const shutterButton = document.getElementById('shutterButton');
+        const printedPhoto = document.getElementById('printedPhoto');
+        const printingPhoto = document.getElementById('printingPhoto');
+        const photosContainer = document.getElementById('photosContainer');
+        const flashEffect = document.getElementById('flashEffect');
+        
+        // Array of preloaded photos with captions
+        const preloadedPhotos = [
+            { 
+                src: "https://images.unsplash.com/photo-1506744038136-46273834b3fb", 
+                caption: "Mountain View",
+                desc: "Beautiful mountain landscape at sunrise"
+            },
+            { 
+                src: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308", 
+                caption: "Forest Path",
+                desc: "Sunlight filtering through the trees"
+            },
+            { 
+                src: "https://images.unsplash.com/photo-1501785888041-af3ef285b470", 
+                caption: "Lakeside",
+                desc: "Calm waters reflecting the sky"
+            },
+            { 
+                src: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e", 
+                caption: "Ocean Beach",
+                desc: "Waves crashing on sandy shore"
+            },
+            { 
+                src: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07", 
+                caption: "Flower Field",
+                desc: "Colorful flowers in full bloom"
+            }
+        ];
+        
+        // Display all photos initially (hidden)
+        preloadedPhotos.forEach((photo, index) => {
+            const photoElement = document.createElement('div');
+            photoElement.className = 'photo';
+            photoElement.innerHTML = `
+                <div class="photo-image">
+                    <img src="${photo.src}" alt="${photo.caption}" class="developed">
+                </div>
+                <div class="photo-caption">${photo.caption} • ${photo.desc}</div>
+            `;
+            photosContainer.appendChild(photoElement);
+            
+            // Show photos one by one with delay
+            setTimeout(() => {
+                photoElement.classList.add('visible');
+            }, index * 300);
+        });
+        
+        let currentPhotoIndex = 0;
+        
+        shutterButton.addEventListener('click', function() {
+            // Flash effect
+            flashEffect.classList.add('flash-animation');
+            
+            // Remove flash class after animation completes
+            setTimeout(() => {
+                flashEffect.classList.remove('flash-animation');
+            }, 300);
+            
+            // Select next photo (cycle through)
+            const selectedPhoto = preloadedPhotos[currentPhotoIndex];
+            currentPhotoIndex = (currentPhotoIndex + 1) % preloadedPhotos.length;
+            
+            // Set the photo to print (initially grayscale)
+            printingPhoto.src = selectedPhoto.src;
+            printingPhoto.alt = selectedPhoto.caption;
+            printingPhoto.style.filter = 'grayscale(100%) brightness(0.7)';
+            
+            // Update caption
+            printedPhoto.querySelector('.photo-caption').textContent = selectedPhoto.caption;
+            
+            // Reset printed photo position
+            printedPhoto.style.bottom = '-320px';
+            printedPhoto.classList.remove('printing');
+            
+            // Trigger reflow to restart animation
+            void printedPhoto.offsetWidth;
+            
+            // Start print animation
+            printedPhoto.classList.add('printing');
+            
+            // After paper comes out, start developing effect
+            setTimeout(() => {
+                printingPhoto.style.filter = 'grayscale(0%) brightness(1)';
+                printedPhoto.querySelector('.photo-caption').textContent = 
+                    `${selectedPhoto.caption} • ${selectedPhoto.desc}`;
+            }, 1500);
+            
+            // After development completes, add to photos container
+            setTimeout(() => {
+                printedPhoto.classList.remove('printing');
+            }, 3500);
+        });
+    </script>
+</body>
+</html>
