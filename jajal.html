@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digicam</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+  margin: 0;
+  background-color: #7DA8E8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.camera {
+  width: 220px;
+  position: relative;
+}
+
+.camera-top {
+  background: #fff;
+  padding: 20px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  position: relative;
+  height: 140px;
+}
+
+.lens {
+  width: 60px;
+  height: 60px;
+  background: #222;
+  border: 10px solid #000;
+  border-radius: 50%;
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.flash {
+  width: 20px;
+  height: 20px;
+  background: #222;
+  border-radius: 4px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
+.button {
+  width: 16px;
+  height: 16px;
+  background: #ff4d00;
+  border: 2px solid #c43c0f;
+  border-radius: 50%;
+  position: absolute;
+  left: 20px;
+  top: 60px;
+}
+
+.rainbow {
+  display: flex;
+  position: absolute;
+  top: 105px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 25px;
+  z-index: 2;
+}
+
+.color {
+  width: 5px;
+  height: 100%;
+  margin: 0 1px;
+}
+.red { background: red; }
+.orange { background: orange; }
+.yellow { background: yellow; }
+.blue { background: blue; }
+
+.camera-bottom {
+  background: #222;
+  height: 60px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.slot {
+  width: 100px;
+  height: 10px;
+  background: #111;
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.photo {
+  width: 80px;
+  height: 100px;
+  background: #eee;
+  border: 2px solid #444;
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  animation: eject 2.5s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes eject {
+  0% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) translateY(60px);
+    opacity: 1;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="camera">
+    <div class="camera-top">
+      <div class="flash"></div>
+      <div class="button"></div>
+      <div class="lens"></div>
+      <div class="rainbow">
+        <div class="color red"></div>
+        <div class="color orange"></div>
+        <div class="color yellow"></div>
+        <div class="color blue"></div>
+      </div>
+    </div>
+    <div class="camera-bottom">
+      <div class="slot"></div>
+      <div class="photo"></div>
+    </div>
+  </div>
+</body>
+</html>
