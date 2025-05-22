@@ -1,153 +1,578 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digicam</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-  margin: 0;
-  background-color: #7DA8E8;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Polaroid Camera Printer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #5fc7b2, #3aa38f);
+            margin: 0;
+            padding: 20px 10px;
+            -webkit-text-size-adjust: 100%;
+        }
 
-.camera {
-  width: 220px;
-  position: relative;
-}
+        h1 {
+            font-size: clamp(18px, 5vw, 24px);
+            text-align: center;
+            margin: 0 0 10px 0;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        p {
+            font-size: clamp(14px, 4vw, 16px);
+            text-align: center;
+            margin: 0 0 20px 0;
+            color: white;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+        }
 
-.camera-top {
-  background: #fff;
-  padding: 20px;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  position: relative;
-  height: 140px;
-}
+        .camera-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
 
-.lens {
-  width: 60px;
-  height: 60px;
-  background: #222;
-  border: 10px solid #000;
-  border-radius: 50%;
-  position: absolute;
-  top: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-}
+        .polaroid-camera {
+            width: 100%;
+            height: 200px;
+            background: #f2f2f2;
+            border-radius: 12px;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.4), 
+                        0 0 0 10px #333,
+                        0 0 0 12px #555;
+            position: relative;
+            padding: 15px 0 25px 0;
+        }
 
-.flash {
-  width: 20px;
-  height: 20px;
-  background: #222;
-  border-radius: 4px;
-  position: absolute;
-  right: 20px;
-  top: 20px;
-}
+        .flash {
+            width: 70px;
+            height: 25px;
+            background: white;
+            border: 4px solid #ccc;
+            border-radius: 4px;
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
 
-.button {
-  width: 16px;
-  height: 16px;
-  background: #ff4d00;
-  border: 2px solid #c43c0f;
-  border-radius: 50%;
-  position: absolute;
-  left: 20px;
-  top: 60px;
-}
+        .flash::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
+            border-radius: 2px;
+        }
 
-.rainbow {
-  display: flex;
-  position: absolute;
-  top: 105px;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 25px;
-  z-index: 2;
-}
+        .rainbow-line {
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                #ff0000, #ff8000, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 0;
+            box-shadow: 0 0 5px rgba(0,0,0,0.3);
+        }
 
-.color {
-  width: 5px;
-  height: 100%;
-  margin: 0 1px;
-}
-.red { background: red; }
-.orange { background: orange; }
-.yellow { background: yellow; }
-.blue { background: blue; }
+        .camera-body {
+            position: relative;
+            background: #f8f8f8;
+            padding: 25px 15px 70px 15px;
+            border-radius: 10px;
+            border-bottom: 45px solid #222;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
 
-.camera-bottom {
-  background: #222;
-  height: 60px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  position: relative;
-  overflow: hidden;
-}
+        .camera-body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 15px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.8), transparent);
+            z-index: 1;
+        }
 
-.slot {
-  width: 100px;
-  height: 10px;
-  background: #111;
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 2px;
-}
+        .top-elements {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
 
-.photo {
-  width: 80px;
-  height: 100px;
-  background: #eee;
-  border: 2px solid #444;
-  position: absolute;
-  top: 18px;
-  left: 50%;
-  transform: translateX(-50%) translateY(0);
-  animation: eject 2.5s ease-in-out infinite;
-  z-index: 1;
-}
+        .top-left-slot, .top-right-slot {
+            width: 45px;
+            height: 10px;
+            background: #222;
+            border-radius: 3px;
+            position: relative;
+        }
 
-@keyframes eject {
-  0% {
-    transform: translateX(-50%) translateY(0);
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(-50%) translateY(60px);
-    opacity: 1;
-  }
-}
+        .top-left-slot::after, .top-right-slot::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            background: #444;
+            border-radius: 1px;
+        }
 
-  </style>
+        .lens {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle at 30% 30%, #333, #111);
+            border: 8px solid #999;
+            border-radius: 50%;
+            margin: 15px auto;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4),
+                        inset 0 0 20px rgba(0,0,0,0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .lens:hover {
+            transform: scale(1.05);
+        }
+
+        /* .lens::after {
+            content: '';
+            width: 25px;
+            height: 25px;
+            background: radial-gradient(circle at 30% 30%, #9de0e4, #5cb8c0);
+            border-radius: 50%;
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            box-shadow: 0 0 10px rgba(157, 224, 228, 0.8);
+        } */
+
+        .lens-reflection {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 50%;
+            top: 10px;
+            right: 10px;
+        }
+
+        .flash-circle {
+            width: 25px;
+            height: 25px;
+            background: radial-gradient(circle at 30% 30%, #aef, #7cd);
+            border-radius: 50%;
+            border: 4px solid #333;
+            position: absolute;
+            right: 35px;
+            top: 60px;
+            box-shadow: 0 0 10px rgba(170, 238, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .flash-circle:hover {
+            background: radial-gradient(circle at 30% 30%, #fff, #aef);
+            box-shadow: 0 0 20px rgba(170, 238, 255, 0.8);
+        }
+
+        .flash-circle.active {
+            background: radial-gradient(circle at 30% 30%, #fff, #ff0);
+            box-shadow: 0 0 30px rgba(255, 255, 170, 0.9);
+        }
+
+        .shutter-button {
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle at 30% 30%, #ff4444, #cc0000);
+            border-radius: 50%;
+            position: absolute;
+            left: 30px;
+            top: 120px;
+            border: 3px solid #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            user-select: none;
+            font-size: clamp(10px, 3vw, 12px);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            animation: pulse 1.5s infinite;
+            z-index: 2;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+        }
+
+        .shutter-button:hover {
+            animation: none;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+        }
+
+        .shutter-button:active {
+            transform: scale(0.95);
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+
+        .sensor {
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle at 30% 30%, #333, #000);
+            border-radius: 50%;
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .sensor::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #0f0;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .camera-bottom {
+            position: absolute;
+            bottom: -45px;
+            left: 0;
+            right: 0;
+            height: 45px;
+            background: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .film-slot {
+            width: 180px;
+            height: 15px;
+            background: #111;
+            border-radius: 3px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .film-slot::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 0;
+            right: 0;
+            height: 9px;
+            background: repeating-linear-gradient(to right, 
+                #333, #333 10px, #444 10px, #444 20px);
+        }
+
+        .viewfinder {
+            position: absolute;
+            width: 40px;
+            height: 20px;
+            background: rgba(0,0,0,0.3);
+            border: 2px solid #333;
+            border-radius: 3px;
+            top: 25px;
+            right: 18px;
+        }
+
+        .viewfinder::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 1px;
+        }
+
+        .brand {
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+            color: #333;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+        }
+
+        .counter {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            font-size: 8px;
+            color: #333;
+            background: #ddd;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .photo-output-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto;
+            min-height: 50px;
+        }
+
+        .photo-output {
+            width: 100%;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 2s ease-out;
+            background-color: #f9f9f9;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .photo-strip {
+            width: 100%;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .polaroid-photo {
+            width: 100%;
+            background-color: white;
+            border: 1px solid #eee;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 10px 25px 10px;
+            position: relative;
+        }
+
+        .polaroid-photo img {
+            width: 100%;
+            height: auto;
+            max-height: 60vh;
+            object-fit: contain;
+            filter: grayscale(100%) brightness(0.7);
+            transition: filter 3s ease-in-out;
+        }
+
+        .polaroid-photo:after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            width: 90%;
+            height: 25px;
+            background-color: white;
+        }
+
+        @keyframes flash {
+            0% { opacity: 0; background-color: rgba(255, 255, 255, 0); }
+            10% { opacity: 1; background-color: rgba(255, 255, 255, 0.9); }
+            100% { opacity: 0; background-color: rgba(255, 255, 255, 0); }
+        }
+
+        .flash-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            animation: flash 0.8s linear;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* iPhone 5/SE specific adjustments */
+        @media (max-width: 320px) {
+            .polaroid-camera {
+                border-width: 8px;
+            }
+            .polaroid-photo {
+                padding: 8px 8px 20px 8px;
+            }
+            .photo-strip {
+                gap: 12px;
+                padding: 8px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="camera">
-    <div class="camera-top">
-      <div class="flash"></div>
-      <div class="button"></div>
-      <div class="lens"></div>
-      <div class="rainbow">
-        <div class="color red"></div>
-        <div class="color orange"></div>
-        <div class="color yellow"></div>
-        <div class="color blue"></div>
-      </div>
+    <div class="camera-container">
+        <div class="polaroid-camera">
+            <div class="flash"></div>
+            <div class="rainbow-line"></div>
+            <div class="camera-body">
+                <div class="brand">POLAROID 600</div>
+                <div class="top-elements">
+                    <div class="top-left-slot"></div>
+                    <div class="top-right-slot"></div>
+                </div>
+                <div class="viewfinder"></div>
+                <div class="lens">
+                    <div class="lens-reflection"></div>
+                </div>
+                <div class="shutter-button" id="printButton">SHOOT</div>
+                <div class="flash-circle" id="flashToggle"></div>
+                <div class="sensor"></div>
+                <div class="counter">10</div>
+            </div>
+            <div class="camera-bottom">
+                <div class="film-slot"></div>
+            </div>
+        </div>
     </div>
-    <div class="camera-bottom">
-      <div class="slot"></div>
-      <div class="photo"></div>
+
+    <div class="photo-output-container">
+        <div class="photo-output" id="photoOutput">
+            <div class="photo-strip" id="photoStrip">
+                <!-- Foto akan ditambahkan secara dinamis -->
+            </div>
+        </div>
     </div>
-  </div>
+
+    <div style="height: 20px;"></div> <!-- Small spacer -->
+
+    <script>
+        const printButton = document.getElementById('printButton');
+        const flashToggle = document.getElementById('flashToggle');
+        const photoOutput = document.getElementById('photoOutput');
+        const photoStrip = document.getElementById('photoStrip');
+        const cameraBody = document.querySelector('.camera-body');
+        const counter = document.querySelector('.counter');
+        let photosLeft = 10;
+        let flashOn = false;
+        let isPrinting = false;
+
+        // Flash toggle functionality
+        flashToggle.addEventListener('click', () => {
+            flashOn = !flashOn;
+            flashToggle.classList.toggle('active');
+        });
+
+        function resetCamera() {
+            photoOutput.style.maxHeight = '0';
+            void photoOutput.offsetHeight;
+        }
+
+        function createPhotoElement() {
+            const photoDiv = document.createElement('div');
+            photoDiv.className = 'polaroid-photo';
+            
+            const img = document.createElement('img');
+            img.src = `https://picsum.photos/600/400?random=${Math.floor(Math.random() * 1000)}`;
+            img.alt = 'Polaroid Photo';
+            img.style.filter = 'grayscale(100%) brightness(0.7)';
+            
+            photoDiv.appendChild(img);
+            return photoDiv;
+        }
+
+        function printSinglePhoto() {
+            if (photosLeft <= 0) {
+                alert('No more photos left!');
+                return;
+            }
+            
+            // Flash effect
+            if (flashOn) {
+                const flash = document.createElement('div');
+                flash.className = 'flash-effect';
+                cameraBody.appendChild(flash);
+                
+                setTimeout(() => {
+                    flash.remove();
+                }, 800);
+            }
+            
+            // Decrease photo counter
+            photosLeft--;
+            counter.textContent = photosLeft;
+            
+            // Create new photo
+            const photoElement = createPhotoElement();
+            photoStrip.prepend(photoElement); // Add to top of the strip
+            
+            // Show photos container
+            photoOutput.style.maxHeight = '2000px';
+            
+            // Animate photo development
+            setTimeout(() => {
+                const img = photoElement.querySelector('img');
+                img.style.filter = 'grayscale(0%) brightness(1)';
+            }, 2000);
+        }
+
+        function printPhotos() {
+            if (isPrinting) return;
+            
+            isPrinting = true;
+            printButton.disabled = true;
+            printButton.style.opacity = '0.7';
+            printButton.style.cursor = 'not-allowed';
+            
+            resetCamera();
+            
+            // Print 8 photos with 2 seconds delay between each
+            let count = 0;
+            const interval = setInterval(() => {
+                if (count < 8 && photosLeft > 0) {
+                    printSinglePhoto();
+                    count++;
+                } else {
+                    clearInterval(interval);
+                    isPrinting = false;
+                    printButton.disabled = false;
+                    printButton.style.opacity = '1';
+                    printButton.style.cursor = 'pointer';
+                }
+            }, 2000);
+        }
+
+        // Initialize the camera
+        resetCamera();
+        
+        // Only allow printing by clicking the button
+        printButton.addEventListener('click', printPhotos);
+    </script>
 </body>
 </html>
