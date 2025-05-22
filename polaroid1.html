@@ -543,30 +543,30 @@
         }
 
         function printPhotos() {
-        if (isPrinting) return;
-        
-        isPrinting = true;
-        printButton.disabled = true;
-        
-        resetCamera();
-        
-        // Daftar foto yang tersedia
-        const availablePhotos = 8; // sesuaikan dengan jumlah foto Anda
-        
-        let count = 1;
-        const interval = setInterval(() => {
-            if (count <= availablePhotos && photosLeft > 0) {
-                printSinglePhoto(count);
-                count++;
-                photosLeft--;
-                counter.textContent = photosLeft;
-            } else {
-                clearInterval(interval);
-                isPrinting = false;
-                printButton.disabled = false;
-            }
-        }, 2000);
-    }
+            if (isPrinting) return;
+            
+            isPrinting = true;
+            printButton.disabled = true;
+            printButton.style.opacity = '0.7';
+            printButton.style.cursor = 'not-allowed';
+            
+            resetCamera();
+            
+            // Print 8 photos with 2 seconds delay between each
+            let count = 0;
+            const interval = setInterval(() => {
+                if (count < 8 && photosLeft > 0) {
+                    printSinglePhoto();
+                    count++;
+                } else {
+                    clearInterval(interval);
+                    isPrinting = false;
+                    printButton.disabled = false;
+                    printButton.style.opacity = '1';
+                    printButton.style.cursor = 'pointer';
+                }
+            }, 2000);
+        }
 
         // Initialize the camera
         resetCamera();
