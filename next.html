@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        /* Base Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            font-family: 'Playfair Display', serif;
+            scroll-behavior: smooth;
+        }
+        
+        /* Main Section Styles */
+        .header-section {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        /* Background Ornaments Wrapper */
+        .ornaments-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .ornaments-wrapper.with-bg {
+            z-index: 1;
+        }
+        
+        .ornaments-wrapper.orn-front {
+            z-index: 3;
+        }
+        
+        /* Background Elements */
+        .elements-wrapper-absolute {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .background-element {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .background-element img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Sky Layer */
+        .sky {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 60%;
+        }
+        
+        .sky .image-element {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Mountain Layer */
+        .mountain {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 70%;
+        }
+        
+        .mountain .image-element {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        .mountain .image-element img {
+            width: 100%;
+        }
+        
+        /* Land Layer */
+        .land {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        .land .image-element img {
+            width: 100%;
+        }
+        
+        /* Decorative Elements Positioning */
+        .ampera {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            max-width: 500px;
+            z-index: 2;
+        }
+        
+        .orn-1, .orn-2, .orn-7, .orn-8 {
+            position: absolute;
+            z-index: 2;
+        }
+        
+        .orn-1 {
+            top: 30%;
+            left: 10%;
+            width: 80px;
+        }
+        
+        .orn-2 {
+            top: 25%;
+            right: 15%;
+            width: 60px;
+        }
+        
+        .orn-7 {
+            bottom: 30%;
+            left: 20%;
+            width: 70px;
+        }
+        
+        .orn-8 {
+            bottom: 35%;
+            right: 25%;
+            width: 50px;
+        }
+        
+        /* Foreground Elements */
+        .rumah {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40%;
+            max-width: 400px;
+            z-index: 4;
+        }
+        
+        .ornament-left {
+            position: absolute;
+            bottom: 25%;
+            left: 5%;
+            width: 80px;
+            z-index: 4;
+        }
+        
+        .ornament-right {
+            position: absolute;
+            bottom: 25%;
+            right: 5%;
+            width: 80px;
+            z-index: 4;
+            transform: scaleX(-1);
+        }
+        
+        .orn-3, .orn-4, .orn-5, .orn-6 {
+            position: absolute;
+            z-index: 4;
+        }
+        
+        .orn-3 {
+            bottom: 20%;
+            left: 15%;
+            width: 40px;
+        }
+        
+        .orn-4 {
+            bottom: 18%;
+            left: 20%;
+            width: 30px;
+        }
+        
+        .orn-5 {
+            bottom: 22%;
+            right: 18%;
+            width: 35px;
+        }
+        
+        .orn-6 {
+            bottom: 18%;
+            right: 15%;
+            width: 45px;
+        }
+        
+        /* Content Styling */
+        .container {
+            position: relative;
+            height: 100%;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+        }
+        
+        .header-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            filter: blur(20px);
+            z-index: -1;
+        }
+        
+        .brand-name {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: 5px;
+        }
+        
+        .brand-name .man {
+            color: #f8d7da;
+        }
+        
+        .brand-name .woman {
+            color: #d1ecf1;
+        }
+        
+        .title {
+            font-size: 3.5rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .title span {
+            font-weight: 300;
+            margin: 0 10px;
+        }
+        
+        /* Scroll Indicator */
+        .scroll-icon {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .mouse_scroll {
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .m_scroll_arrows {
+            display: block;
+            width: 5px;
+            height: 5px;
+            transform: rotate(45deg);
+            border-right: 2px solid white;
+            border-bottom: 2px solid white;
+            margin: 0 0 3px 4px;
+            animation: mouse-scroll 1s infinite;
+        }
+        
+        .m_scroll_arrows:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .m_scroll_arrows:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes mouse-scroll {
+            0% { opacity: 0; transform: rotate(45deg) translate(0, 0); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: rotate(45deg) translate(5px, 5px); }
+        }
+        
+        /* Animation Classes */
+        .has-animate {
+            opacity: 0;
+        }
+        
+        .animate-loop {
+            animation-iteration-count: infinite;
+        }
+        
+        /* Animation Keyframes */
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slide-left {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes zoom-out {
+            from { opacity: 0; transform: scale(1.2); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fade-down {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes rotate-left {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(5deg); }
+            100% { transform: rotate(0deg); }
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .brand-name {
+                font-size: 3.5rem;
+            }
+            
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .ampera {
+                width: 80%;
+            }
+            
+            .rumah {
+                width: 60%;
+            }
+            
+            .orn-1, .orn-2, .orn-7, .orn-8 {
+                width: 50px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .brand-name {
+                font-size: 2.5rem;
+            }
+            
+            .title {
+                font-size: 1.8rem;
+            }
+            
+            .header-bg {
+                width: 200px;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="header-section main-section">
+        <div class="ornaments-wrapper overflow-hidden">
+            <div class="ornaments-wrapper with-bg has-animate" data-anim="zoom-out" data-load-animation="true">
+                <div class="elements-wrapper-absolute">
+                    <div class="background-element">
+                        <img src="https://images.unsplash.com/photo-1515463138280-67d1dcbf317f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="texture">
+                    </div>
+                </div>
+                <div class="sky">
+                    <div class="image-element">
+                        <img src="https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="sky" class="img-fluid">
+                    </div>
+                </div>
+                <div class="mountain">
+                    <div class="ampera">
+                        <div class="image-element has-animate" data-anim="slide-up" data-load-animation="true">
+                            <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="ampera" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="orn-1">
+                        <div class="image-element">
+                            <img src="https://www.freepnglogos.com/uploads/tree-png/tree-png-transparent-images-png-only-28.png" alt="tree-1" class="img-fluid animate-loop has-animate" data-anim="rotate-left" data-load-animation="true">
+                        </div>
+                    </div>
+                    <div class="orn-2">
+                        <div class="image-element">
+                            <img src="https://www.freepnglogos.com/uploads/tree-png/tree-png-transparent-images-png-only-28.png" alt="tree-2" class="img-fluid animate-loop has-animate" data-anim="rotate-left" data-load-animation="true">
+                        </div>
+                    </div>
+                    <div class="orn-7">
+                        <div class="image-element has-animate" data-anim="slide-up" data-load-animation="true">
+                            <img src="https://www.freepnglogos.com/uploads/tree-png/tree-png-transparent-images-png-only-28.png" alt="tree-1" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="orn-8 has-animate" data-anim="slide-up" data-load-animation="true">
+                        <div class="image-element">
+                            <img src="https://www.freepnglogos.com/uploads/tree-png/tree-png-transparent-images-png-only-28.png" alt="tree-1" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="image-element has-animate" data-anim="slide-left" data-load-animation="true">
+                        <img src="https://images.unsplash.com/photo-1455156218388-5e61b526818b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="mountain" class="img-fluid">
+                    </div>
+                    <div class="land">
+                        <div class="image-element has-animate" data-anim="slide-left" data-load-animation="true">
+                            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="land" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ornaments-wrapper orn-front overflow-hidden">
+            <div class="ornaments-wrapper has-animate" data-anim="zoom-out" data-anim-duration="4500ms" style="animation-duration: 4500ms;" data-load-animation="true">
+                <div class="rumah">
+                    <div class="image-element">
+                        <img src="https://i.pinimg.com/originals/0e/1d/3b/0e1d3b9b9b9b9b9b9b9b9b9b9b9b9b9.png" alt="traditional house" class="img-fluid">
+                    </div>
+                </div>
+                <div class="ornament ornament-left">
+                    <div class="image-element">
+                        <img src="https://www.freepnglogos.com/uploads/bamboo-png/bamboo-png-transparent-png-stickpng-31.png" alt="bamboo" class="img-fluid">
+                    </div>
+                </div>
+                <div class="ornament ornament-right">
+                    <div class="image-element">
+                        <img src="https://www.freepnglogos.com/uploads/bamboo-png/bamboo-png-transparent-png-stickpng-31.png" alt="bamboo" class="img-fluid">
+                    </div>
+                </div>
+                <div class="orn-3">
+                    <div class="image-element">
+                        <img src="https://www.freepnglogos.com/uploads/lotus-flower-png/lotus-flower-transparent-png-stickpng-0.png" alt="lotus-1" class="img-fluid animate-loop has-animate" data-anim="rotate-left" data-load-animation="true">
+                    </div>
+                    <div class="orn-4">
+                        <div class="image-element">
+                            <img src="https://www.freepnglogos.com/uploads/lotus-flower-png/lotus-flower-png-transparent-images-png-only-22.png" alt="lotus-2" class="img-fluid animate-loop has-animate" data-anim="rotate-left" data-load-animation="true">
+                        </div>
+                    </div>
+                    <div class="orn-5">
+                        <div class="image-element">
+                            <img src="https://www.freepnglogos.com/uploads/rose-png/rose-png-transparent-images-png-only-22.png" alt="rose" class="img-fluid animate-loop has-animate" data-anim="rotate-left" data-load-animation="true">
+                        </div>
+                    </div>
+                </div>
+                <div class="orn-6">
+                    <div class="image-element">
+                        <img src="https://www.freepnglogos.com/uploads/rose-png/rose-png-transparent-images-png-only-22.png" alt="rose" class="img-fluid animate-loop has-animate" data-anim="rotate-left" data-load-animation="true">
+                    </div>
+                    <div class="orn-5">
+                        <div class="image-element">
+                            <img src="https://www.freepnglogos.com/uploads/lotus-flower-png/lotus-flower-transparent-png-stickpng-0.png" alt="lotus-1" class="img-fluid animate-loop has-animate" data-anim="rotate-left" data-load-animation="true">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="header-content">
+                <div class="header color-primary">
+                    <div class="header-bg has-animate" data-anim="slide-up" data-load-animation="true"></div>
+                    <div class="header-title">
+                        <div class="header-title-content has-animate" data-anim="zoom-out" data-anim-delay="2500" data-load-animation="true">
+                            <div class="brand-name">
+                                <span class="man">A</span>
+                                <span class="woman custom">A</span>
+                            </div>
+                            <h1 class="title mb-3">Atirah <span>&amp;</span> Afif</h1>
+                            <div class="scroll-icon">
+                                <div class="mouse_scroll has-animate" data-anim="fade-down" data-load-animation="true">
+                                    <div>
+                                        <span class="m_scroll_arrows unu"></span>
+                                        <span class="m_scroll_arrows doi"></span>
+                                        <span class="m_scroll_arrows trei"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation trigger function
+            function animateElements() {
+                const elements = document.querySelectorAll('.has-animate');
+                
+                elements.forEach(element => {
+                    const animType = element.getAttribute('data-anim');
+                    const animDuration = element.getAttribute('data-anim-duration') || '1000ms';
+                    const animDelay = element.getAttribute('data-anim-delay') || '0';
+                    const shouldAnimate = element.getAttribute('data-load-animation') === 'true';
+                    
+                    if (shouldAnimate) {
+                        element.style.animation = `${animType} ${animDuration} ease-out ${animDelay} forwards`;
+                    }
+                });
+            }
+            
+            // Intersection Observer for scroll animations
+            function setupIntersectionObserver() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const animType = entry.target.getAttribute('data-anim');
+                            const animDuration = entry.target.getAttribute('data-anim-duration') || '1000ms';
+                            const animDelay = entry.target.getAttribute('data-anim-delay') || '0';
+                            
+                            entry.target.style.animation = `${animType} ${animDuration} ease-out ${animDelay} forwards`;
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                
+                document.querySelectorAll('[data-anim]').forEach(el => {
+                    observer.observe(el);
+                });
+            }
+            
+            // Initialize animations
+            animateElements();
+            setupIntersectionObserver();
+            
+            // Infinite loop animations
+            const loopElements = document.querySelectorAll('.animate-loop');
+            loopElements.forEach(el => {
+                const animType = el.getAttribute('data-anim');
+                const animDuration = el.getAttribute('data-anim-duration') || '3000ms';
+                
+                el.style.animation = `${animType} ${animDuration} ease-in-out infinite`;
+            });
+        });
+    </script>
+</body>
+</html>
