@@ -502,7 +502,9 @@
             border-radius: 10px;
             width: 90%;
             max-width: 500px;
-            padding: 25px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
             transform: translateY(-20px);
             transition: transform 0.3s ease;
@@ -516,9 +518,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            padding: 20px 25px 15px;
             border-bottom: 1px solid #eee;
+            flex-shrink: 0;
         }
 
         .modal-title {
@@ -538,6 +540,12 @@
 
         .modal-close:hover {
             color: var(--pink-dark);
+        }
+
+        .modal-body {
+            padding: 0 25px;
+            overflow-y: auto;
+            flex-grow: 1;
         }
 
         .form-group {
@@ -570,11 +578,13 @@
             resize: vertical;
         }
 
-        .form-actions {
+        .modal-footer {
+            padding: 15px 25px 20px;
+            border-top: 1px solid #eee;
             display: flex;
             justify-content: flex-end;
             gap: 10px;
-            margin-top: 20px;
+            flex-shrink: 0;
         }
 
         .btn-cancel {
@@ -665,49 +675,50 @@
                 <h3 class="modal-title" id="modalProductTitle">Form Pemesanan</h3>
                 <button class="modal-close" id="modalClose">&times;</button>
             </div>
-            <form id="orderForm">
-                <input type="hidden" id="productType" name="productType">
-                
-                <div class="form-group">
-                    <label for="recipientName" class="form-label">Nama Penerima</label>
-                    <input type="text" id="recipientName" name="recipientName" class="form-input" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="senderName" class="form-label">Nama Pengirim</label>
-                    <input type="text" id="senderName" name="senderName" class="form-input" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="message" class="form-label">Pesan</label>
-                    <textarea id="message" name="message" class="form-input form-textarea" placeholder="(sesuaikan dengan kebutuhan)" required></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="photos" class="form-label">Foto</label>
-                    <input type="text" id="photos" name="photos" class="form-input" placeholder="Link drive atau disusulkan di WA">
-                </div>
-                
-                <div class="form-group">
-                    <label for="websiteName" class="form-label">Nama Website</label>
-                    <input type="text" id="websiteName" name="websiteName" class="form-input" placeholder="(request tergantung ketersediaan)">
-                </div>
-                
-                <div class="form-group">
-                    <label for="song" class="form-label">Lagu</label>
-                    <input type="text" id="song" name="song" class="form-input" placeholder="Request lagu yang diinginkan">
-                </div>
-                
-                <div class="form-group">
-                    <label for="additionalRequest" class="form-label">Request Tambahan</label>
-                    <textarea id="additionalRequest" name="additionalRequest" class="form-input form-textarea" placeholder="Jika ada request bisa disampaikan!"></textarea>
-                </div>
-                
-                <div class="form-actions">
-                    <button type="button" class="btn btn-cancel" id="cancelOrder">Batal</button>
-                    <button type="submit" class="btn btn-submit">Kirim ke WhatsApp</button>
-                </div>
-            </form>
+            <div class="modal-body">
+                <form id="orderForm">
+                    <input type="hidden" id="productType" name="productType">
+                    
+                    <div class="form-group">
+                        <label for="recipientName" class="form-label">Nama Penerima</label>
+                        <input type="text" id="recipientName" name="recipientName" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="senderName" class="form-label">Nama Pengirim</label>
+                        <input type="text" id="senderName" name="senderName" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message" class="form-label">Pesan</label>
+                        <textarea id="message" name="message" class="form-input form-textarea" placeholder="(sesuaikan dengan kebutuhan)" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="photos" class="form-label">Foto</label>
+                        <input type="text" id="photos" name="photos" class="form-input" placeholder="Link drive atau disusulkan di WA">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="websiteName" class="form-label">Nama Website</label>
+                        <input type="text" id="websiteName" name="websiteName" class="form-input" placeholder="(request tergantung ketersediaan)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="song" class="form-label">Lagu</label>
+                        <input type="text" id="song" name="song" class="form-input" placeholder="Request lagu yang diinginkan">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="additionalRequest" class="form-label">Request Tambahan</label>
+                        <textarea id="additionalRequest" name="additionalRequest" class="form-input form-textarea" placeholder="Jika ada request bisa disampaikan!"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-cancel" id="cancelOrder">Batal</button>
+                <button type="submit" class="btn btn-submit" form="orderForm">Kirim ke WhatsApp</button>
+            </div>
         </div>
     </div>
 
@@ -744,12 +755,14 @@
                 document.getElementById('modalProductTitle').textContent = `Form Pemesanan ${productName}`;
                 document.getElementById('productType').value = productType;
                 orderModal.classList.add('active');
+                
+                // Reset form
+                orderForm.reset();
             }
             
             // Function to close modal
             function closeModal() {
                 orderModal.classList.remove('active');
-                orderForm.reset();
             }
             
             // Event listeners for modal
