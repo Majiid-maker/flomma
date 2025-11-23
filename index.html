@@ -277,13 +277,10 @@
             }
         }
 
-
         /* Greetzza Credit Section - Minimal */
         .credit-section {
             padding: 30px 20px;
             text-align: center;
-            /* background-color: #fafafa;
-            border-top: 1px solid #eee; */
         }
         
         .credit-container {
@@ -324,7 +321,6 @@
         .ig-link i {
             font-size: 1.2rem;
         }
-
 
         .tutorial-section {
             width: 100%;
@@ -478,6 +474,127 @@
                 text-align: left;
             }
         }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--pink-dark);
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--pink-dark);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--pink-medium);
+        }
+
+        .form-textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-cancel {
+            background-color: var(--beige-medium);
+            color: var(--text-dark);
+        }
+
+        .btn-cancel:hover {
+            background-color: var(--beige-dark);
+        }
+
+        .btn-submit {
+            background-color: var(--pink-medium);
+            color: var(--text-dark);
+        }
+
+        .btn-submit:hover {
+            background-color: var(--pink-dark);
+            color: white;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -487,23 +604,13 @@
         <div class="logo">Flomma Flower</div>
         <div class="tagline">Spread Your Love With Flomma</div>
     </header>
-<!-- <nav>
-        <ul>
-            <li><a href="#">Beranda</a></li>
-            <li><a href="#">Katalog</a></li>
-            <li><a href="#">Kategori</a></li>
-            <li><a href="#">Tentang Kami</a></li>
-            <li><a href="#">Kontak</a></li>
-        </ul>
-    </nav> -->
 
-     <section class="tutorial-section">
+    <section class="tutorial-section">
         <!-- Gallery Slider Mobile -->
         <div class="gallery-slider">
             <img src="gambar/home1.png" alt="Bucket Bunga 1">
             <img src="gambar/home2.png" alt="Bucket Bunga 2">
             <img src="gambar/home3.png" alt="Bucket Bunga 3">
-            <!-- <img src="https://via.placeholder.com/600x220/E75480/FFFFFF?text=Bucket+Bunga+4" alt="Bucket Bunga 4"> -->
         </div>
         
         <h2 class="section-title">Cara Memesan</h2>
@@ -551,6 +658,59 @@
         </div>
     </section>
 
+    <!-- Modal Form Pemesanan -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalProductTitle">Form Pemesanan</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <form id="orderForm">
+                <input type="hidden" id="productType" name="productType">
+                
+                <div class="form-group">
+                    <label for="recipientName" class="form-label">Nama Penerima</label>
+                    <input type="text" id="recipientName" name="recipientName" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="senderName" class="form-label">Nama Pengirim</label>
+                    <input type="text" id="senderName" name="senderName" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message" class="form-label">Pesan</label>
+                    <textarea id="message" name="message" class="form-input form-textarea" placeholder="(sesuaikan dengan kebutuhan)" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="photos" class="form-label">Foto</label>
+                    <input type="text" id="photos" name="photos" class="form-input" placeholder="Link drive atau disusulkan di WA">
+                </div>
+                
+                <div class="form-group">
+                    <label for="websiteName" class="form-label">Nama Website</label>
+                    <input type="text" id="websiteName" name="websiteName" class="form-input" placeholder="(request tergantung ketersediaan)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="song" class="form-label">Lagu</label>
+                    <input type="text" id="song" name="song" class="form-input" placeholder="Request lagu yang diinginkan">
+                </div>
+                
+                <div class="form-group">
+                    <label for="additionalRequest" class="form-label">Request Tambahan</label>
+                    <textarea id="additionalRequest" name="additionalRequest" class="form-input form-textarea" placeholder="Jika ada request bisa disampaikan!"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-cancel" id="cancelOrder">Batal</button>
+                    <button type="submit" class="btn btn-submit">Kirim ke WhatsApp</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // Animasi untuk langkah-langkah
         document.addEventListener('DOMContentLoaded', function() {
@@ -572,6 +732,68 @@
             // Jalankan saat load dan scroll
             checkVisibility();
             window.addEventListener('scroll', checkVisibility);
+            
+            // Modal functionality
+            const orderModal = document.getElementById('orderModal');
+            const modalClose = document.getElementById('modalClose');
+            const cancelOrder = document.getElementById('cancelOrder');
+            const orderForm = document.getElementById('orderForm');
+            
+            // Function to open modal
+            window.openOrderModal = function(productName, productType) {
+                document.getElementById('modalProductTitle').textContent = `Form Pemesanan ${productName}`;
+                document.getElementById('productType').value = productType;
+                orderModal.classList.add('active');
+            }
+            
+            // Function to close modal
+            function closeModal() {
+                orderModal.classList.remove('active');
+                orderForm.reset();
+            }
+            
+            // Event listeners for modal
+            modalClose.addEventListener('click', closeModal);
+            cancelOrder.addEventListener('click', closeModal);
+            
+            // Close modal when clicking outside
+            orderModal.addEventListener('click', function(e) {
+                if (e.target === orderModal) {
+                    closeModal();
+                }
+            });
+            
+            // Form submission
+            orderForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const productType = document.getElementById('productType').value;
+                const recipientName = document.getElementById('recipientName').value;
+                const senderName = document.getElementById('senderName').value;
+                const message = document.getElementById('message').value;
+                const photos = document.getElementById('photos').value;
+                const websiteName = document.getElementById('websiteName').value;
+                const song = document.getElementById('song').value;
+                const additionalRequest = document.getElementById('additionalRequest').value;
+                
+                // Create WhatsApp message
+                let whatsappMessage = `Form Kebutuhan Greeting Card ${productType} :%0A%0A`;
+                whatsappMessage += `Nama Penerima : ${recipientName}%0A`;
+                whatsappMessage += `Nama Pengirim : ${senderName}%0A`;
+                whatsappMessage += `Pesan : ${message}%0A`;
+                whatsappMessage += `Foto : ${photos || 'Akan disusulkan di WA'}%0A`;
+                whatsappMessage += `Nama website : ${websiteName || '(request tergantung ketersediaan)'}%0A`;
+                whatsappMessage += `Lagu : ${song || '-'}%0A`;
+                whatsappMessage += `Request Tambahan : ${additionalRequest || '-'}%0A%0A`;
+                whatsappMessage += `Free request lagu dan domain (tergantung ketersediaan)!%0AJika ada request bisa disampaikan!`;
+                
+                // Open WhatsApp
+                window.open(`https://wa.me/6287746110370?text=${whatsappMessage}`, '_blank');
+                
+                // Close modal
+                closeModal();
+            });
         });
     </script>
 
@@ -591,7 +813,6 @@
         <h1 class="page-title">Greeting Card</h1>
 
         <div class="products-grid">
-
             <!-- Product 4 -->
             <div class="product-card">
                 <div class="product-image">
@@ -604,16 +825,7 @@
                     <div class="product-price">Rp 15.000</div>
                     <div class="product-actions">
                         <a href="wisuda.html" class="btn btn-beige">Preview</a>
-                        <!-- <button class="btn btn-pink">Beli Sekarang</button> -->
-                        <button id="waButton4" class="btn btn-pink">
-                        Beli Sekarang
-                        </button>
-
-                        <script>
-                        document.getElementById('waButton4').addEventListener('click', function () {
-                            window.open('https://wa.me/6287746110370?text=Form%20Kebutuhan%20Greeting%20Card%20Graduation%20:%0A%0ANama%20Penerima%20%3A%20%0ANama%20Pengirim%20%3A%20%0APesan%20%3A%20(sesuaikan%20dengan%20kebutuhan)%0AFoto%20%3A%20(link%20drive%20jika%20%3E4%20foto)%0ANama%20website%20%3A%20flomma%20(maka%20akan%20menjadi%20https%3A%2F%2Fflomma.netlify.app%2F)%0AAdd%20on%20%3A%20%0A%0AFree%20request%20lagu%20dan%20domain%20(tergantung%20ketersediaan)!%0AJika%20ada%20request%20bisa%20disampaikan!', '_blank');
-                        });
-                        </script>
+                        <button class="btn btn-pink" onclick="openOrderModal('Graduation', 'Graduation')">Beli Sekarang</button>
                     </div>
                 </div>
             </div>
@@ -630,16 +842,7 @@
                     <div class="product-price">Rp 15.000</div>
                     <div class="product-actions">
                         <a href="hero.html" class="btn btn-beige">Preview</a>
-                        <!-- <button class="btn btn-pink">Beli Sekarang</button> -->
-                        <button id="waButton8" class="btn btn-pink">
-                        Beli Sekarang
-                        </button>
-
-                        <script>
-                        document.getElementById('waButton8').addEventListener('click', function () {
-                            window.open('https://wa.me/6287746110370?text=Form%20Kebutuhan%20Greeting%20Card%20Vinyl%20:%0A%0ANama%20Penerima%20%3A%20%0ANama%20Pengirim%20%3A%20%0APesan%20%3A%20(sesuaikan%20dengan%20kebutuhan)%0AFoto%20%3A%20(link%20drive%20jika%20%3E4%20foto)%0ANama%20website%20%3A%20flomma%20(maka%20akan%20menjadi%20https%3A%2F%2Fflomma.netlify.app%2F)%0AAdd%20on%20%3A%20%0A%0AFree%20request%20lagu%20dan%20domain%20(tergantung%20ketersediaan)!%0AJika%20ada%20request%20bisa%20disampaikan!', '_blank');
-                        });
-                        </script>
+                        <button class="btn btn-pink" onclick="openOrderModal('Vinyl', 'Vinyl')">Beli Sekarang</button>
                     </div>
                 </div>
             </div>
@@ -655,16 +858,7 @@
                     <div class="product-price">Rp 15.000</div>
                     <div class="product-actions">
                         <a href="botol.html" class="btn btn-beige">Preview</a>
-                        <!-- <button class="btn btn-pink">Beli Sekarang</button> -->
-                        <button id="waButton9" class="btn btn-pink">
-                        Beli Sekarang
-                        </button>
-
-                        <script>
-                        document.getElementById('waButton9').addEventListener('click', function () {
-                            window.open('https://wa.me/6287746110370?text=Form%20Kebutuhan%20Greeting%20Card%20Bottle%20:%0A%0ANama%20Penerima%20%3A%20%0ANama%20Pengirim%20%3A%20%0APesan%20%3A%20(sesuaikan%20dengan%20kebutuhan)%0AFoto%20%3A%20(link%20drive%20jika%20%3E4%20foto)%0ANama%20website%20%3A%20flomma%20(maka%20akan%20menjadi%20https%3A%2F%2Fflomma.netlify.app%2F)%0AAdd%20on%20%3A%20%0A%0AFree%20request%20lagu%20dan%20domain%20(tergantung%20ketersediaan)!%0AJika%20ada%20request%20bisa%20disampaikan!', '_blank');
-                        });
-                        </script>
+                        <button class="btn btn-pink" onclick="openOrderModal('Message In A Bottle', 'Bottle')">Beli Sekarang</button>
                     </div>
                 </div>
             </div>
@@ -678,19 +872,10 @@
                 <div class="product-info">
                     <h3 class="product-title">Pastel Color</h3>
                     <p class="product-description">Kartu ucapan lucu dengan warna-warna pastel.</p>
-                    <div class="product-price">Rp 15.000</div>
+                    <div class="product-price">Rp 10.000</div>
                     <div class="product-actions">
                         <a href="pastel.html" class="btn btn-beige">Preview</a>
-                        <!-- <button class="btn btn-pink">Beli Sekarang</button> -->
-                        <button id="waButton" class="btn btn-pink">
-                        Beli Sekarang
-                        </button>
-
-                        <script>
-                        document.getElementById('waButton').addEventListener('click', function () {
-                            window.open('https://wa.me/6287746110370?text=Form%20Kebutuhan%20Greeting%20Card%20Pastel%20Color%0A%0ANama%20Penerima%20%3A%20%0ANama%20Pengirim%20%3A%20%0APesan%20%3A%20(sesuaikan%20dengan%20kebutuhan)%0AFoto%20%3A%20(link%20drive%20jika%20%3E4%20foto)%0ANama%20website%20%3A%20flomma%20(maka%20akan%20menjadi%20https%3A%2F%2Fflomma.netlify.app%2F)%0AAdd%20on%20%3A%20%0A%0AFree%20request%20lagu%20dan%20domain%20(tergantung%20ketersediaan)!%0AJika%20ada%20request%20bisa%20disampaikan!', '_blank');
-                        });
-                        </script>
+                        <button class="btn btn-pink" onclick="openOrderModal('Pastel Color', 'Pastel Color')">Beli Sekarang</button>
                     </div>
                     <div class="product-actions">
                         <a href="pastelfoto.html" class="btn btn-beige">Add on Gallery</a>
@@ -707,19 +892,10 @@
                 <div class="product-info">
                     <h3 class="product-title">Monokrom</h3>
                     <p class="product-description">Kartu ucapan selamat dengan tema monokrom.</p>
-                    <div class="product-price">Rp 15.000</div>
+                    <div class="product-price">Rp 10.000</div>
                     <div class="product-actions">
                         <a href="mamba.html" class="btn btn-beige">Preview</a>
-                        <!-- <button class="btn btn-pink">Beli Sekarang</button> -->
-                        <button id="waButton1" class="btn btn-pink">
-                        Beli Sekarang
-                        </button>
-
-                        <script>
-                        document.getElementById('waButton1').addEventListener('click', function () {
-                            window.open('https://wa.me/6287746110370?text=Form%20Kebutuhan%20Greeting%20Card%20Monokrom%20:%0A%0ANama%20Penerima%20%3A%20%0ANama%20Pengirim%20%3A%20%0APesan%20%3A%20(sesuaikan%20dengan%20kebutuhan)%0AFoto%20%3A%20(link%20drive%20jika%20%3E4%20foto)%0ANama%20website%20%3A%20flomma%20(maka%20akan%20menjadi%20https%3A%2F%2Fflomma.netlify.app%2F)%0AAdd%20on%20%3A%20%0A%0AFree%20request%20lagu%20dan%20domain%20(tergantung%20ketersediaan)!%0AJika%20ada%20request%20bisa%20disampaikan!', '_blank');
-                        });
-                        </script>
+                        <button class="btn btn-pink" onclick="openOrderModal('Monokrom', 'Monokrom')">Beli Sekarang</button>
                     </div>
                     <div class="product-actions">
                         <a href="mambafoto2.html" class="btn btn-beige">Add on Gallery</a>
@@ -736,19 +912,10 @@
                 <div class="product-info">
                     <h3 class="product-title">Gold</h3>
                     <p class="product-description">Kartu ucapan dengan desain elegan dan kemasan premium.</p>
-                    <div class="product-price">Rp 15.000</div>
+                    <div class="product-price">Rp 10.000</div>
                     <div class="product-actions">
                         <a href="gold.html" class="btn btn-beige">Preview</a>
-                        <!-- <button class="btn btn-pink">Beli Sekarang</button> -->
-                        <button id="waButton2" class="btn btn-pink">
-                        Beli Sekarang
-                        </button>
-
-                        <script>
-                        document.getElementById('waButton2').addEventListener('click', function () {
-                            window.open('https://wa.me/6287746110370?text=Form%20Kebutuhan%20Greeting%20Card%20Gold%20:%0A%0ANama%20Penerima%20%3A%20%0ANama%20Pengirim%20%3A%20%0APesan%20%3A%20(sesuaikan%20dengan%20kebutuhan)%0AFoto%20%3A%20(link%20drive%20jika%20%3E4%20foto)%0ANama%20website%20%3A%20flomma%20(maka%20akan%20menjadi%20https%3A%2F%2Fflomma.netlify.app%2F)%0AAdd%20on%20%3A%20%0A%0AFree%20request%20lagu%20dan%20domain%20(tergantung%20ketersediaan)!%0AJika%20ada%20request%20bisa%20disampaikan!', '_blank');
-                        });
-                        </script>
+                        <button class="btn btn-pink" onclick="openOrderModal('Gold', 'Gold')">Beli Sekarang</button>
                     </div>
                     <div class="product-actions">
                         <a href="goldfoto.html" class="btn btn-beige">Add on Gallery</a>
@@ -764,19 +931,10 @@
                 <div class="product-info">
                     <h3 class="product-title">Envelope</h3>
                     <p class="product-description">Surat yang menampilkan kertas berisi ucapan dan lagu.</p>
-                    <div class="product-price">Rp 15.000</div>
+                    <div class="product-price">Rp 10.000</div>
                     <div class="product-actions">
                         <a href="envelope.html" class="btn btn-beige">Preview</a>
-                        <!-- <button class="btn btn-pink">Beli Sekarang</button> -->
-                        <button id="waButton3" class="btn btn-pink">
-                        Beli Sekarang
-                        </button>
-
-                        <script>
-                        document.getElementById('waButton3').addEventListener('click', function () {
-                            window.open('https://wa.me/6287746110370?text=Form%20Kebutuhan%20Greeting%20Card%20Envelope%20:%0A%0ANama%20Penerima%20%3A%20%0ANama%20Pengirim%20%3A%20%0APesan%20%3A%20(sesuaikan%20dengan%20kebutuhan)%0AFoto%20%3A%20(link%20drive%20jika%20%3E4%20foto)%0ANama%20website%20%3A%20flomma%20(maka%20akan%20menjadi%20https%3A%2F%2Fflomma.netlify.app%2F)%0AAdd%20on%20%3A%20%0A%0AFree%20request%20lagu%20dan%20domain%20(tergantung%20ketersediaan)!%0AJika%20ada%20request%20bisa%20disampaikan!', '_blank');
-                        });
-                        </script>
+                        <button class="btn btn-pink" onclick="openOrderModal('Envelope', 'Envelope')">Beli Sekarang</button>
                     </div>
                     <div class="product-actions">
                         <a href="envelopefoto.html" class="btn btn-beige">Add on Gallery</a>
@@ -792,19 +950,10 @@
                 <div class="product-info">
                     <h3 class="product-title">Black & White</h3>
                     <p class="product-description">Kartu ucapan dengan desain minimalis yang modern dan elegan.</p>
-                    <div class="product-price">Rp 15.000</div>
+                    <div class="product-price">Rp 5.000</div>
                     <div class="product-actions">
                         <a href="bnw.html" class="btn btn-beige">Preview</a>
-                        <!-- <button class="btn btn-pink">Beli Sekarang</button> -->
-                        <button id="waButton5" class="btn btn-pink">
-                        Beli Sekarang
-                        </button>
-
-                        <script>
-                        document.getElementById('waButton5').addEventListener('click', function () {
-                            window.open('https://wa.me/6287746110370?text=Form%20Kebutuhan%20Greeting%20Card%20Black%20White%0A%0ANama%20Penerima%20%3A%20%0ANama%20Pengirim%20%3A%20%0APesan%20%3A%20(sesuaikan%20dengan%20kebutuhan)%0AFoto%20%3A%20(link%20drive%20jika%20%3E4%20foto)%0ANama%20website%20%3A%20flomma%20(maka%20akan%20menjadi%20https%3A%2F%2Fflomma.netlify.app%2F)%0AAdd%20on%20%3A%20%0A%0AFree%20request%20lagu%20dan%20domain%20(tergantung%20ketersediaan)!%0AJika%20ada%20request%20bisa%20disampaikan!', '_blank');
-                        });
-                        </script>
+                        <button class="btn btn-pink" onclick="openOrderModal('Black & White', 'Black White')">Beli Sekarang</button>
                     </div>
                 </div>
             </div>
@@ -818,29 +967,22 @@
                 <div class="product-info">
                     <h3 class="product-title">Gift Box</h3>
                     <p class="product-description">Hadiah ucapan selamat untuk merayakan kegembiraan dengan sebuah lagu .</p>
-                    <div class="product-price">Rp 15.000</div>
+                    <div class="product-price">Rp 10.000</div>
                     <div class="product-actions">
                         <a href="gift.html" class="btn btn-beige">Preview</a>
-                        <!-- <button class="btn btn-pink">Beli Sekarang</button> -->
-                        <button id="waButton6" class="btn btn-pink">
-                        Beli Sekarang
-                        </button>
-
-                        <script>
-                        document.getElementById('waButton6').addEventListener('click', function () {
-                            window.open('https://wa.me/6287746110370?text=Form%20Kebutuhan%20Greeting%20Card%20Gift%20Box%0A%0ANama%20Penerima%20%3A%20%0ANama%20Pengirim%20%3A%20%0APesan%20%3A%20(sesuaikan%20dengan%20kebutuhan)%0AFoto%20%3A%20(link%20drive%20jika%20%3E4%20foto)%0ANama%20website%20%3A%20flomma%20(maka%20akan%20menjadi%20https%3A%2F%2Fflomma.netlify.app%2F)%0AAdd%20on%20%3A%20%0A%0AFree%20request%20lagu%20dan%20domain%20(tergantung%20ketersediaan)!%0AJika%20ada%20request%20bisa%20disampaikan!', '_blank');
-                        });
-                        </script>
+                        <button class="btn btn-pink" onclick="openOrderModal('Gift Box', 'Gift Box')">Beli Sekarang</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-<!--     <div class="container">
+    <!-- Sisa kode untuk bagian Invitation dan Add On tetap sama -->
+    <div class="container">
         <h1 class="page-title">Invitation</h1>
 
-        <div class="products-grid"> 
+        <div class="products-grid">
+            <!-- Product 1 -->
             <div class="product-card">
                 <div class="product-image">
                     <img src="gambar/contoh8.png" alt="Greeting Card 3">
@@ -875,16 +1017,13 @@
                     </div>
                 </div>
             </div>
-        
-            
         </div>
-    </div> -->
+    </div>
 
     <div class="container">
         <h1 class="page-title">Add On</h1>
 
         <div class="products-grid">
-            
             <!-- Product 5 -->
             <div class="product-card">
                 <div class="product-image">
@@ -893,7 +1032,7 @@
                 <div class="product-info">
                     <h3 class="product-title">Cinema</h3>
                     <p class="product-description">Video yang ditampilkan layaknya cinema.</p>
-                    <div class="product-price">Rp 10.000</div>
+                    <div class="product-price">Rp 5.000</div>
                     <div class="product-actions">
                         <a href="bigcinema.html" class="btn btn-beige">Preview</a>
                         <button class="btn btn-pink">Beli Sekarang</button>
@@ -909,7 +1048,7 @@
                 <div class="product-info">
                     <h3 class="product-title">Digicam</h3>
                     <p class="product-description">Gallery dalam bentuk digicam.</p>
-                    <div class="product-price">Rp 10.000</div>
+                    <div class="product-price">Rp 5.000</div>
                     <div class="product-actions">
                         <a href="digicam.html" class="btn btn-beige">Preview</a>
                         <button class="btn btn-pink">Beli Sekarang</button>
@@ -924,7 +1063,7 @@
                 <div class="product-info">
                     <h3 class="product-title">Polaroid</h3>
                     <p class="product-description">Kamera Polaroid untuk mencetak foto.</p>
-                    <div class="product-price">Rp 10.000</div>
+                    <div class="product-price">Rp 5.000</div>
                     <div class="product-actions">
                         <a href="polaroid1.html" class="btn btn-beige">Preview</a>
                         <button class="btn btn-pink">Beli Sekarang</button>
@@ -940,7 +1079,7 @@
                 <div class="product-info">
                     <h3 class="product-title">Spotify</h3>
                     <p class="product-description">Berikan playlist mu untuk orang spesial.</p>
-                    <div class="product-price">Rp 5.000</div>
+                    <div class="product-price">Rp 2.000</div>
                     <div class="product-actions">
                         <a href="spotify.html" class="btn btn-beige">Preview</a>
                         <button class="btn btn-pink">Beli Sekarang</button>
@@ -957,7 +1096,7 @@
                 <div class="product-info">
                     <h3 class="product-title">Slider Gallery</h3>
                     <p class="product-description">Tampilkan gambar satu-persatu dengan transisi memikat.</p>
-                    <div class="product-price">Tergantung jumlah foto</div>
+                    <div class="product-price">Rp 2.000</div>
                     <div class="product-actions">
                         <a href="slider.html" class="btn btn-beige">Preview</a>
                         <button class="btn btn-pink">Beli Sekarang</button>
@@ -973,7 +1112,7 @@
                 <div class="product-info">
                     <h3 class="product-title">Grid Gallery</h3>
                     <p class="product-description">Tata letak simetris, tampilan rapi dan elegan.</p>
-                    <div class="product-price">Tergantung jumlah foto</div>
+                    <div class="product-price">Rp 2.000</div>
                     <div class="product-actions">
                         <a href="grid.html" class="btn btn-beige">Preview</a>
                         <button class="btn btn-pink">Beli Sekarang</button>
@@ -990,7 +1129,7 @@
                 <div class="product-info">
                     <h3 class="product-title">Masonry Gallery</h3>
                     <p class="product-description">Gaya bebas tersusun artistik, tak beraturan indah.</p>
-                    <div class="product-price">Tergantung jumlah foto</div>
+                    <div class="product-price">Rp 2.000</div>
                     <div class="product-actions">
                         <a href="masonry.html" class="btn btn-beige">Preview</a>
                         <button class="btn btn-pink">Beli Sekarang</button>
@@ -998,7 +1137,6 @@
                 </div>
             </div>
 
-        
             <!-- Product 4 -->
             <div class="product-card">
                 <div class="product-image">
@@ -1007,7 +1145,7 @@
                 <div class="product-info">
                     <h3 class="product-title">Carousel Gallery</h3>
                     <p class="product-description">Gambar bergeser dinamis seperti panggung kereta.</p>
-                    <div class="product-price">Tergantung jumlah foto</div>
+                    <div class="product-price">Rp 2.000</div>
                     <div class="product-actions">
                         <a href="carousel.html" class="btn btn-beige">Preview</a>
                         <button class="btn btn-pink">Beli Sekarang</button>
@@ -1032,20 +1170,5 @@
             <p class="copyright">&copy; 2025 FLomma Flower. All Rights Reserved.</p>
         </div>
     </footer>
-
-    <script>
-        // Smooth scrolling for navigation
-        document.querySelectorAll('nav a').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId !== '#') {
-                    document.querySelector(targetId).scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
 </body>
 </html>
