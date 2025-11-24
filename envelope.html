@@ -2,257 +2,480 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    
-    <link rel="icon" href="gambar/logo.png" sizes="192x192">
-    <link rel="apple-touch-icon" href="gambar/logo.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Envelope</title>
+    <title>Greeting Card Interaktif</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f9f0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
             overflow: hidden;
-            transition: background-color 0.5s;
         }
         
         .container {
-            text-align: center;
             position: relative;
-        }
-        
-        .envelope {
-            width: 300px;
-            cursor: pointer;
-            transition: all 0.5s ease;
-            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3));
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        .envelope:hover {
-            transform: translateX(-50%) scale(1.05);
-        }
-        
-        .letter-paper {
-            /* display: none;
-            background-image: url('gambar/bg1.jpg');
-            background-size: 100%;
             width: 100%;
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 40px 30px;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 700px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* AMPLOP UTAMA */
+        .envelope-wrapper {
             position: relative;
-            border: 1px solid #e0d6b8;
-            z-index: 0;
-            transform: translateY(100px);
+            width: 320px;
+            height: 220px;
+            cursor: pointer;
+        }
+        
+        /* BAGIAN-BAGIAN AMPLOP */
+        .envelope-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #d32f2f;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 2; /* DI ATAS LETTER SAAT AWAL */
+            transition: z-index 0.3s ease; /* TRANSISI UNTUK Z-INDEX */
+        }
+        
+        .envelope-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #f44336;
+            clip-path: polygon(0 0, 100% 0, 50% 50%);
+            transform-origin: top;
+            transition: transform 0.8s ease;
+            z-index: 3; /* PALING DEPAN SAAT AWAL */
+        }
+        
+        /* SURAT - SEBAGAI ANAK DARI AMPLOP */
+        .letter {
+            position: absolute;
+            width: 90%;
+            height: 65%;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            left: 5%;
+            bottom: 10%;
+            z-index: 1; /* DI BAWAH BACK DAN FRONT SAAT AWAL! */
+            transition: all 0.8s ease;
+            cursor: pointer;
+            overflow: hidden;
+            transform: translateY(40px);
             opacity: 0;
-            animation: paperAppear 1s forwards; */
-
-            
-            background-image: url('gambar/bg1.jpeg');
-            background-size: 100%;
-            display: none;
-            background-color: #fff9e6;
-            width: 80%;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            position: relative;
-            border: 1px solid #e0d6b8;
-            animation: paperAppear 1s forwards;
+        }
+        
+        /* AMPLOP TERBUKA - SEGITIGA KE BELAKANG */
+        .envelope-wrapper.open .envelope-front {
+            transform: rotateX(180deg);
+            z-index: 1 !important;
+        }
+        
+        /* ENVELOPE-BACK KE DEPAN SAAT SURAT MUNCUL */
+        .envelope-wrapper.open .envelope-back {
+            z-index: 5 !important; /* ENVELOPE-BACK DI DEPAN */
+        }
+        
+        /* SURAT MUNCUL SETELAH AMPLOP TERBUKA */
+        .envelope-wrapper.open .letter {
+            transform: translateY(-100px);
+            opacity: 1;
+            z-index: 4 !important; /* SURAT DI DEPAN ENVELOPE-BACK! */
+        }
+        
+        /* SURAT FULL SCREEN - ENVELOPE BACK KEMBALI KE BELAKANG */
+        .letter.full {
+            width: 420px;
+            height: 550px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) !important;
+            z-index: 100;
+            cursor: default;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 25px;
+            overflow-y: auto;
+        }
+        
+        /* KETIKA SURAT FULL, ENVELOPE-BACK KEMBALI KE BELAKANG */
+        .letter.full ~ .envelope-back {
+            z-index: 2 !important;
         }
         
         .letter-content {
-            text-align: left;
-            line-height: 1.6;
+            padding: 15px;
+            font-size: 14px;
+            line-height: 1.5;
             color: #333;
         }
         
-        .letter-content h1 {
-            color: #d23669;
+        /* Scrollbar styling */
+        .letter.full::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .letter.full::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .letter.full::-webkit-scrollbar-thumb {
+            background: #d32f2f;
+            border-radius: 4px;
+        }
+        
+        .letter.full::-webkit-scrollbar-thumb:hover {
+            background: #b71c1c;
+        }
+        
+        /* Container foto */
+        .photos-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .photo {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #d32f2f;
+            transition: transform 0.3s ease;
+        }
+        
+        .photo:hover {
+            transform: scale(1.05);
+        }
+        
+        .letter-header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
         }
         
-        .signature {
-            text-align: right;
+        .letter-header h2 {
+            color: #d32f2f;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .letter-header p {
+            color: #777;
             font-style: italic;
-            margin-top: 30px;
+            font-size: 12px;
         }
         
-        .music-control {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: rgba(255,255,255,0.7);
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 10;
-        }
-        
-        @keyframes paperAppear {
-            from { 
-                opacity: 0;
-                transform: translateY(100px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes envelopeOpen {
-            0% {
-                transform: translateX(-50%) translateY(0);
-            }
-            50% {
-                transform: translateX(-50%) translateY(30px);
-            }
-            100% {
-                transform: translateX(-50%) translateY(30px);
-                opacity: 0;
-            }
-        }
-        
-        .confetti {
+        .instruction {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #f00;
+            bottom: 320px;
+            text-align: center;
+            color: #555;
+            font-size: 14px;
             opacity: 0;
+            transition: opacity 0.5s ease;
+            width: 100%;
+            z-index: 35;
+        }
+        
+        .instruction.show {
+            opacity: 1;
+        }
+        
+        .heart-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            z-index: 6;
+            opacity: 0.8;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #777;
+            cursor: pointer;
+            display: none;
+            z-index: 101;
+            transition: all 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            color: #d32f2f;
+            transform: scale(1.2);
+        }
+        
+        .letter.full .close-btn {
+            display: block;
+        }
+        
+        .letter-preview {
+            height: 70px;
+            overflow: hidden;
+            border-bottom: 2px dashed #eee;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .letter-full-content {
+            display: none;
+        }
+        
+        .letter.full .letter-preview {
+            display: none;
+        }
+        
+        .letter.full .letter-full-content {
+            display: block;
+        }
+
+        /* Audio controls */
+        .audio-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 50;
+        }
+
+        .music-btn {
+            background: #d32f2f;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .music-btn:hover {
+            background: #b71c1c;
+            transform: scale(1.05);
+        }
+
+        /* Overlay untuk full screen */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+            display: none;
+        }
+
+        .letter.full ~ .overlay {
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            .envelope-wrapper {
+                width: 280px;
+                height: 190px;
+            }
+            
+            .letter {
+                width: 250px;
+                height: 110px;
+            }
+            
+            .envelope-wrapper.open .letter {
+                transform: translateY(-120px);
+            }
+            
+            .letter.full {
+                width: 350px;
+                height: 500px;
+            }
+            
+            .photos-container {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="gambar/close.png" alt="Amplop Tertutup" class="envelope" id="closedEnvelope">
+        <div class="instruction">Klik amplop untuk membuka</div>
         
-        <div class="letter-paper" id="letterPaper">
-            <div class="letter-content">
-                <h1>Untukmu yang Spesial</h1>
-                <p>Halo,</p>
+        <!-- Kontrol Musik -->
+        <div class="audio-controls">
+            <button class="music-btn" onclick="toggleMusic()">🎵 Putar Musik</button>
+        </div>
+        
+        <!-- AMPLOP DENGAN SURAT DI DALAMNYA -->
+        <div class="envelope-wrapper">
+            <div class="envelope-back"></div>
+            <div class="letter">
+                <button class="close-btn">&times;</button>
+                <div class="letter-header">
+                    <h2>Untukmu yang Terkasih</h2>
+                    <p>Hari yang indah untuk mengirimkan salam</p>
+                </div>
                 
-                <p>Aku hanya ingin mengucapkan...</p>
+                <div class="letter-preview">
+                    <p><strong>Halo sayang,</strong></p>
+                    <p>Hari ini aku ingin mengungkapkan betapa berartinya kamu dalam hidupku...</p>
+                    <p style="color: #d32f2f; font-style: italic; margin-top: 5px;">↪ Klik untuk membaca selengkapnya</p>
+                </div>
                 
-                <p>Terima kasih telah menjadi bagian dari hidupku. Setiap momen bersamamu adalah hadiah yang sangat berharga.</p>
-                
-                <p>Semoga hari-harimu dipenuhi dengan kebahagiaan dan kesuksesan. Jangan pernah lupa betapa berharganya dirimu.</p>
-                
-                <p>Aku berharap kita bisa terus membuat kenangan indah bersama.</p>
-                
-                <div class="signature">
-                    <p>Dengan sayang,</p>
-                    <p>❤️</p>
+                <div class="letter-full-content">
+                    <div class="letter-content">
+                        <p><strong>Halo sayang,</strong></p>
+                        <p>Hari ini aku ingin mengungkapkan betapa berartinya kamu dalam hidupku. Setiap momen bersamamu adalah anugerah yang tak ternilai.</p>
+                      
+                        <p>Kamu adalah cahaya dalam kegelapanku, pelangi setelah hujan, dan alasan tersenyum di pagi hari. Terima kasih telah menjadi dirimu yang luar biasa.</p>
+                        <p>Aku berharap kita bisa terus bersama, melewati semua suka dan duka, saling mendukung dan mencintai.</p>
+                        <p>Jangan pernah lupa betapa berharganya dirimu. Kamu layak mendapatkan semua kebahagiaan di dunia ini.</p>
+                        
+                        <p style="margin-top: 20px;"><strong>Dengan penuh cinta,</strong></p>
+                        <p style="font-weight: bold;">Yang selalu menyayangimu</p>
+                        
+                        <!-- Container Foto -->
+
+                    </div>
                 </div>
             </div>
+            <div class="envelope-front"></div>
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E" 
+                 alt="Heart" class="heart-icon">
         </div>
+
+        <!-- Overlay -->
+        <div class="overlay"></div>
     </div>
-    
-    <div class="music-control" id="musicControl" title="Putar/Mute Musik">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d23669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-        </svg>
-    </div>
-    
+
+    <!-- Audio Element -->
     <audio id="bgMusic" loop>
-        <source src="gambar/eua.mp3" type="audio/mpeg">
+        <source src="1975.mp3" type="audio/mpeg">
         Browser Anda tidak mendukung elemen audio.
     </audio>
-    
+
     <script>
-        const closedEnvelope = document.getElementById('closedEnvelope');
-        const letterPaper = document.getElementById('letterPaper');
+        // Variabel musik
         const bgMusic = document.getElementById('bgMusic');
-        const musicControl = document.getElementById('musicControl');
-        let musicPlaying = false;
+        let isMusicPlaying = false;
         
-        // Buka amplop saat diklik
-        closedEnvelope.addEventListener('click', function() {
-            // Ganti gambar amplop tertutup dengan yang terbuka
-            const openedEnvelope = new Image();
-            openedEnvelope.src = "gambar/open.png";
-            openedEnvelope.className = "envelope";
-            openedEnvelope.style.animation = "envelopeOpen 1s forwards";
-            
-            // Ganti amplop tertutup dengan yang terbuka
-            closedEnvelope.parentNode.replaceChild(openedEnvelope, closedEnvelope);
-            
-            // Setelah animasi amplop selesai, tampilkan surat
-            setTimeout(() => {
-                // Hapus amplop terbuka
-                openedEnvelope.remove();
-                
-                // Tampilkan kertas surat
-                letterPaper.style.display = 'block';
-                
-                // Ubah background
-                document.body.style.backgroundColor = '#f5e5c0';
-                
-                // Mulai memutar musik
-                bgMusic.play();
-                musicPlaying = true;
-                
-                // Buat efek confetti
-                createConfetti();
-            }, 1200);
-        });
-        
-        // Kontrol musik
-        musicControl.addEventListener('click', function() {
-            if (musicPlaying) {
+        // Fungsi toggle musik
+        function toggleMusic() {
+            if (isMusicPlaying) {
                 bgMusic.pause();
-                musicPlaying = false;
-                musicControl.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d23669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>';
+                document.querySelector('.music-btn').textContent = '🎵 Putar Musik';
             } else {
                 bgMusic.play();
-                musicPlaying = true;
-                musicControl.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d23669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>';
+                document.querySelector('.music-btn').textContent = '⏸️ Jeda Musik';
             }
-        });
-        
-        // Fungsi untuk membuat confetti
-        function createConfetti() {
-            const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722'];
-            
-            for (let i = 0; i < 100; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.top = -10 + 'px';
-                confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
-                confetti.style.width = Math.random() * 10 + 5 + 'px';
-                confetti.style.height = Math.random() * 10 + 5 + 'px';
-                
-                document.body.appendChild(confetti);
-                
-                // Animasi confetti
-                setTimeout(() => {
-                    confetti.style.opacity = '1';
-                    confetti.style.transition = 'top 4s linear';
-                    confetti.style.top = '100vh';
-                    
-                    // Hapus confetti setelah animasi selesai
-                    setTimeout(() => {
-                        confetti.remove();
-                    }, 4000);
-                }, i * 30);
-            }
+            isMusicPlaying = !isMusicPlaying;
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const envelopeWrapper = document.querySelector('.envelope-wrapper');
+            const letter = document.querySelector('.letter');
+            const hati = document.querySelector('.heart-icon');
+            const instruction = document.querySelector('.instruction');
+            const closeBtn = document.querySelector('.close-btn');
+            const overlay = document.querySelector('.overlay');
+            const envelopeBack = document.querySelector('.envelope-back');
+            
+            let isOpen = false;
+            let isFullView = false;
+            
+            setTimeout(() => {
+                instruction.classList.add('show');
+            }, 1000);
+            
+            // Klik amplop untuk buka
+            envelopeWrapper.addEventListener('click', function() {
+                if (!isOpen && !isFullView) {
+                    console.log('Membuka amplop...');
+                    
+                    // Buka amplop
+                    envelopeWrapper.classList.add('open');
+                    
+                    isOpen = true;
+                    instruction.textContent = "Klik surat untuk membaca lengkap";
+                }
+            });
+            
+            // Klik surat untuk buka full screen
+            letter.addEventListener('click', function() {
+                if (isOpen && !isFullView) {
+                    console.log('Membuka surat full...');
+                    
+                    letter.classList.add('full');
+                    
+                    // Kembalikan envelope-back ke belakang
+                    envelopeBack.style.display = 'none';
+                    hati.style.display = 'none';
+                    
+                    isFullView = true;
+                    
+                    // Otomatis putar musik ketika surat dibuka
+                    if (!isMusicPlaying) {
+                        toggleMusic();
+                    }
+                }
+            });
+            
+            // Tombol close
+            closeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                console.log('Menutup surat...');
+                
+                letter.classList.remove('full');
+                
+                // Kembalikan envelope-back ke depan
+                if (isOpen) {
+                    envelopeBack.style.display = 'block';
+                    hati.style.display = 'block';
+                }
+                
+                isFullView = false;
+            });
+
+            // Klik overlay untuk close
+            overlay.addEventListener('click', function() {
+                if (isFullView) {
+                    letter.classList.remove('full');
+                    
+                    // Kembalikan envelope-back ke depan
+                    if (isOpen) {
+                        envelopeBack.style.zIndex = '5';
+                    }
+                    
+                    isFullView = false;
+                }
+            });
+        });
     </script>
 </body>
 </html>
