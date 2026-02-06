@@ -605,6 +605,37 @@
             background-color: var(--pink-dark);
             color: white;
         }
+
+        .form-group {
+    margin-bottom: 20px;
+}
+
+.radio-group {
+    display: flex;
+    gap: 20px;
+    margin-top: 8px;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.form-text {
+    display: block;
+    margin-top: 5px;
+    color: #666;
+    font-size: 0.9em;
+}
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -694,9 +725,19 @@
                         <textarea id="message" name="message" class="form-input form-textarea" placeholder="(sesuaikan dengan kebutuhan)" required></textarea>
                     </div>
                     
+                    <!-- Option 1: Radio buttons (pilih salah satu) -->
                     <div class="form-group">
-                        <label for="photos" class="form-label">Foto</label>
-                        <input type="text" id="photos" name="photos" class="form-input" placeholder="Link drive atau disusulkan di WA">
+                        <label>Menggunakan Foto:</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="photoOption" value="withPhoto" checked>
+                                Ya, pakai foto
+                            </label>
+                            <label>
+                                <input type="radio" name="photoOption" value="withoutPhoto">
+                                Tidak pakai foto
+                            </label>
+                        </div>
                     </div>
                     
                     <div class="form-group">
@@ -778,35 +819,62 @@
             
             // Form submission
             orderForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Get form values
-                const productType = document.getElementById('productType').value;
-                const recipientName = document.getElementById('recipientName').value;
-                const senderName = document.getElementById('senderName').value;
-                const message = document.getElementById('message').value;
-                const photos = document.getElementById('photos').value;
-                const websiteName = document.getElementById('websiteName').value;
-                const song = document.getElementById('song').value;
-                const additionalRequest = document.getElementById('additionalRequest').value;
-                
-                // Create WhatsApp message
-                let whatsappMessage = `Form Kebutuhan Greeting Card ${productType} :%0A%0A`;
-                whatsappMessage += `Nama Penerima : ${recipientName}%0A`;
-                whatsappMessage += `Nama Pengirim : ${senderName}%0A`;
-                whatsappMessage += `Pesan : ${message}%0A`;
-                whatsappMessage += `Foto : ${photos || 'Akan disusulkan di WA'}%0A`;
-                whatsappMessage += `Nama website : ${websiteName || '(request tergantung ketersediaan)'}%0A`;
-                whatsappMessage += `Lagu : ${song || '-'}%0A`;
-                whatsappMessage += `Request Tambahan : ${additionalRequest || '-'}%0A%0A`;
-                whatsappMessage += `Free request lagu dan domain (tergantung ketersediaan)!%0AJika ada request bisa disampaikan!`;
-                
-                // Open WhatsApp
-                window.open(`https://wa.me/6287746110370?text=${whatsappMessage}`, '_blank');
-                
-                // Close modal
-                closeModal();
-            });
+    e.preventDefault();
+    
+    // Get form values
+    const productType = document.getElementById('productType').value;
+    const recipientName = document.getElementById('recipientName').value;
+    const senderName = document.getElementById('senderName').value;
+    const message = document.getElementById('message').value;
+    
+    // Get photo selection from radio buttons or checkboxes
+    // Di dalam submit function
+    const photoOption = document.querySelector('input[name="photoOption"]:checked');
+    if (photoOption) {
+        if (photoOption.value === 'withPhoto') {
+            whatsappMessage += `Menggunakan Foto : Ya%0A`;
+        } else if (photoOption.value === 'withoutPhoto') {
+            whatsappMessage += `Menggunakan Foto : Tidak%0A`;
+        }
+    }
+    const websiteName = document.getElementById('websiteName').value;
+    const song = document.getElementById('song').value;
+    const additionalRequest = document.getElementById('additionalRequest').value;
+    
+    // Validate required fields
+    if (!recipientName || !senderName || !message) {
+        alert('Harap isi nama penerima, nama pengirim, dan pesan!');
+        return;
+    }
+    
+    // Create WhatsApp message
+    let whatsappMessage = `Form Kebutuhan Greeting Card ${productType} :%0A%0A`;
+    whatsappMessage += `Nama Penerima : ${recipientName}%0A`;
+    whatsappMessage += `Nama Pengirim : ${senderName}%0A`;
+    whatsappMessage += `Pesan : ${message}%0A`;
+    
+    // Handle photo option
+    if (photoOption) {
+        if (photoOption.value === 'withPhoto') {
+            whatsappMessage += `Menggunakan Foto : Ya%0A`;
+        } else if (photoOption.value === 'withoutPhoto') {
+            whatsappMessage += `Menggunakan Foto : Tidak%0A`;
+        }
+    } else {
+        whatsappMessage += `Menggunakan Foto : Belum dipilih%0A`;
+    }
+    
+    whatsappMessage += `Nama website : ${websiteName || '(request tergantung ketersediaan)'}%0A`;
+    whatsappMessage += `Lagu : ${song || '-'}%0A`;
+    whatsappMessage += `Request Tambahan : ${additionalRequest || '-'}%0A%0A`;
+    whatsappMessage += `Free request lagu dan domain (tergantung ketersediaan)!%0AJika ada request bisa disampaikan!`;
+    
+    // Open WhatsApp
+    window.open(`https://wa.me/6287746110370?text=${whatsappMessage}`, '_blank');
+    
+    // Close modal
+    closeModal();
+});
         });
     </script>
 
