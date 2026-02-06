@@ -830,13 +830,7 @@ input[type="checkbox"] {
     // Get photo selection from radio buttons or checkboxes
     // Di dalam submit function
     const photoOption = document.querySelector('input[name="photoOption"]:checked');
-    if (photoOption) {
-        if (photoOption.value === 'withPhoto') {
-            whatsappMessage += `Menggunakan Foto : Ya%0A`;
-        } else if (photoOption.value === 'withoutPhoto') {
-            whatsappMessage += `Menggunakan Foto : Tidak%0A`;
-        }
-    }
+    
     const websiteName = document.getElementById('websiteName').value;
     const song = document.getElementById('song').value;
     const additionalRequest = document.getElementById('additionalRequest').value;
@@ -852,16 +846,12 @@ input[type="checkbox"] {
     whatsappMessage += `Nama Penerima : ${recipientName}%0A`;
     whatsappMessage += `Nama Pengirim : ${senderName}%0A`;
     whatsappMessage += `Pesan : ${message}%0A`;
-    
-    // Handle photo option
     if (photoOption) {
         if (photoOption.value === 'withPhoto') {
             whatsappMessage += `Menggunakan Foto : Ya%0A`;
         } else if (photoOption.value === 'withoutPhoto') {
             whatsappMessage += `Menggunakan Foto : Tidak%0A`;
         }
-    } else {
-        whatsappMessage += `Menggunakan Foto : Belum dipilih%0A`;
     }
     
     whatsappMessage += `Nama website : ${websiteName || '(request tergantung ketersediaan)'}%0A`;
