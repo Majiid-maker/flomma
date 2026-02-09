@@ -438,6 +438,28 @@
             font-size: 14px;
             line-height: 1.5;
         }
+
+        .store-selection {
+    display: flex;
+    gap: 20px;
+    margin-top: 8px;
+}
+
+.store-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.store-option input[type="radio"] {
+    margin: 0;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+}
         
         @media (min-width: 768px) {
             .tutorial-section {
@@ -710,6 +732,20 @@ input[type="checkbox"] {
                 <form id="orderForm">
                     <input type="hidden" id="productType" name="productType">
                     
+                    <!-- Tambahkan di dalam form, setelah productType (hidden field) -->
+<div class="form-group">
+    <label>Pilih Store:</label>
+    <div class="store-selection">
+        <div class="store-option">
+            <input type="radio" id="storeBasudewo" name="store" value="Basudewo" required>
+            <label for="storeBasudewo">Store Basudewo</label>
+        </div>
+        <div class="store-option">
+            <input type="radio" id="storeTimoho" name="store" value="Timoho" required>
+            <label for="storeTimoho">Store Timoho</label>
+        </div>
+    </div>
+</div>
                     <div class="form-group">
                         <label for="recipientName" class="form-label">Nama Penerima</label>
                         <input type="text" id="recipientName" name="recipientName" class="form-input" required>
@@ -763,110 +799,144 @@ input[type="checkbox"] {
         </div>
     </div>
 
-    <script>
-        // Animasi untuk langkah-langkah
-        document.addEventListener('DOMContentLoaded', function() {
-            const steps = document.querySelectorAll('.step');
-            
-            function checkVisibility() {
-                steps.forEach((step, index) => {
-                    const stepPosition = step.getBoundingClientRect().top;
-                    const screenPosition = window.innerHeight / 1.5;
-                    
-                    if (stepPosition < screenPosition) {
-                        setTimeout(() => {
-                            step.classList.add('visible');
-                        }, index * 200);
-                    }
-                });
-            }
-            
-            // Jalankan saat load dan scroll
-            checkVisibility();
-            window.addEventListener('scroll', checkVisibility);
-            
-            // Modal functionality
-            const orderModal = document.getElementById('orderModal');
-            const modalClose = document.getElementById('modalClose');
-            const cancelOrder = document.getElementById('cancelOrder');
-            const orderForm = document.getElementById('orderForm');
-            
-            // Function to open modal
-            window.openOrderModal = function(productName, productType) {
-                document.getElementById('modalProductTitle').textContent = `Form Pemesanan ${productName}`;
-                document.getElementById('productType').value = productType;
-                orderModal.classList.add('active');
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const steps = document.querySelectorAll('.step');
+        
+        function checkVisibility() {
+            steps.forEach((step, index) => {
+                const stepPosition = step.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.5;
                 
-                // Reset form
-                orderForm.reset();
-            }
-            
-            // Function to close modal
-            function closeModal() {
-                orderModal.classList.remove('active');
-            }
-            
-            // Event listeners for modal
-            modalClose.addEventListener('click', closeModal);
-            cancelOrder.addEventListener('click', closeModal);
-            
-            // Close modal when clicking outside
-            orderModal.addEventListener('click', function(e) {
-                if (e.target === orderModal) {
-                    closeModal();
+                if (stepPosition < screenPosition) {
+                    setTimeout(() => {
+                        step.classList.add('visible');
+                    }, index * 200);
                 }
             });
-            
-            // Form submission
-            orderForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Get form values
-    const productType = document.getElementById('productType').value;
-    const recipientName = document.getElementById('recipientName').value;
-    const senderName = document.getElementById('senderName').value;
-    const message = document.getElementById('message').value;
-    
-    // Get photo selection from radio buttons or checkboxes
-    // Di dalam submit function
-    const photoOption = document.querySelector('input[name="photoOption"]:checked');
-    
-    const websiteName = document.getElementById('websiteName').value;
-    const song = document.getElementById('song').value;
-    const additionalRequest = document.getElementById('additionalRequest').value;
-    
-    // Validate required fields
-    if (!recipientName || !senderName || !message) {
-        alert('Harap isi nama penerima, nama pengirim, dan pesan!');
-        return;
-    }
-    
-    // Create WhatsApp message
-    let whatsappMessage = `Form Kebutuhan Greeting Card ${productType} :%0A%0A`;
-    whatsappMessage += `Nama Penerima : ${recipientName}%0A`;
-    whatsappMessage += `Nama Pengirim : ${senderName}%0A`;
-    whatsappMessage += `Pesan : ${message}%0A`;
-    if (photoOption) {
-        if (photoOption.value === 'withPhoto') {
-            whatsappMessage += `Menggunakan Foto : Ya%0A`;
-        } else if (photoOption.value === 'withoutPhoto') {
-            whatsappMessage += `Menggunakan Foto : Tidak%0A`;
         }
-    }
-    
-    whatsappMessage += `Nama website : ${websiteName || '(request tergantung ketersediaan)'}%0A`;
-    whatsappMessage += `Lagu : ${song || '-'}%0A`;
-    whatsappMessage += `Request Tambahan : ${additionalRequest || '-'}%0A%0A`;
-    whatsappMessage += `Free request lagu dan domain (tergantung ketersediaan)!%0AJika ada request bisa disampaikan!`;
-    
-    // Open WhatsApp
-    window.open(`https://wa.me/6287746110370?text=${whatsappMessage}`, '_blank');
-    
-    // Close modal
-    closeModal();
-});
+        
+        checkVisibility();
+        window.addEventListener('scroll', checkVisibility);
+        
+        // Phone numbers for stores
+        const storeNumbers = {
+            'Basudewo': '6287746110370',
+            'Timoho': '62882016557095'
+        };
+        
+        // Modal functionality
+        const orderModal = document.getElementById('orderModal');
+        const modalClose = document.getElementById('modalClose');
+        const cancelOrder = document.getElementById('cancelOrder');
+        const orderForm = document.getElementById('orderForm');
+        
+        // Function to open modal
+        window.openOrderModal = function(productName, productType) {
+            document.getElementById('modalProductTitle').textContent = `Form Pemesanan ${productName}`;
+            document.getElementById('productType').value = productType;
+            orderModal.classList.add('active');
+            
+            // Reset form
+            orderForm.reset();
+        }
+        
+        // Function to close modal
+        function closeModal() {
+            orderModal.classList.remove('active');
+        }
+        
+        // Event listeners for modal
+        modalClose.addEventListener('click', closeModal);
+        cancelOrder.addEventListener('click', closeModal);
+        
+        // Close modal when clicking outside
+        orderModal.addEventListener('click', function(e) {
+            if (e.target === orderModal) {
+                closeModal();
+            }
         });
-    </script>
+        
+        // Form submission
+        orderForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const productType = document.getElementById('productType').value;
+            const recipientName = document.getElementById('recipientName').value;
+            const senderName = document.getElementById('senderName').value;
+            const message = document.getElementById('message').value;
+            
+            // Get store selection
+            const storeSelection = document.querySelector('input[name="store"]:checked');
+            
+            const photoOption = document.querySelector('input[name="photoOption"]:checked');
+            const websiteName = document.getElementById('websiteName').value;
+            const song = document.getElementById('song').value;
+            const additionalRequest = document.getElementById('additionalRequest').value;
+            
+            // Validate required fields
+            if (!recipientName || !senderName || !message) {
+                alert('Harap isi nama penerima, nama pengirim, dan pesan!');
+                return;
+            }
+            
+            // Validate store selection
+            if (!storeSelection) {
+                alert('Harap pilih store terlebih dahulu!');
+                return;
+            }
+            
+            // Get selected store and phone number
+            const selectedStore = storeSelection.value;
+            const phoneNumber = storeNumbers[selectedStore];
+            
+            // Validate other required fields except additionalRequest and websiteName
+            if (!photoOption) {
+                alert('Harap pilih opsi foto!');
+                return;
+            }
+            
+            if (!song) {
+                alert('Harap isi field lagu!');
+                return;
+            }
+            
+            // Create WhatsApp message
+            let whatsappMessage = `Form Kebutuhan Greeting Card ${productType} :%0A%0A`;
+            whatsappMessage += `Store : ${selectedStore}%0A`;
+            whatsappMessage += `Nama Penerima : ${recipientName}%0A`;
+            whatsappMessage += `Nama Pengirim : ${senderName}%0A`;
+            whatsappMessage += `Pesan : ${message}%0A`;
+            
+            if (photoOption.value === 'withPhoto') {
+                whatsappMessage += `Menggunakan Foto : Ya%0A`;
+            } else if (photoOption.value === 'withoutPhoto') {
+                whatsappMessage += `Menggunakan Foto : Tidak%0A`;
+            }
+            
+            whatsappMessage += `Lagu : ${song}%0A`;
+            
+            // Optional fields - only include if filled
+            if (websiteName) {
+                whatsappMessage += `Nama website : ${websiteName}%0A`;
+            }
+            
+            if (additionalRequest) {
+                whatsappMessage += `Request Tambahan : ${additionalRequest}%0A`;
+            }
+            
+            whatsappMessage += `%0A`;
+            whatsappMessage += `Free request lagu dan domain (tergantung ketersediaan)!%0AJika ada request bisa disampaikan!`;
+            
+            // Open WhatsApp with selected store's number
+            window.open(`https://wa.me/${phoneNumber}?text=${whatsappMessage}`, '_blank');
+            
+            // Close modal
+            closeModal();
+        });
+    });
+</script>
 
     <!-- After your tutorial section -->
     <section class="credit-section">
@@ -892,7 +962,7 @@ input[type="checkbox"] {
                 </div>
                 <div class="product-info">
                     <h3 class="product-title">Valentine A (khusus Katalog valentine)</h3>
-                    <p class="product-description">1 foto opsional</p>
+                    <p class="product-description">Gratis 1 foto (lebih dari 1 foto dikenakan Rp1.000/foto)</p>
                     <div class="product-price">Free</div>
                     <div class="product-actions">
                         <a href="valentine1.html" class="btn btn-beige">Preview</a>
@@ -907,7 +977,7 @@ input[type="checkbox"] {
                 </div>
                 <div class="product-info">
                     <h3 class="product-title">Valentine B (khusus Katalog valentine)</h3>
-                    <p class="product-description">1 foto opsional</p>
+                    <p class="product-description">Gratis 1 foto (lebih dari 1 foto dikenakan Rp1.000/foto)</p>
                     <div class="product-price">Free</div>
                     <div class="product-actions">
                         <a href="valentine2.html" class="btn btn-beige">Preview</a>
