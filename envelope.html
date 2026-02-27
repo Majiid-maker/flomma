@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Greeting Card Interaktif</title>
+    <title>Greeting Card Interaktif · Ornamen</title>
     <style>
         * {
             margin: 0;
@@ -13,14 +13,80 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(145deg, #fce4e4 0%, #f8d7da 40%, #e9c9d3 100%);
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            position: relative;
         }
-        
+
+        /* ORNAMEN HALUS DI BACKGROUND (TIDAK MENGGANGGU LOGIKA) */
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 182, 193, 0.25) 4px, transparent 4px),
+                radial-gradient(circle at 95% 70%, rgba(201, 120, 140, 0.2) 8px, transparent 8px),
+                radial-gradient(circle at 40% 85%, #ffb6c180 6px, transparent 6px),
+                radial-gradient(circle at 75% 15%, #d9889c40 12px, transparent 12px),
+                radial-gradient(circle at 15% 55%, #f9a8b060 10px, transparent 10px),
+                radial-gradient(circle at 88% 40%, #e5989e70 7px, transparent 7px);
+            background-size: 200px 200px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ornamen bintang dan hati kecil yang lembut */
+        .ornamen-latar {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .ornamen-latar span {
+            position: absolute;
+            display: block;
+            color: rgba(230, 120, 140, 0.2);
+            font-size: 2rem;
+            user-select: none;
+            animation: apung 12s infinite alternate ease-in-out;
+        }
+
+        @keyframes apung {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-25px) rotate(8deg); }
+        }
+
+        /* beberapa ornamen hati dan bintang tersebar */
+        .ornamen-latar span:nth-child(1) { top: 15%; left: 8%; font-size: 3rem; opacity: 0.2; animation-duration: 14s; }
+        .ornamen-latar span:nth-child(2) { bottom: 22%; right: 12%; font-size: 4rem; opacity: 0.2; animation-duration: 10s; animation-delay: -2s; }
+        .ornamen-latar span:nth-child(3) { top: 60%; left: 85%; font-size: 3.5rem; opacity: 0.2; animation-duration: 18s; }
+        .ornamen-latar span:nth-child(4) { top: 10%; right: 20%; font-size: 2.8rem; opacity: 0.2; animation-duration: 9s; }
+        .ornamen-latar span:nth-child(5) { bottom: 35%; left: 20%; font-size: 3.2rem; opacity: 0.2; animation-duration: 16s; }
+        .ornamen-latar span:nth-child(6) { top: 40%; left: 45%; font-size: 5rem; opacity: 0.15; animation-duration: 20s; }
+
+        /* lapisan tambahan: titik-titik glitter */
+        .glitter {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 40%, rgba(255,240,245,0.3) 0px, transparent 25%),
+                        radial-gradient(circle at 85% 65%, rgba(255,220,230,0.4) 0px, transparent 35%),
+                        radial-gradient(circle at 12% 78%, #ffe4ec80 0px, transparent 40%),
+                        radial-gradient(circle at 70% 18%, #ffd9e2 0px, transparent 30%);
+            pointer-events: none;
+            z-index: 1;
+            mix-blend-mode: overlay;
+        }
+
         .container {
             position: relative;
             width: 100%;
@@ -30,6 +96,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            z-index: 10;  /* di atas ornamen */
         }
         
         /* AMPLOP UTAMA */
@@ -38,6 +105,7 @@
             width: 320px;
             height: 220px;
             cursor: pointer;
+            z-index: 30;
         }
         
         /* BAGIAN-BAGIAN AMPLOP */
@@ -191,12 +259,23 @@
             position: absolute;
             bottom: 320px;
             text-align: center;
-            color: #555;
+            color: #a34f5e;
             font-size: 14px;
             opacity: 0;
             transition: opacity 0.5s ease;
             width: 100%;
             z-index: 35;
+            text-shadow: 0 2px 4px rgba(255,255,240,0.8);
+            font-weight: 500;
+            background: rgba(255, 240, 245, 0.5);
+            padding: 6px 12px;
+            border-radius: 40px;
+            width: auto;
+            left: 50%;
+            transform: translateX(-50%);
+            backdrop-filter: blur(2px);
+            white-space: nowrap;
+            box-shadow: 0 2px 6px rgba(230,120,140,0.2);
         }
         
         .instruction.show {
@@ -212,6 +291,7 @@
             height: 40px;
             z-index: 6;
             opacity: 0.8;
+            filter: drop-shadow(0 4px 4px rgba(180, 60, 60, 0.3));
         }
         
         .close-btn {
@@ -274,6 +354,7 @@
             cursor: pointer;
             font-size: 12px;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(170, 80, 80, 0.4);
         }
 
         .music-btn:hover {
@@ -320,10 +401,29 @@
             .photos-container {
                 grid-template-columns: 1fr;
             }
+            
+            .instruction {
+                font-size: 12px;
+                bottom: 260px;
+                white-space: normal;
+                width: 220px;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- ORNAMEN TAMBAHAN (HANYA CSS, TIDAK MERUSAK LOGIKA) -->
+    <div class="ornamen-latar">
+        <span>❤️</span>
+        <span>⭐</span>
+        <span>🌸</span>
+        <span>✨</span>
+        <span>💖</span>
+        <span>🌼</span>
+    </div>
+    <div class="glitter"></div>
+
     <div class="container">
         <div class="instruction">Klik amplop untuk membuka</div>
         
@@ -376,7 +476,7 @@
 
     <!-- Audio Element -->
     <audio id="bgMusic" loop>
-        <source src="gambar/wtos.mp3" type="audio/mpeg">
+        <source src="lagu/mountain.mp3" type="audio/mpeg">
         Browser Anda tidak mendukung elemen audio.
     </audio>
 
@@ -458,6 +558,7 @@
                 if (isOpen) {
                     envelopeBack.style.display = 'block';
                     hati.style.display = 'block';
+                    instruction.style.display = 'block';
                 }
                 
                 isFullView = false;
@@ -470,7 +571,9 @@
                     
                     // Kembalikan envelope-back ke depan
                     if (isOpen) {
-                        envelopeBack.style.zIndex = '5';
+                        envelopeBack.style.display = 'block';
+                        hati.style.display = 'block';
+                        instruction.style.display = 'block';
                     }
                     
                     isFullView = false;

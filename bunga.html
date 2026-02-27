@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌷 happy birthday · soft pink</title>
+    <!-- Font Awesome for icons (and temporary flower) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Quicksand', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(165deg, #fff0f6 0%, #ffe4ed 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ===== BACKGROUND BUNGA (soft pink, acak) ===== */
+        .flower-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .flower-bg i, .flower-bg .emoji-flower {
+            position: absolute;
+            color: #fbaac3;
+            opacity: 0.4;
+            font-size: clamp(1.8rem, 7vw, 4.5rem);
+            filter: drop-shadow(0 6px 12px #fecfdc);
+            user-select: none;
+        }
+
+        .flower-bg .fa-leaf { color: #b9d8c1; opacity: 0.3; }
+        .flower-bg .fa-feather { color: #f8c3d4; opacity: 0.25; }
+
+        /* ===== WRAPPER konten utama ===== */
+        .wrapper {
+            position: relative;
+            z-index: 20;
+            width: 100%;
+            max-width: 650px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px;
+        }
+
+        /* ===== BUNGA TENGAH (PNG TRANSPARAN) ===== */
+        .flower-center {
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            width: 200px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 12px 18px #feb0c2);
+            animation: gentleFloat 3s infinite alternate ease-in-out;
+            margin-bottom: 30px;
+        }
+
+        /* ganti dengan gambar PNG bunga asli — sekarang pakai Font Awesome sebagai placeholder */
+        .flower-center img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+        }
+
+        /* fallback: jika belum ganti PNG, tampilkan icon bunga dari FontAwesome */
+        .flower-center .fallback-icon {
+            font-size: 9rem;
+            color: #ff8da6;
+            background: transparent;
+            filter: drop-shadow(0 6px 10px #ffb0c6);
+            line-height: 1;
+        }
+
+        /* kelas untuk menyembunyikan bunga */
+        .flower-hidden {
+            opacity: 0;
+            transform: scale(0.2);
+            pointer-events: none;
+            transition: 0.5s;
+            position: absolute;
+        }
+
+        @keyframes gentleFloat {
+            0% { transform: translateY(0) rotate(-2deg); }
+            100% { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        /* hint kecil dibawah bunga (opsional) */
+        .hint-text {
+            color: #b26b82;
+            background: #ffecf2dd;
+            backdrop-filter: blur(2px);
+            padding: 8px 24px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-weight: 400;
+            border: 1px solid #ffc1d4;
+            box-shadow: 0 6px 14px #ffd0de;
+            margin-top: 8px;
+        }
+
+        .hint-text i {
+            color: #ff819d;
+            margin: 0 6px;
+            font-size: 1rem;
+        }
+
+        /* ===== KARTU PESAN (muncul setelah klik) ===== */
+        .message-card {
+            background: #fff7faf5;
+            backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 600px;
+            border-radius: 48px 48px 38px 38px;
+            padding: 32px 28px 38px 28px;
+            box-shadow: 0 30px 45px #ffb7c9, 0 0 0 2px #fff, 0 0 0 6px #ffdae7;
+            border: 1px solid #ffb0c3;
+            transition: all 0.6s ease;
+            color: #684c55;
+            margin-top: 20px;
+        }
+
+        .hidden-card {
+            display: none;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .show-card {
+            display: block;
+            animation: cardPop 0.7s forwards;
+        }
+
+        @keyframes cardPop {
+            0% { opacity: 0; transform: translateY(40px) scale(0.92); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* judul */
+        .card-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #bc6f87;
+            text-align: center;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0 #ffdeec;
+            margin-bottom: 10px;
+        }
+
+        .card-title i {
+            color: #ff93af;
+            font-size: 2rem;
+            margin: 0 10px;
+        }
+
+        /* pesan utama */
+        .card-message {
+            background: #ffeef5d0;
+            padding: 24px 22px;
+            border-radius: 36px;
+            font-size: 1.25rem;
+            line-height: 1.7;
+            color: #7b5060;
+            margin: 10px 0 22px 0;
+            border: 1px solid #ffb7cc;
+            box-shadow: inset 0 4px 10px #ffe2f0, 0 6px 12px #fecfdd;
+            text-align: center;
+            word-spacing: 1px;
+        }
+
+        /* foto dengan aspek rasio 16:9 — lebar penuh kartu */
+        .photo-16x9 {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 28px;
+            overflow: hidden;
+            background: #ffdbe8;
+            border: 5px solid white;
+            box-shadow: 0 16px 28px #ffb0c2;
+            margin: 20px 0 25px;
+        }
+
+        .photo-16x9 img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;  /* agar foto memenuhi kotak, bisa diubah contain sesuai selera */
+            display: block;
+        }
+
+        /* kontrol lagu */
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0 6px;
+        }
+
+        .play-btn {
+            background: #ffb1c7;
+            border: none;
+            padding: 14px 34px;
+            border-radius: 80px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.25rem;
+            box-shadow: 0 8px 0 #a46f82, 0 12px 24px #fea7bd;
+            transition: 0.06s linear;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid #ffe6f1;
+        }
+
+        .play-btn:active {
+            transform: translateY(8px);
+            box-shadow: 0 3px 0 #a46f82, 0 8px 18px #fea7bd;
+        }
+
+        .play-btn i {
+            font-size: 1.4rem;
+        }
+
+        .close-btn {
+            text-align: center;
+            margin-top: 18px;
+            color: #bf8297;
+            background: #ffecf2;
+            padding: 8px 22px;
+            border-radius: 40px;
+            display: inline-block;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.2s;
+            border: 1px solid #ffb7cd;
+        }
+
+        .close-btn:hover {
+            background: #ffdaea;
+        }
+
+        /* tidak ada bunga yang mengganggu */
+        .flower-center.hidden {
+            opacity: 0;
+            transform: scale(0);
+            position: absolute;
+        }
+
+        /* responsive */
+        @media (max-width: 500px) {
+            .flower-center {
+                width: 160px;
+                height: 160px;
+            }
+            .flower-center .fallback-icon {
+                font-size: 7rem;
+            }
+            .card-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- BACKGROUND PENUH BUNGA (soft pink) -->
+<div class="flower-bg" id="flowerBg"></div>
+
+<!-- KONTEN UTAMA -->
+<div class="wrapper">
+    <!-- BUNGA TENGAH (ganti dengan PNG transparan) -->
+    <div id="flowerCenter" class="flower-center">
+        <!-- 
+            ★ UNTUK MENGGANTI DENGAN PNG BUNGA ASLI:
+            1. Hapus tag <i> di bawah
+            2. Uncomment tag <img> dan ganti src="namafile.png"
+            3. Pastikan file PNG ada di folder yang sama
+        -->
+        <img src="gambar/lily.png" alt="bunga pink" style="width:100%;">
+        
+        <!-- fallback icon (akan otomatis kepake jika img tidak ada) -->
+        <i class="fas fa-fan fallback-icon" style="transform: rotate(15deg);"></i>
+        <!-- fa-fan bentuknya mirip bunga, transparan, cocok utk sementara -->
+    </div>
+
+    <!-- hint kecil (opsional) -->
+    <div class="hint-text">
+        <i class="fas fa-heart"></i>  klik bunganya  <i class="fas fa-heart"></i>
+    </div>
+
+    <!-- KARTU PESAN (awalnya tersembunyi) -->
+    <div id="messageCard" class="message-card hidden-card">
+        <!-- Judul -->
+        <div class="card-title">
+            <i class="fas fa-ribbon"></i>  happy birthday!  <i class="fas fa-ribbon"></i>
+        </div>
+
+        <!-- Pesan yang ingin disampaikan (bebas edit) -->
+        <div class="card-message" id="wishMessage">
+            🌷 untuk kamu yang paling manis, <br>
+            semoga setiap harimu mekar seperti bunga. <br>
+            terima kasih sudah menjadi alasan tersenyum. <br>
+            selamat ulang tahun, cinta.
+        </div>
+
+        <!-- FOTO 16:9 — lebar penuh kartu (contoh gambar bunga/ultah) -->
+        <div class="photo-16x9">
+            <!-- Ganti src dengan file foto asli (bisa jpg/png) -->
+            <img src="gambar/spd3.jpg"
+                 alt="foto ultah bunga"
+                 id="birthdayPhoto">
+        </div>
+
+        <!-- AUDIO + KONTROL -->
+        <audio id="birthdaySong" loop preload="auto">
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+        </audio>
+
+        <div class="audio-controls">
+            <button class="play-btn" id="playPauseBtn"><i class="fas fa-play"></i> Putar Lagu</button>
+        </div>
+
+        <!-- tombol tutup -->
+        <div class="close-btn" id="closeCardBtn">
+            <i class="fas fa-chevron-up"></i>  tutup pesan
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // 1. BACKGROUND BUNGA RANDOM (soft pink)
+        function populateFlowers() {
+            const container = document.getElementById('flowerBg');
+            const icons = [
+                'fa-seedling', 'fa-leaf', 'fa-feather', 'fa-tree', 'fa-pagelines',
+                'fa-daisy', 'fa-flower', 'fa-cannabis', 'fa-spa', 'fa-fan'
+            ];
+            // 45 ornamen bunga/daun
+            for (let i = 0; i < 45; i++) {
+                const el = document.createElement('i');
+                el.className = 'fas ' + icons[Math.floor(Math.random() * icons.length)];
+                el.style.left = Math.random() * 100 + '%';
+                el.style.top = Math.random() * 100 + '%';
+                el.style.fontSize = (Math.random() * 2.8 + 1.4) + 'rem';
+                el.style.transform = `rotate(${Math.random() * 360}deg)`;
+                el.style.opacity = Math.random() * 0.3 + 0.25;
+                el.style.color = `hsl(340, ${65 + Math.random() * 25}%, 75%)`; // pink lembut
+                container.appendChild(el);
+            }
+            // tambah emoji bunga biar makin manis
+            for (let i = 0; i < 15; i++) {
+                const span = document.createElement('span');
+                span.className = 'emoji-flower';
+                span.innerHTML = '🌸';
+                span.style.left = Math.random() * 100 + '%';
+                span.style.top = Math.random() * 100 + '%';
+                span.style.fontSize = (Math.random() * 2 + 1.5) + 'rem';
+                span.style.opacity = 0.35;
+                container.appendChild(span);
+            }
+        }
+
+        // 2. ELEMEN YANG DIPERLUKAN
+        const flower = document.getElementById('flowerCenter');
+        const messageCard = document.getElementById('messageCard');
+        const closeBtn = document.getElementById('closeCardBtn');
+        const audio = document.getElementById('birthdaySong');
+        const playBtn = document.getElementById('playPauseBtn');
+        const hint = document.querySelector('.hint-text');
+
+        let isPlaying = false;
+
+        // 3. FUNGSI BUKA KARTU
+        function openBirthdayCard() {
+            // sembunyikan bunga + hint (menghilang)
+            flower.classList.add('flower-hidden');
+            if (hint) hint.style.opacity = '0';
+
+            // munculkan kartu
+            if (messageCard.classList.contains('hidden-card')) {
+                messageCard.classList.remove('hidden-card');
+                messageCard.classList.add('show-card');
+            }
+
+            // coba putar audio otomatis (jika browser ijinkan)
+            audio.play().then(() => {
+                isPlaying = true;
+                playBtn.innerHTML = '<i class="fas fa-pause"></i> Jeda Lagu';
+            }).catch(e => {
+                // browser blok autoplay, user harus klik tombol play
+                playBtn.innerHTML = '<i class="fas fa-play"></i> Putar Lagu';
+                isPlaying = false;
+            });
+        }
+
+        // event klik di bunga tengah
+        flower.addEventListener('click', openBirthdayCard);
+
+        // 4. TOMBOL PLAY/PAUSE
+        playBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (audio.paused) {
+                audio.play().then(() => {
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i> Jeda Lagu';
+                    isPlaying = true;
+                }).catch(() => alert('klik izinkan untuk memutar lagu'));
+            } else {
+                audio.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i> Putar Lagu';
+                isPlaying = false;
+            }
+        });
+
+        // 5. TUTUP KARTU (kembalikan bunga? sesuai permintaan: fokus ke kartu, tp kalau ditutup munculin bunga lagi biar bisa buka ulang)
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            messageCard.classList.remove('show-card');
+            messageCard.classList.add('hidden-card');
+            // munculkan bunga lagi
+            flower.classList.remove('flower-hidden');
+            if (hint) hint.style.opacity = '1';
+
+            // pause lagu
+            if (!audio.paused) {
+                audio.pause();
+                audio.currentTime = 0;
+                playBtn.innerHTML = '<i class="fas fa-play"></i> Putar Lagu';
+                isPlaying = false;
+            }
+        });
+
+        // Mencegah klik di dalam card menutup card
+        messageCard.addEventListener('click', (e) => e.stopPropagation());
+
+        // 6. Inisialisasi background bunga
+        populateFlowers();
+
+        // 7. (Opsional) Ganti foto dengan gambar 16:9 asli — bisa diubah di HTML atau via JS
+        // Contoh ganti dengan url gambar (jpg/png)
+        // document.getElementById('birthdayPhoto').src = 'foto-ultah.jpg';
+        // Sekarang masih placeholder warna pink
+
+        // Jika ingin menggunakan PNG bunga transparan, tinggal ganti bagian flower-center
+        // Cara: comment tag <i> dan uncomment tag <img>
+    })();
+</script>
+
+<!-- Catatan: untuk PNG asli, ganti komentar di bagian flower-center -->
+</body>
+</html>
