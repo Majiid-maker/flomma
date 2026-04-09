@@ -82,71 +82,13 @@
             border-radius: 50%;
         }
         
-        /* Popup animation */
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        .popup-slide-down {
-            animation: slideDown 0.5s ease-out;
+        /* Slider ratio fix */
+        .aspect-slider {
+            aspect-ratio: 16 / 9;
         }
     </style>
 </head>
 <body class="bg-gradient-to-b from-soft to-white font-quicksand text-gray-700">
-    
-    <!-- POPUP INFORMASI COPYRIGHT -->
-    <div id="copyrightPopup" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 transition-all duration-300">
-    <div class="bg-white rounded-2xl max-w-md w-full mx-4 p-6 shadow-2xl popup-slide-down relative">
-        <!-- Tombol Close (X) -->
-        <button onclick="closePopupWithoutScroll()" class="absolute top-4 right-4 text-gray-400 hover:text-rose-400 transition-colors duration-200">
-            <i class="fas fa-times text-xl"></i>
-        </button>
-        
-        <div class="text-center">
-            <div class="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-music text-4xl text-rose-400"></i>
-            </div>
-            <h3 class="text-2xl font-bold text-gray-800 mb-3">Informasi Lagu</h3>
-            <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mb-4 text-left">
-                <p class="text-amber-700 text-sm">
-                    <i class="fas fa-exclamation-triangle text-amber-500 mr-2"></i>
-                    Mohon maaf, kami tidak dapat menggunakan lagu copyright lagi.
-                </p>
-            </div>
-            <p class="text-gray-600 mb-4">
-                Sebagai gantinya, kami menyediakan lagu-lagu non copyright yang bisa kamu pilih untuk website spesialmu. 
-                Kamu bisa mendengarkan sample-nya di bawah katalog Greeting Card.
-            </p>
-            <div class="bg-pink-50 p-3 rounded-lg mb-5">
-                <p class="text-sm text-rose-400 font-medium">
-                    <i class="fas fa-headphones mr-2"></i>
-                    8+ lagu tersedia dengan berbagai genre
-                </p>
-            </div>
-            
-            <!-- Dua Tombol: Lihat Katalog dan Tutup -->
-            <div class="flex flex-col sm:flex-row gap-3">
-                <button onclick="closePopup()" class="flex-1 bg-gradient-to-r from-rose-400 to-pink-400 hover:from-rose-500 hover:to-pink-500 text-white font-semibold py-3 px-6 rounded-lg transition shadow-md">
-                    Lihat Katalog Lagu
-                </button>
-                <button onclick="closePopupWithoutScroll()" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-lg transition shadow-md">
-                    Tutup
-                </button>
-            </div>
-            
-            <p class="text-xs text-gray-400 mt-4">
-                Katalog lagu tersedia di bawah setelah halaman ini
-            </p>
-        </div>
-    </div>
-</div>
 
     <!-- Header -->
     <header class="relative overflow-hidden bg-gradient-to-r from-rose-400 to-pink-400 py-6 shadow-lg">
@@ -172,7 +114,8 @@
         <!-- Gallery Slider Section -->
         <section class="mb-16">
             <div class="relative rounded-2xl overflow-hidden shadow-xl group">
-                <div id="slider" class="relative h-64 md:h-96">
+                <!-- ASPECT RATIO FIX: Added aspect-slider class -->
+                <div id="slider" class="relative w-full aspect-slider bg-gray-100">
                     <div id="slide1" class="absolute inset-0 opacity-100 transition-opacity duration-1000">
                         <img src="gambar/home(5).jpeg" alt="Bucket Bunga 1" class="w-full h-full object-cover">
                     </div>
@@ -334,27 +277,6 @@
                         <a href="envelopefoto.html" class="block mt-2 text-center text-xs text-rose-400 hover:text-rose-500 font-medium">+ Add on Gallery</a>
                     </div>
                 </div>
-
-                <!-- Graduation -->
-                <!-- <div class="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-pink-100">
-                    <div class="relative overflow-hidden h-48">
-                        <img src="gambar/flower.png" alt="Bunga" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                        <span class="absolute top-3 right-3 bg-purple-400 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">Baru</span>
-                    </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-gray-800 text-lg mb-2">Flower</h3>
-                        <p class="text-gray-500 text-sm mb-3">Sertakan 1 foto gratis!</p>
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="text-2xl font-bold text-rose-400">Rp15.000</span>
-                        </div>
-                        <div class="flex space-x-2">
-                            <a href="bunga.html" class="flex-1 text-center bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-3 rounded-lg text-sm font-medium transition">Preview</a>
-                            <button onclick="openOrderModal('Flower', 'Flower')" class="flex-1 bg-gradient-to-r from-rose-400 to-pink-400 hover:from-rose-500 hover:to-pink-500 text-white py-2 px-3 rounded-lg text-sm font-medium transition shadow-md">
-                                Beli
-                            </button>
-                        </div>
-                    </div>
-                </div> -->
 
                 <!-- Digicam -->
                 <div class="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-pink-100">
@@ -755,7 +677,7 @@
     <div id="orderModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 opacity-0 invisible transition-all duration-300">
         <div class="bg-white rounded-2xl w-11/12 max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl transform scale-95 transition-all duration-300" id="modalContent">
             <!-- Modal Header -->
-            <div class="sticky top-0 bg-white px-6 py-4 border-b border-pink-100 flex justify-between items-center rounded-t-2xl">
+            <div class="sticky top-0 bg-white px-6 py-4 border-b border-pink-100 flex justify-between items-center rounded-t-2xl z-10">
                 <h3 class="text-xl font-bold text-rose-400" id="modalProductTitle">Form Pemesanan</h3>
                 <button id="modalClose" class="text-gray-400 hover:text-rose-400 transition text-2xl">&times;</button>
             </div>
@@ -808,7 +730,6 @@
                             <label for="pickupDate" class="block text-sm font-semibold text-gray-700 mb-2">Tanggal Pengambilan <span class="text-rose-400">*</span></label>
                             <input type="date" id="pickupDate" name="pickupDate" required 
                                 class="w-full px-4 py-2 border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent">
-                            <p class="text-xs text-gray-400 mt-1">Tanggal dan Jam pengambilan harus sesuai dengan order pada WhatsApp</p>
                         </div>
 
                         <!-- Jam Pengambilan -->
@@ -816,25 +737,9 @@
                             <label for="pickupTime" class="block text-sm font-semibold text-gray-700 mb-2">Jam Pengambilan <span class="text-rose-400">*</span></label>
                             <select id="pickupTime" name="pickupTime" required 
                                 class="w-full px-4 py-2 border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent bg-white">
-                                <option value="" disabled selected>Pilih jam pengambilan</option>
-                                <option value="07:00">07:00</option>
-                                <option value="08:00">08:00</option>
-                                <option value="09:00">09:00</option>
-                                <option value="10:00">10:00</option>
-                                <option value="11:00">11:00</option>
-                                <option value="12:00">12:00</option>
-                                <option value="13:00">13:00</option>
-                                <option value="14:00">14:00</option>
-                                <option value="15:00">15:00</option>
-                                <option value="16:00">16:00</option>
-                                <option value="17:00">17:00</option>
-                                <option value="18:00">18:00</option>
-                                <option value="19:00">19:00</option>
-                                <option value="20:00">20:00</option>
-                                <option value="21:00">21:00</option>
+                                <option value="" disabled selected>Pilih tanggal terlebih dahulu</option>
                             </select>
-                            <p class="text-xs text-gray-400 mt-1">Senin - Jumat: 09.00 - 21.00 WIB</p>
-                            <p class="text-xs text-gray-400 mt-1">Sabtu - Minggu : 09.00 - 16.00 WIB</p>
+                            <p id="timeInfoText" class="text-xs text-gray-400 mt-1">Jam operasional akan muncul setelah memilih tanggal</p>
                         </div>
 
                         <!-- Opsi Foto -->
@@ -912,20 +817,8 @@
         </div>
     </div>
 
-    <!-- Credit Section -->
-    <section class="py-12 bg-gradient-to-r from-rose-50 to-pink-50">
-        <div class="container mx-auto px-4 text-center">
-            <div class="max-w-xs mx-auto">
-                <p class="text-gray-400 text-sm mb-3">for further information</p>
-                <img src="gambar/greetzza.png" alt="Greetzza Logo" class="w-20 h-20 mx-auto mb-3 object-contain">
-                <a href="https://www.instagram.com/greetzza/profilecard/?igsh=MXdxYzR4NDV6dXdzZg==" target="_blank" 
-                   class="inline-flex items-center space-x-2 text-rose-400 hover:text-rose-500 transition font-medium">
-                    <i class="fab fa-instagram text-xl"></i>
-                    <span>@greetzza</span>
-                </a>
-            </div>
-        </div>
-    </section>
+    <!-- Credit Section REMOVED -->
+    <!-- <section class="py-12 bg-gradient-to-r from-rose-50 to-pink-50"> ... </section> -->
 
     <!-- Footer -->
 <footer class="bg-gradient-to-b from-white to-rose-50 border-t border-pink-100 pt-12 pb-6">
@@ -1063,10 +956,11 @@
             </div>
         </div>
         
-        <!-- Developer Credit -->
+        <!-- Developer Credit UPDATED: Link moved here -->
         <div class="text-center mt-6">
             <p class="text-xs text-gray-300">
-                Powered with <i class="fas fa-heart text-rose-300 text-xs"></i> by <a href="#" class="hover:text-rose-400 transition">Greetzza</a>
+                Powered with <i class="fas fa-heart text-rose-300 text-xs"></i> by 
+                <a href="https://www.instagram.com/greetzza/profilecard/?igsh=MXdxYzR4NDV6dXdzZg==" target="_blank" class="hover:text-rose-400 transition">Greetzza</a>
             </p>
         </div>
     </div>
@@ -1141,29 +1035,6 @@
             });
         }
 
-        // Close popup function
-        // Fungsi untuk menutup popup tanpa scroll ke katalog
-function closePopupWithoutScroll() {
-    const popup = document.getElementById('copyrightPopup');
-    popup.style.opacity = '0';
-    popup.style.visibility = 'hidden';
-}
-
-// Update fungsi closePopup yang sudah ada untuk scroll ke katalog
-function closePopup() {
-    const popup = document.getElementById('copyrightPopup');
-    popup.style.opacity = '0';
-    popup.style.visibility = 'hidden';
-    
-    // Smooth scroll ke katalog lagu
-    setTimeout(() => {
-        document.getElementById('musicCatalog').scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'center'
-        });
-    }, 300);
-}
-
         document.addEventListener('DOMContentLoaded', function() {
             startAutoSlide();
             
@@ -1188,6 +1059,9 @@ function closePopup() {
 
             // Set minimum date untuk tanggal pengambilan
             const pickupDateInput = document.getElementById('pickupDate');
+            const pickupTimeSelect = document.getElementById('pickupTime');
+            const timeInfoText = document.getElementById('timeInfoText');
+            
             if (pickupDateInput) {
                 const today = new Date().toISOString().split('T')[0];
                 pickupDateInput.min = today;
@@ -1198,6 +1072,57 @@ function closePopup() {
                 'Basudewo': '6287746110370',
                 'Timoho': '62882016557095'
             };
+            
+            // Function to generate time options based on selected date
+            function generateTimeOptions() {
+                if (!pickupDateInput || !pickupTimeSelect) return;
+                
+                const selectedDate = pickupDateInput.value;
+                if (!selectedDate) {
+                    pickupTimeSelect.innerHTML = '<option value="" disabled selected>Pilih tanggal terlebih dahulu</option>';
+                    timeInfoText.textContent = 'Jam operasional akan muncul setelah memilih tanggal';
+                    return;
+                }
+                
+                const dateObj = new Date(selectedDate);
+                const day = dateObj.getDay(); // 0 = Minggu, 6 = Sabtu
+                
+                let openHour = 9;
+                let closeHour = 21; // Default Senin-Jumat
+                let dayType = 'weekday';
+                
+                if (day === 0 || day === 6) { // Sabtu atau Minggu
+                    closeHour = 16;
+                    dayType = 'weekend';
+                }
+                
+                // Clear and populate options
+                pickupTimeSelect.innerHTML = '<option value="" disabled selected>Pilih jam pengambilan</option>';
+                
+                for (let hour = openHour; hour < closeHour; hour++) {
+                    for (let minute = 0; minute < 60; minute += 30) {
+                        const formattedHour = hour.toString().padStart(2, '0');
+                        const formattedMinute = minute.toString().padStart(2, '0');
+                        const timeValue = `${formattedHour}:${formattedMinute}`;
+                        
+                        const option = document.createElement('option');
+                        option.value = timeValue;
+                        option.textContent = `${timeValue} WIB`;
+                        pickupTimeSelect.appendChild(option);
+                    }
+                }
+                
+                // Update info text
+                if (dayType === 'weekday') {
+                    timeInfoText.innerHTML = 'Senin - Jumat: 09.00 - 21.00 WIB<br>Sabtu - Minggu: 09.00 - 16.00 WIB';
+                } else {
+                    timeInfoText.innerHTML = '<span class="text-amber-600">Sabtu - Minggu: 09.00 - 16.00 WIB</span><br>Senin - Jumat: 09.00 - 21.00 WIB';
+                }
+            }
+            
+            if (pickupDateInput) {
+                pickupDateInput.addEventListener('change', generateTimeOptions);
+            }
             
             // Modal elements
             const orderModal = document.getElementById('orderModal');
@@ -1218,6 +1143,7 @@ function closePopup() {
                 
                 // Reset form
                 orderForm.reset();
+                generateTimeOptions(); // Reset time select to default state
             }
             
             // Close modal function

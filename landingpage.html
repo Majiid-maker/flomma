@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom & Petals - Fresh Flowers & Elegant Arrangements</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #2C3E50;
+            background-color: #FDF8F5;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Custom Colors */
+        :root {
+            --primary-green: #2C5F2D;
+            --secondary-green: #97BC62;
+            --cream: #FDF8F5;
+            --brown: #8B5A2B;
+            --gold: #D4AF37;
+            --dark-gray: #2C3E50;
+            --light-gray: #E8E8E8;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: rgba(253, 248, 245, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            padding: 10px 0;
+            background-color: rgba(253, 248, 245, 0.98);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-green);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-green);
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-icons i {
+            font-size: 18px;
+            color: var(--dark-gray);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .nav-icons i:hover {
+            color: var(--gold);
+        }
+
+        .cart-badge {
+            position: relative;
+        }
+
+        .cart-badge::after {
+            content: '0';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--gold);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            min-height: 700px;
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1561181286-d3fee7d55364?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            position: relative;
+            margin-top: 0;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            margin-left: 10%;
+            color: white;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            font-weight: 300;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-title {
+            font-size: 72px;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero-description {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            max-width: 500px;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: var(--gold);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #c4a027;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--dark-gray);
+            transform: translateY(-2px);
+        }
+
+        /* Floating Elements */
+        .floating-leaf {
+            position: absolute;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .leaf-1 {
+            top: 20%;
+            right: 5%;
+            width: 150px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .leaf-2 {
+            bottom: 10%;
+            left: 5%;
+            width: 100px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        /* Categories Section */
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-subtitle {
+            color: var(--gold);
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-size: 48px;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+        }
+
+        .section-description {
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .category-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .category-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 40px 30px 30px;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover .category-overlay {
+            transform: translateY(-10px);
+        }
+
+        .category-overlay h3 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .category-overlay p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Featured Products */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .product-card {
+            text-align: center;
+            position: relative;
+        }
+
+        .product-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--gold);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .product-actions {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover .product-actions {
+            bottom: 20px;
+            opacity: 1;
+        }
+
+        .product-actions button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background-color: white;
+            color: var(--dark-gray);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .product-actions button:hover {
+            background-color: var(--gold);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .product-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--primary-green);
+        }
+
+        .product-price {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .product-rating {
+            color: #ffc107;
+            font-size: 14px;
+        }
+
+        .product-rating span {
+            color: #666;
+            margin-left: 5px;
+        }
+
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            background-color: white;
+            padding: 60px;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        .feature-item {
+            text-align: center;
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background-color: var(--cream);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .feature-icon i {
+            font-size: 32px;
+            color: var(--gold);
+        }
+
+        .feature-item h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--primary-green);
+        }
+
+        .feature-item p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Special Occasions */
+        .occasions-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .occasion-card {
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .occasion-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .occasion-card:hover .occasion-icon {
+            border-color: var(--gold);
+            transform: scale(1.05);
+        }
+
+        .occasion-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .occasion-card h3 {
+            font-size: 18px;
+            color: var(--primary-green);
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: linear-gradient(135deg, var(--primary-green) 0%, #1e3f1f 100%);
+            border-radius: 30px;
+            padding: 80px;
+            color: white;
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .newsletter p {
+            font-size: 16px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            gap: 10px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+        }
+
+        .newsletter-form button {
+            padding: 15px 40px;
+            background-color: var(--gold);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background-color: #c4a027;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--dark-gray);
+            color: white;
+            padding: 80px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .footer-logo span {
+            color: var(--gold);
+        }
+
+        .footer-about p {
+            line-height: 1.8;
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--gold);
+        }
+
+        .footer-title {
+            font-size: 20px;
+            margin-bottom: 30px;
+            color: var(--gold);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--gold);
+            padding-left: 5px;
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .contact-info i {
+            color: var(--gold);
+            width: 20px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            text-align: center;
+            opacity: 0.8;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 56px;
+            }
+
+            .occasions-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 42px;
+            }
+
+            .hero-content {
+                margin-left: 5%;
+                margin-right: 5%;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                padding: 30px;
+            }
+
+            .occasions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter {
+                padding: 40px 20px;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
+
+        /* Hover Effects */
+        .hover-underline {
+            position: relative;
+            display: inline-block;
+        }
+
+        .hover-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .hover-underline:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body x-data="{ 
+    scrolled: false,
+    cartCount: 0,
+    showCart: false,
+    mobileMenuOpen: false,
+    selectedCategory: 'all'
+ }" 
+ x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 50 })"
+ :class="{ 'scrolled': scrolled }">
+
+    <!-- Header -->
+    <header class="header" :class="{ 'scrolled': scrolled }">
+        <div class="nav-container">
+            <a href="/" class="logo">Flomma<span> </span>Flower</a>
+            
+            <div class="mobile-menu-toggle" @click="mobileMenuOpen = !mobileMenuOpen">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <nav class="nav-menu" :class="{ 'active': mobileMenuOpen }">
+                <a href="#home">Home</a>
+                <a href="#shop">Shop</a>
+                <a href="#collections">Collections</a>
+                <a href="#occasions">Occasions</a>
+                <a href="#workshops">Workshops</a>
+                <a href="#about">About</a>
+            </nav>
+
+            <div class="nav-icons">
+                <i class="fas fa-search"></i>
+                <i class="far fa-heart"></i>
+                <div class="cart-badge" @click="showCart = !showCart">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <i class="far fa-user"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <p class="hero-subtitle">WELCOME TO BLOOM & PETALS</p>
+            <h1 class="hero-title">Fresh Flowers<br>For Every Moment</h1>
+            <p class="hero-description">Discover our exquisite collection of hand-picked blooms, thoughtfully arranged to bring joy and elegance to your special moments.</p>
+            <div class="hero-buttons">
+                <a href="#shop" class="btn btn-primary">Shop Now</a>
+                <a href="#collections" class="btn btn-outline">Explore Collections</a>
+            </div>
+        </div>
+        
+        <!-- Floating decorative elements -->
+        <img src="https://cdn.pixabay.com/photo/2016/03/31/19/04/flower-1294892_1280.png" alt="" class="floating-leaf leaf-1">
+        <img src="https://cdn.pixabay.com/photo/2016/03/31/19/04/flower-1294892_1280.png" alt="" class="floating-leaf leaf-2">
+    </section>
+
+    <!-- Categories Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">SHOP BY CATEGORY</p>
+                <h2 class="section-title">Find Your Perfect Bloom</h2>
+                <p class="section-description">From classic roses to exotic orchids, discover our carefully curated collection of fresh flowers and arrangements.</p>
+            </div>
+
+            <div class="categories-grid">
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Bouquets">
+                    <div class="category-overlay">
+                        <h3>Bouquets</h3>
+                        <p>Hand-tied with love</p>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1591924207888-9147d6b428f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Vase Arrangements">
+                    <div class="category-overlay">
+                        <h3>Vase Arrangements</h3>
+                        <p>Ready to display</p>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1563241527-3004b7bef0b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wedding Flowers">
+                    <div class="category-overlay">
+                        <h3>Wedding Flowers</h3>
+                        <p>For your special day</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section id="shop" class="section" style="background-color: white;">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">FEATURED ARRANGEMENTS</p>
+                <h2 class="section-title">Our Best Sellers</h2>
+                <p class="section-description">Handpicked favorites that our customers love. Fresh, elegant, and always delivered with care.</p>
+            </div>
+
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1561181286-d3fee7d55364?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Classic Elegance">
+                        <div class="product-badge">Best Seller</div>
+                        <div class="product-actions">
+                            <button><i class="far fa-heart"></i></button>
+                            <button><i class="fas fa-shopping-bag"></i></button>
+                            <button><i class="far fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <h3 class="product-title">Classic Elegance</h3>
+                    <div class="product-price">Rp 850.000</div>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>(124 reviews)</span>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1591886960571-74d43a9d4166?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Garden Romance">
+                        <div class="product-badge">New</div>
+                        <div class="product-actions">
+                            <button><i class="far fa-heart"></i></button>
+                            <button><i class="fas fa-shopping-bag"></i></button>
+                            <button><i class="far fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <h3 class="product-title">Garden Romance</h3>
+                    <div class="product-price">Rp 1.250.000</div>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span>(89 reviews)</span>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1534543214989-595fde69528d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sunshine Bliss">
+                        <div class="product-actions">
+                            <button><i class="far fa-heart"></i></button>
+                            <button><i class="fas fa-shopping-bag"></i></button>
+                            <button><i class="far fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <h3 class="product-title">Sunshine Bliss</h3>
+                    <div class="product-price">Rp 675.000</div>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <span>(56 reviews)</span>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1582794543462-0d7922e50cf5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Luxury Red">
+                        <div class="product-badge">Limited</div>
+                        <div class="product-actions">
+                            <button><i class="far fa-heart"></i></button>
+                            <button><i class="fas fa-shopping-bag"></i></button>
+                            <button><i class="far fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <h3 class="product-title">Luxury Red</h3>
+                    <div class="product-price">Rp 1.850.000</div>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>(42 reviews)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Free Delivery</h3>
+                    <p>On orders over Rp 500.000 in selected areas</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Freshness Guarantee</h3>
+                    <p>7-day freshness guarantee on all arrangements</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Premium Quality</h3>
+                    <p>Hand-picked blooms from trusted growers</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Same Day Delivery</h3>
+                    <p>Order before 2 PM for same-day delivery</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Occasions -->
+    <section id="occasions" class="section" style="background-color: white;">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">FOR EVERY MOMENT</p>
+                <h2 class="section-title">Special Occasions</h2>
+                <p class="section-description">Find the perfect flowers for life's special moments, from birthdays to anniversaries and everything in between.</p>
+            </div>
+
+            <div class="occasions-grid">
+                <div class="occasion-card">
+                    <div class="occasion-icon">
+                        <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Birthday">
+                    </div>
+                    <h3>Birthday</h3>
+                </div>
+                <div class="occasion-card">
+                    <div class="occasion-icon">
+                        <img src="https://images.unsplash.com/photo-1591886960571-74d43a9d4166?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Anniversary">
+                    </div>
+                    <h3>Anniversary</h3>
+                </div>
+                <div class="occasion-card">
+                    <div class="occasion-icon">
+                        <img src="https://images.unsplash.com/photo-1582794543462-0d7922e50cf5?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Wedding">
+                    </div>
+                    <h3>Wedding</h3>
+                </div>
+                <div class="occasion-card">
+                    <div class="occasion-icon">
+                        <img src="https://images.unsplash.com/photo-1534543214989-595fde69528d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Sympathy">
+                    </div>
+                    <h3>Sympathy</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="section">
+        <div class="container">
+            <div class="newsletter">
+                <h2>Join Our Flower Family</h2>
+                <p>Subscribe to receive exclusive offers, flower care tips, and early access to new collections.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="/" class="footer-logo">Bloom<span>&</span>Petals</a>
+                    <p>Bringing nature's beauty to your doorstep with hand-crafted floral arrangements designed to brighten your day and celebrate life's special moments.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Shop</a></li>
+                        <li><a href="#">Collections</a></li>
+                        <li><a href="#">Workshops</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="footer-title">Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Delivery Info</a></li>
+                        <li><a href="#">Returns Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="footer-title">Contact Us</h3>
+                    <ul class="contact-info">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Jakarta & Tangerang, Indonesia</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+62 812-3456-7890</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>hello@bloompetals.com</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <span>Mon - Sun: 8AM - 8PM</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Bloom & Petals. All rights reserved. Designed with <i class="fas fa-heart" style="color: var(--gold);"></i> in Jakarta</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
