@@ -693,8 +693,8 @@
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Pilih Store <span class="text-rose-400">*</span></label>
                             <div class="flex flex-wrap gap-4">
                                 <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="radio" name="store" value="Basudewo" required class="text-rose-400 focus:ring-rose-400">
-                                    <span>Store Basudewo</span>
+                                    <input type="radio" name="store" value="Rinjani" required class="text-rose-400 focus:ring-rose-400">
+                                    <span>Store Rinjani</span>
                                 </label>
                                 <label class="flex items-center space-x-2 cursor-pointer">
                                     <input type="radio" name="store" value="Timoho" required class="text-rose-400 focus:ring-rose-400">
@@ -798,7 +798,7 @@
                         <div class="bg-amber-50 p-4 rounded-lg">
                             <p class="text-sm text-amber-700 flex items-start gap-2">
                                 <i class="fas fa-info-circle mt-0.5"></i>
-                                <span>Kami mengambil lagu non copyright dari pixabay. Jika ingin request lagu tertentu, silahkan hubungi kami via WhatsApp.</span>
+                                <span>Kami mengambil lagu non copyright dari pixabay. Tidak dapat menerima request lagu copyright karena dikenakan hak cipta.</span>
                             </p>
                         </div>
                     </div>
@@ -850,7 +850,7 @@
                 <!-- Store Basudewo -->
                 <div class="mb-4 p-3 bg-white/80 rounded-lg shadow-sm border border-pink-100">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="font-medium text-gray-800">🏪 Store Basudewo</span>
+                        <span class="font-medium text-gray-800">🏪 Store Rinjani</span>
                         <span class="text-xs bg-rose-100 text-rose-400 px-2 py-0.5 rounded-full">Pusat</span>
                     </div>
                     <div class="flex items-center justify-center md:justify-start gap-3">
@@ -1069,7 +1069,7 @@
 
             // Store phone numbers
             const storeNumbers = {
-                'Basudewo': '6287746110370',
+                'Rinjani': '6287746110370',
                 'Timoho': '62882016557095'
             };
             
@@ -1229,7 +1229,7 @@
                     whatsappMessage += `Request Tambahan : ${additionalRequest}\n`;
                 }
                 
-                whatsappMessage += `\nFree request lagu non copyright dan domain (tergantung ketersediaan)!`;
+                whatsappMessage += `\nFree request domain (tergantung ketersediaan)!`;
                 
                 const encodedMessage = encodeURIComponent(whatsappMessage);
                 window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
